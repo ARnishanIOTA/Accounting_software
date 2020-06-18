@@ -1,0 +1,33 @@
+/* regular-ext */
+@font-face {
+    font-family: 'Averta';
+    src: local('Averta regular'), local('Averta-regular'), url("../font/AvertaDemo-Regular.otf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+
+}
+/* cyrillic-ext */
+@font-face {
+    font-family: 'Averta-Bold';
+    src: local('Averta Bold'), local('Averta-Bold'), url("../font/Averta-Bold.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+
+}
+/*@font-face {*/
+/*    font-family: 'Averta-Bold';*/
+/*    src: local('Averta Bold'), local('Averta-Bold'), url("//db.onlinewebfonts.com/t/c36a75c5ada59665e225bbf5e38efd34.eot") format("truetype");*/
+/*    font-style: normal;*/
+/*    font-weight: normal;*/
+
+/*}*/
+/*@font-face {font-family: "Averta-Bold";*/
+/*    src: url("//db.onlinewebfonts.com/t/c36a75c5ada59665e225bbf5e38efd34.eot");*/
+/*    src: url("//db.onlinewebfonts.com/t/c36a75c5ada59665e225bbf5e38efd34.eot?#iefix")*/
+/*    format("embedded-opentype"),*/
+/*    url("//db.onlinewebfonts.com/t/c36a75c5ada59665e225bbf5e38efd34.woff2")*/
+/*    format("woff2"),*/
+/*    url("//db.onlinewebfonts.com/t/c36a75c5ada59665e225bbf5e38efd34.woff") format("woff"),*/
+/*    url("//db.onlinewebfonts.com/t/c36a75c5ada59665e225bbf5e38efd34.ttf") format("truetype"),*/
+/*    url("//db.onlinewebfonts.com/t/c36a75c5ada59665e225bbf5e38efd34.svg#Averta-Bold") format("svg");*/
+/*}*/
