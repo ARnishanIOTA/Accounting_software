@@ -86,14 +86,17 @@ class TotalProfit extends Widget
         {
             $trending = 'trending_up';
             $dif =  $profitThisMonth - $profitLastMonth;
-            $ratio = ($dif/$grand) * 100;
-            $ratio = number_format((float)$ratio, 2, '.', '');
+            if($grand > 0) {
+                $ratio = ($dif / $grand) * 100;
+                $ratio = number_format((float)$ratio, 2, '.', '');
+            }
         }else{
             $trending = 'trending_down';
             $dif =  $profitLastMonth - $profitThisMonth;
-            $ratio = ($dif/$grand) * 100;
-            $ratio = number_format((float)$ratio, 2, '.', '');
-
+            if($grand > 0) {
+                $ratio = ($dif / $grand) * 100;
+                $ratio = number_format((float)$ratio, 2, '.', '');
+            }
         }
         /**
          * End Trending Ratio Calculation

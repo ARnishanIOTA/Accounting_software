@@ -29,14 +29,16 @@ class PosController extends  Controller
     }
     public function nishan(Request $request){
 //        dd($request);
+        $value = session('company_id');
+        echo "Session Value : ".$value;
 
-        $data = array();
-        $data['company_id'] = 1;
-        $data['name'] = 'cash';
-        $data['type'] = 'Assets';
-        $data['color'] ='#fff';
-        $data['enabled'] = 1;
-        DB::table('categories')->insert($data);
+//        $data = array();
+//        $data['company_id'] = 1;
+//        $data['name'] = 'cash';
+//        $data['type'] = 'Assets';
+//        $data['color'] ='#fff';
+//        $data['enabled'] = 1;
+//        DB::table('categories')->insert($data);
 //        if($category->save()){
 //            echo "Category Inserted Successfully";
 //        }

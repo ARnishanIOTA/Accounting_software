@@ -58,14 +58,17 @@ class TotalExpenses extends Widget
         {
             $trending = 'trending_up';
             $dif =  $expenseThisMonth - $expenseLastMonth;
-            $ratio = ($dif/$grand) * 100;
-            $ratio = number_format((float)$ratio, 2, '.', '');
+            if($grand > 0) {
+                $ratio = ($dif / $grand) * 100;
+                $ratio = number_format((float)$ratio, 2, '.', '');
+            }
         }else{
             $trending = 'trending_down';
             $dif =  $expenseLastMonth - $expenseThisMonth;
-            $ratio = ($dif/$grand) * 100;
-            $ratio = number_format((float)$ratio, 2, '.', '');
-
+            if($grand > 0) {
+                $ratio = ($dif / $grand) * 100;
+                $ratio = number_format((float)$ratio, 2, '.', '');
+            }
         }
         /**
          * End Trending Ratio Calculation

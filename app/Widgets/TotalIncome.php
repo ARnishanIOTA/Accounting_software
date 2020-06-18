@@ -59,14 +59,17 @@ class TotalIncome extends Widget
         if($revenueThisMonth >= $revenueLastMonth){
             $trending = 'trending_up';
             $dif =  $revenueThisMonth - $revenueLastMonth;
-            $ratio = ($dif/$grand) * 100;
-            $ratio = number_format((float)$ratio, 2, '.', '');
+            if($grand > 0) {
+                $ratio = ($dif / $grand) * 100;
+                $ratio = number_format((float)$ratio, 2, '.', '');
+            }
         }else{
             $trending = 'trending_down';
             $dif =  $revenueLastMonth - $revenueThisMonth;
-            $ratio = ($dif/$grand) * 100;
-            $ratio = number_format((float)$ratio, 2, '.', '');
-
+            if($grand > 0) {
+                $ratio = ($dif / $grand) * 100;
+                $ratio = number_format((float)$ratio, 2, '.', '');
+            }
         }
         /**
          * End Trending Ratio Calculation

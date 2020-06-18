@@ -127,23 +127,23 @@ class Invoices extends Controller
     {
         var_dump($request);
         exit();
-//        $response = $this->ajaxDispatch(new CreateInvoice($request));
-//
-//        if ($response['success']) {
-//            $response['redirect'] = route('invoices.show', $response['data']->id);
-//
-//            $message = trans('messages.success.added', ['type' => trans_choice('general.invoices', 1)]);
-//
-//            flash($message)->success();
-//        } else {
-//            $response['redirect'] = route('invoices.create');
-//
-//            $message = $response['message'];
-//
-//            flash($message)->error();
-//        }
-//
-//        return response()->json($response);
+        $response = $this->ajaxDispatch(new CreateInvoice($request));
+
+        if ($response['success']) {
+            $response['redirect'] = route('invoices.show', $response['data']->id);
+
+            $message = trans('messages.success.added', ['type' => trans_choice('general.invoices', 1)]);
+
+            flash($message)->success();
+        } else {
+            $response['redirect'] = route('invoices.create');
+
+            $message = $response['message'];
+
+            flash($message)->error();
+        }
+
+        return response()->json($response);
     }
 
     /**
