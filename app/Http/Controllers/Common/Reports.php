@@ -18,6 +18,14 @@ use DB;
 
 class Reports extends Controller
 {
+
+    /**
+     * Fetch Company Id
+     */
+    public function companyId(){
+        $companyId = session('company_id');
+       return $companyId;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -290,6 +298,8 @@ class Reports extends Controller
         $transactions = DB::table('transactions')
             ->select('contact_id', DB::raw('SUM(amount) as Amount'))
             ->where('type', '=', 'income')
+            ->where('company_id', '=', $this->companyId())
+            ->where('deleted_at', '=', null)
             ->whereBetween('created_at', array($startDate, $endDate))
             ->groupBy('contact_id');
 
@@ -301,12 +311,14 @@ class Reports extends Controller
         echo "<pre>";
         print_r($report);
         echo "</pre>";
-//        //return $revenue;
+//           return $this->companyId();
     }
     public function purchaseByVendor($startDate, $endDate){
         $transactions = DB::table('transactions')
             ->select('contact_id', DB::raw('SUM(amount) as Amount'))
             ->where('type', '=', 'expense')
+            ->where('company_id', '=', $this->companyId())
+            ->where('deleted_at', '=', null)
             ->whereBetween('created_at', array($startDate, $endDate))
             ->groupBy('contact_id');
 
@@ -324,15 +336,21 @@ class Reports extends Controller
         $revenue = Transaction::income()
             ->isNotTransfer()
             ->monthly($startDate,$endDate)
+            ->where('company_id', '=', $this->companyId())
+            ->where('deleted_at', '=', null)
             ->sum('amount');
         $expenseByVendor = Transaction::expense()
             ->isNotTransfer()
             ->monthly($startDate,$endDate)
+            ->where('company_id', '=', $this->companyId())
+            ->where('deleted_at', '=', null)
             ->where('contact_id', '!=', null)
             ->sum('amount');
         $OtherExpense = Transaction::expense()
             ->isNotTransfer()
             ->monthly($startDate,$endDate)
+            ->where('company_id', '=', $this->companyId())
+            ->where('deleted_at', '=', null)
             ->where('contact_id', '=', null)
             ->sum('amount');
 
@@ -351,6 +369,88 @@ class Reports extends Controller
 
     }
 
+    public function groupBySum($invoice_item_taxes){
+        $taxId = array();
+        $report = array();
+        foreach ($invoice_item_taxes as $data){
+            if(in_array($data->tax_id, $taxId)){
+                $taxAmount = $report[$data->tax_id]['taxAmount'];
+                $Sales_Subject_to_Tax = $report[$data->tax_id]['Subject_to_Tax'];
+                $taxAmount = $taxAmount + $data->taxAmount;
+                $Sales_Subject_to_Tax = $Sales_Subject_to_Tax + $data->price;
+                $report[$data->tax_id]['taxAmount'] = $taxAmount;
+                $report[$data->tax_id]['Subject_to_Tax'] = $Sales_Subject_to_Tax;
+
+            }else{
+                array_push($taxId, $data->tax_id);
+                $temp = array();
+                $temp['TaxName'] = $data->name;
+                $temp['taxAmount'] = $data->taxAmount;
+                $temp['Subject_to_Tax'] = $data->price;
+                $temp['TaxName'] = $data->name;
+                $report[$data->tax_id] = $temp;
+            }
+
+        }
+        return $report;
+    }
+
+    public function salesTaxReport($startDate,$endDate){
+        $invoice_item_taxes = DB::table('invoice_item_taxes')
+            ->Join('invoice_items', 'invoice_item_taxes.invoice_item_id', '=', 'invoice_items.id')
+            ->select('invoice_item_taxes.tax_id','invoice_item_taxes.name','invoice_item_taxes.amount as taxAmount', 'invoice_items.price' )
+            ->where('invoice_item_taxes.company_id', '=', $this->companyId())
+            ->where('invoice_item_taxes.deleted_at', '=', null)
+            ->whereBetween('invoice_item_taxes.created_at', array($startDate, $endDate))
+            ->get();
+
+        $salesTax = $this->groupBySum($invoice_item_taxes);
+
+        $bill_item_taxes = DB::table('bill_item_taxes')
+            ->Join('bill_items', 'bill_item_taxes.bill_item_id', '=', 'bill_items.id')
+            ->select('bill_item_taxes.tax_id','bill_item_taxes.name','bill_item_taxes.amount as taxAmount', 'bill_items.price' )
+            ->where('bill_item_taxes.company_id', '=', $this->companyId())
+            ->where('bill_item_taxes.deleted_at', '=', null)
+            ->whereBetween('bill_item_taxes.created_at', array($startDate, $endDate))
+            ->get();
+
+         $billTax = $this->groupBySum($bill_item_taxes);
+
+          $report = array();
+          $SaleCount = count($salesTax);
+          $BillCount = count($billTax);
+          if( $SaleCount >= 1 || $BillCount >= 1) {
+              if ($SaleCount >= $BillCount) {
+                  $key = array_keys($salesTax);
+              } else {
+                  $key = array_keys($salesTax);
+              }
+              foreach ($key as $val){
+                  $temp = array();
+                  $taxName = '';
+                  if(array_key_exists($val, $salesTax)){
+                      $taxName = $salesTax[$val]['TaxName'];
+                      $temp['Sales'] = $salesTax[$val];
+                  }
+                  if(array_key_exists($val, $billTax)){
+                      $taxName = $billTax[$val]['TaxName'];
+                      $temp['Bills'] = $billTax[$val];
+                  }
+                  if($temp != null){
+                      $report[$taxName] = $temp;
+                  }
+              }
+
+          }
+
+        echo "<pre>";
+        print_r($report);
+        echo "</pre>";
+    }
+
+    /**
+     * End Implement By Nishan
+     */
 
 
 }

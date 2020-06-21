@@ -2,15 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a9e5cdad-e11a-47d2-bb3e-3e68ff3779f4" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Pos/PosController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Pos/PosController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Common/Reports.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Common/Reports.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Sales/Invoices.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Sales/Invoices.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Widgets/TotalExpenses.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Widgets/TotalExpenses.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Widgets/TotalIncome.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Widgets/TotalIncome.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Widgets/TotalProfit.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Widgets/TotalProfit.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/sales/invoices/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/sales/invoices/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/cclroute.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/cclroute.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -274,7 +270,11 @@
       <workItem from="1592188757256" duration="38990000" />
       <workItem from="1592278151221" duration="23505000" />
       <workItem from="1592371781289" duration="7750000" />
-      <workItem from="1592448238475" duration="10812000" />
+      <workItem from="1592448238475" duration="13314000" />
+      <workItem from="1592545976739" duration="1374000" />
+      <workItem from="1592631664211" duration="26823000" />
+      <workItem from="1592709249637" duration="1995000" />
+      <workItem from="1592724483998" duration="651000" />
     </task>
     <servers />
   </component>
@@ -294,10 +294,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="517" y="288" key="NewPhpFileDialog/0.0.1366.728@0.0.1366.728" timestamp="1591941891319" />
-    <state x="379" y="189" key="com.intellij.ide.util.TipDialog" timestamp="1592448259765">
+    <state x="379" y="189" key="com.intellij.ide.util.TipDialog" timestamp="1592724632995">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="379" y="189" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1592448259765" />
+    <state x="379" y="189" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1592724632995" />
     <state x="379" y="96" width="737" height="606" key="find.popup" timestamp="1592483430690">
       <screen x="0" y="0" width="1366" height="728" />
     </state>

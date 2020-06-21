@@ -11,3 +11,4 @@ Route::get('pos', 'Pos\PosController@index')->name('pos');
 Route::get('report/incomeByCustomer/{startDate}/{endDate}', 'Common\Reports@incomeByCustomer')->name('report.incomeByCustomer');
 Route::get('report/purchaseByVendor/{startDate}/{endDate}', 'Common\Reports@purchaseByVendor')->name('report.purchaseByVendor');
 Route::get('report/profitAndLoss/{startDate}/{endDate}', 'Common\Reports@profitAndLoss')->name('report.profitAndLoss');
+Route::get('report/salesTaxReport/{startDate}/{endDate}', 'Common\Reports@salesTaxReport')->name('report.salesTaxReport');

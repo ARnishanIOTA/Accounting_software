@@ -34,19 +34,15 @@
                         @php $item_colspan = in_array(setting('localisation.discount_location', 'total'), ['item', 'both']) ? '6' : '5' @endphp
                         {!! Form::label('items', trans_choice($text_override['items'], 2), ['class' => 'control-label']) !!}
                         <div class="table-responsive overflow-x-scroll overflow-y-hidden">
-                            <table class="table table-bordered" id="items">
+                            <table class="table" id="items">
                                 <thead class="thead-light">
                                     <tr>
-                                        @stack('actions_th_start')
-                                            <th class="text-center border-right-0 border-bottom-0">{{ trans('general.actions') }}</th>
-                                        @stack('actions_th_end')
-
                                         @stack('name_th_start')
                                             <th class="text-left border-right-0 border-bottom-0">{{ trans('general.name') }}</th>
                                         @stack('name_th_end')
 
                                         @stack('quantity_th_start')
-                                            <th class="text-center border-right-0 border-bottom-0 w-10">{{ trans($text_override['quantity']) }}</th>
+                                            <th class="text-center border-right-0 border-bottom-0">{{ trans($text_override['quantity']) }}</th>
                                         @stack('quantity_th_end')
 
                                         @stack('price_th_start')
@@ -66,6 +62,10 @@
                                         @stack('total_th_start')
                                             <th class="text-right border-bottom-0 item-total">{{ trans('invoices.total') }}</th>
                                         @stack('total_th_end')
+
+                                        @stack('actions_th_start')
+                                        <th class="text-center border-right-0 border-bottom-0">{{ trans('general.actions') }}</th>
+                                        @stack('actions_th_end')
                                     </tr>
                                 </thead>
                                 <tbody id="invoice-item-rows">
@@ -74,10 +74,12 @@
                                     @stack('add_item_td_start')
                                         <tr id="addItem">
                                             <td class="text-center border-right-0 border-bottom-0">
-                                                <button type="button" @click="onAddItem" id="button-add-item" data-toggle="tooltip" title="{{ trans('general.add') }}" class="btn btn-icon btn-outline-success btn-lg" data-original-title="{{ trans('general.add') }}"><i class="fa fa-plus"></i>
-                                                </button>
+
                                             </td>
-                                            <td class="text-right border-bottom-0" colspan="{{ $item_colspan }}" :colspan="colspan"></td>
+                                            <td class="text-right border-bottom-0" colspan="{{ $item_colspan }}" :colspan="colspan">
+                                                <a type="button" @click="onAddItem" id="button-add-item" data-toggle="tooltip" title="{{ trans('general.add') }}" class="allignmentColor" data-original-title="{{ trans('general.add') }}"><i class="fa fa-plus item-add-btn"></i>   Add on item
+                                                </a>
+                                            </td>
                                         </tr>
                                     @stack('add_item_td_end')
 
