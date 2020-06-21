@@ -63,4 +63,6 @@
     @stack('scripts')
 
     @stack('head_end')
+    @stack('head_css_start')
+    @stack('head_css_end')
 </head>
