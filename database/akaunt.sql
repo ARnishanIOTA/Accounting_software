@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 5.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 13, 2020 at 05:54 PM
--- Server version: 10.1.38-MariaDB
--- PHP Version: 7.3.3
+-- Generation Time: Jun 23, 2020 at 10:05 AM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.2.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `akaunting`
+-- Database: `akaunt`
 --
 
 -- --------------------------------------------------------
@@ -34,11 +34,11 @@ CREATE TABLE `iqj_accounts` (
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `number` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `currency_code` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `opening_balance` double(15,4) NOT NULL DEFAULT '0.0000',
+  `opening_balance` double(15,4) NOT NULL DEFAULT 0.0000,
   `bank_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `bank_phone` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `bank_address` text COLLATE utf8mb4_unicode_ci,
-  `enabled` tinyint(1) NOT NULL DEFAULT '1',
+  `bank_address` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `enabled` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -49,7 +49,8 @@ CREATE TABLE `iqj_accounts` (
 --
 
 INSERT INTO `iqj_accounts` (`id`, `company_id`, `name`, `number`, `currency_code`, `opening_balance`, `bank_name`, `bank_phone`, `bank_address`, `enabled`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 1, 'Cash', '1', 'USD', 0.0000, 'Cash', NULL, NULL, 1, '2020-05-13 04:29:57', '2020-05-13 04:29:57', NULL);
+(1, 1, 'Cash', '1', 'USD', 0.0000, 'Cash', NULL, NULL, 1, '2020-05-13 04:29:57', '2020-05-13 04:29:57', NULL),
+(2, 1, 'Bank', '134423', 'BDT', 0.0000, 'EBL', '143513451', 'adfsdf', 1, '2020-06-07 02:21:15', '2020-06-07 02:21:15', NULL);
 
 -- --------------------------------------------------------
 
@@ -68,19 +69,27 @@ CREATE TABLE `iqj_bills` (
   `amount` double(15,4) NOT NULL,
   `currency_code` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `currency_rate` double(15,8) NOT NULL,
-  `category_id` int(11) NOT NULL DEFAULT '1',
+  `category_id` int(11) NOT NULL DEFAULT 1,
   `contact_id` int(11) NOT NULL,
   `contact_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `contact_email` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `contact_tax_number` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `contact_phone` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `contact_address` text COLLATE utf8mb4_unicode_ci,
-  `notes` text COLLATE utf8mb4_unicode_ci,
-  `parent_id` int(11) NOT NULL DEFAULT '0',
+  `contact_address` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `notes` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `parent_id` int(11) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `iqj_bills`
+--
+
+INSERT INTO `iqj_bills` (`id`, `company_id`, `bill_number`, `order_number`, `status`, `billed_at`, `due_at`, `amount`, `currency_code`, `currency_rate`, `category_id`, `contact_id`, `contact_name`, `contact_email`, `contact_tax_number`, `contact_phone`, `contact_address`, `notes`, `parent_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 'BIL-00001', '45344343', 'partial', '2020-06-02 12:58:02', '2020-06-03 12:58:02', 20.4000, 'USD', 1.00000000, 4, 66, 'Demo vendor', 'vendor@email.com', '3434', NULL, 'Demo Address', 'eww', 0, '2020-06-02 06:58:02', '2020-06-02 06:59:00', NULL),
+(2, 1, 'BIL-00002', NULL, 'paid', '2020-06-08 16:54:21', '2020-06-09 16:54:21', 122.4000, 'USD', 1.00000000, 7, 66, 'Demo vendor', 'vendor@email.com', '3434', NULL, 'Demo Address', NULL, 0, '2020-06-08 10:54:21', '2020-06-08 10:54:33', NULL);
 
 -- --------------------------------------------------------
 
@@ -94,11 +103,22 @@ CREATE TABLE `iqj_bill_histories` (
   `bill_id` int(11) NOT NULL,
   `status` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `notify` tinyint(1) NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
+  `description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `iqj_bill_histories`
+--
+
+INSERT INTO `iqj_bill_histories` (`id`, `company_id`, `bill_id`, `status`, `notify`, `description`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 1, 'draft', 0, 'BIL-00001 added!', '2020-06-02 06:58:03', '2020-06-02 06:58:03', NULL),
+(2, 1, 1, 'partial', 0, '$20.00 Payment', '2020-06-02 06:59:00', '2020-06-02 06:59:00', NULL),
+(3, 1, 1, 'partial', 0, '$0.40 Payment', '2020-06-02 06:59:42', '2020-06-02 06:59:42', NULL),
+(4, 1, 2, 'draft', 0, 'BIL-00002 added!', '2020-06-08 10:54:21', '2020-06-08 10:54:21', NULL),
+(5, 1, 2, 'paid', 0, '$122.40 Payment', '2020-06-08 10:54:33', '2020-06-08 10:54:33', NULL);
 
 -- --------------------------------------------------------
 
@@ -116,13 +136,21 @@ CREATE TABLE `iqj_bill_items` (
   `quantity` double(7,2) NOT NULL,
   `price` double(15,4) NOT NULL,
   `total` double(15,4) NOT NULL,
-  `tax` double(15,4) NOT NULL DEFAULT '0.0000',
-  `discount_rate` double(15,4) NOT NULL DEFAULT '0.0000',
+  `tax` double(15,4) NOT NULL DEFAULT 0.0000,
+  `discount_rate` double(15,4) NOT NULL DEFAULT 0.0000,
   `discount_type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'normal',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `iqj_bill_items`
+--
+
+INSERT INTO `iqj_bill_items` (`id`, `company_id`, `bill_id`, `item_id`, `name`, `sku`, `quantity`, `price`, `total`, `tax`, `discount_rate`, `discount_type`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 1, 3, 'Web Services', NULL, 1.00, 20.0000, 20.0000, 0.4000, 0.0000, 'normal', '2020-06-02 06:58:02', '2020-06-02 06:58:02', NULL),
+(2, 1, 2, 4, 'Iphone X', NULL, 1.00, 120.0000, 120.0000, 2.4000, 0.0000, 'normal', '2020-06-08 10:54:21', '2020-06-08 10:54:21', NULL);
 
 -- --------------------------------------------------------
 
@@ -137,11 +165,19 @@ CREATE TABLE `iqj_bill_item_taxes` (
   `bill_item_id` int(11) NOT NULL,
   `tax_id` int(11) NOT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `amount` double(15,4) NOT NULL DEFAULT '0.0000',
+  `amount` double(15,4) NOT NULL DEFAULT 0.0000,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `iqj_bill_item_taxes`
+--
+
+INSERT INTO `iqj_bill_item_taxes` (`id`, `company_id`, `bill_id`, `bill_item_id`, `tax_id`, `name`, `amount`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 1, 1, 1, 'Example', 0.4000, '2020-06-02 06:58:02', '2020-06-02 06:58:02', NULL),
+(2, 1, 2, 2, 1, 'Example', 2.4000, '2020-06-08 10:54:21', '2020-06-08 10:54:21', NULL);
 
 -- --------------------------------------------------------
 
@@ -162,6 +198,74 @@ CREATE TABLE `iqj_bill_totals` (
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 
+--
+-- Dumping data for table `iqj_bill_totals`
+--
+
+INSERT INTO `iqj_bill_totals` (`id`, `company_id`, `bill_id`, `code`, `name`, `amount`, `sort_order`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 1, 'sub_total', 'bills.sub_total', 20.0000, 1, '2020-06-02 06:58:03', '2020-06-02 06:58:03', NULL),
+(2, 1, 1, 'tax', 'Example', 0.4000, 2, '2020-06-02 06:58:03', '2020-06-02 06:58:03', NULL),
+(3, 1, 1, 'total', 'bills.total', 20.4000, 3, '2020-06-02 06:58:03', '2020-06-02 06:58:03', NULL),
+(4, 1, 2, 'sub_total', 'bills.sub_total', 120.0000, 1, '2020-06-08 10:54:21', '2020-06-08 10:54:21', NULL),
+(5, 1, 2, 'tax', 'Example', 2.4000, 2, '2020-06-08 10:54:21', '2020-06-08 10:54:21', NULL),
+(6, 1, 2, 'total', 'bills.total', 122.4000, 3, '2020-06-08 10:54:21', '2020-06-08 10:54:21', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `iqj_business`
+--
+
+CREATE TABLE `iqj_business` (
+  `business_id` int(11) NOT NULL,
+  `business_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `iqj_business`
+--
+
+INSERT INTO `iqj_business` (`business_id`, `business_name`) VALUES
+(1, 'Service'),
+(2, 'Technology'),
+(3, 'Marketing');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `iqj_business_account`
+--
+
+CREATE TABLE `iqj_business_account` (
+  `id` int(11) NOT NULL,
+  `business_id` int(11) NOT NULL,
+  `account_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `iqj_business_account`
+--
+
+INSERT INTO `iqj_business_account` (`id`, `business_id`, `account_id`) VALUES
+(1, 1, 1),
+(2, 1, 2),
+(3, 1, 7),
+(4, 1, 8),
+(5, 1, 10),
+(6, 1, 15),
+(7, 1, 20),
+(8, 2, 3),
+(9, 2, 5),
+(10, 2, 9),
+(11, 2, 13),
+(12, 2, 14),
+(13, 2, 19),
+(14, 3, 3),
+(15, 3, 7),
+(16, 3, 8),
+(17, 3, 10),
+(18, 3, 18);
+
 -- --------------------------------------------------------
 
 --
@@ -174,7 +278,7 @@ CREATE TABLE `iqj_categories` (
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `color` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `enabled` tinyint(1) NOT NULL DEFAULT '1',
+  `enabled` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -189,7 +293,48 @@ INSERT INTO `iqj_categories` (`id`, `company_id`, `name`, `type`, `color`, `enab
 (2, 1, 'Deposit', 'income', '#efad32', 1, '2020-05-13 04:29:58', '2020-05-13 04:29:58', NULL),
 (3, 1, 'Sales', 'income', '#6da252', 1, '2020-05-13 04:29:58', '2020-05-13 04:29:58', NULL),
 (4, 1, 'Other', 'expense', '#e5e5e5', 1, '2020-05-13 04:29:58', '2020-05-13 04:29:58', NULL),
-(5, 1, 'General', 'item', '#328aef', 1, '2020-05-13 04:29:58', '2020-05-13 04:29:58', NULL);
+(5, 1, 'General', 'item', '#328aef', 1, '2020-05-13 04:29:58', '2020-05-13 04:29:58', NULL),
+(6, 1, 'dsfdf', 'income', '#55588b', 1, '2020-05-18 00:43:55', '2020-05-18 00:43:55', NULL),
+(7, 1, 'sam', 'expense', '#55588b', 1, '2020-05-30 10:23:08', '2020-05-30 10:23:08', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `iqj_chart_of_accounts`
+--
+
+CREATE TABLE `iqj_chart_of_accounts` (
+  `account_id` int(11) NOT NULL,
+  `account_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `parent_id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `business_id` int(5) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `iqj_chart_of_accounts`
+--
+
+INSERT INTO `iqj_chart_of_accounts` (`account_id`, `account_name`, `parent_id`, `business_id`) VALUES
+(1, 'cash on bank', 'Asset', 1),
+(2, 'cash on hand', 'Asset', 1),
+(3, 'deposit', 'Asset', 1),
+(4, 'sale revenue', 'Income', 2),
+(5, 'stock', 'Asset', 2),
+(6, 'machinery', 'Asset', 1),
+(7, 'rent received', 'Income', 3),
+(8, 'interest received', 'Income', 1),
+(9, 'dividend earned', 'Income', 3),
+(10, 'notes payable', 'Liability', 2),
+(11, 'salary payable', 'Liability', 3),
+(12, 'interest payable', 'Liability', 1),
+(13, 'wages payable', 'Liability', 2),
+(14, 'rent', 'Expenses', 1),
+(15, 'insurance', 'Expenses', 3),
+(16, 'salary', 'Expenses', 3),
+(17, 'mortage', 'Expenses', 2),
+(18, 'common stock', 'Equity', 1),
+(19, 'preferred stock', 'Equity', 1),
+(20, 'retained earning', 'Equity', 3);
 
 -- --------------------------------------------------------
 
@@ -200,7 +345,7 @@ INSERT INTO `iqj_categories` (`id`, `company_id`, `name`, `type`, `color`, `enab
 CREATE TABLE `iqj_companies` (
   `id` int(10) UNSIGNED NOT NULL,
   `domain` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `enabled` tinyint(1) NOT NULL DEFAULT '1',
+  `enabled` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -228,7 +373,7 @@ CREATE TABLE `iqj_contacts` (
   `user_id` int(11) DEFAULT NULL,
   `tax_number` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `phone` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `address` text COLLATE utf8mb4_unicode_ci,
+  `address` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `website` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `currency_code` varchar(3) COLLATE utf8mb4_unicode_ci NOT NULL,
   `enabled` tinyint(1) NOT NULL,
@@ -243,7 +388,74 @@ CREATE TABLE `iqj_contacts` (
 --
 
 INSERT INTO `iqj_contacts` (`id`, `company_id`, `type`, `name`, `email`, `user_id`, `tax_number`, `phone`, `address`, `website`, `currency_code`, `enabled`, `reference`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 1, 'customer', 'Demo Customer', 'mr.user.nishan@gmail.com', NULL, '12233', NULL, 'Master Para\nMaijdee bazer', NULL, 'USD', 1, NULL, '2020-05-13 05:31:59', '2020-05-13 05:31:59', NULL);
+(1, 1, 'customer', 'Demo Customer', 'mr.user.nishan@gmail.com', NULL, '12233', NULL, 'Master Para\nMaijdee bazer', NULL, 'USD', 1, NULL, '2020-05-13 05:31:59', '2020-05-14 01:28:41', '2020-05-14 01:28:41'),
+(2, 1, 'customer', 'Example', 'iotait@gmail.com', NULL, '3413', NULL, 'sd', NULL, 'USD', 1, NULL, '2020-05-14 01:23:22', '2020-05-14 01:28:41', '2020-05-14 01:28:41'),
+(3, 1, 'customer', 'Example', 'mishan@gmail.com', NULL, '23', NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-14 01:26:32', '2020-05-14 01:28:41', '2020-05-14 01:28:41'),
+(4, 1, 'customer', 'Example', 'omor.iotait@gmail.com', NULL, '1443', NULL, '134134', NULL, 'USD', 1, NULL, '2020-05-14 01:32:04', '2020-05-14 02:04:10', '2020-05-14 02:04:10'),
+(5, 1, 'customer', 'Skin care men', 'iotait@gmail.com', NULL, '22', NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-14 01:33:17', '2020-05-14 02:04:10', '2020-05-14 02:04:10'),
+(6, 1, 'customer', 'Example', 'iotait@gmail.com', NULL, '11', NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-14 02:04:30', '2020-05-14 02:28:53', '2020-05-14 02:28:53'),
+(7, 1, 'customer', 'Example category', 'mr.user.nishan@gmail.com', NULL, '123', NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-14 02:26:26', '2020-05-14 02:28:53', '2020-05-14 02:28:53'),
+(8, 1, 'customer', 'Example category', 'iotait@gmail.com', NULL, '4123', NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-14 02:29:14', '2020-05-14 02:38:40', '2020-05-14 02:38:40'),
+(9, 1, 'customer', 'Example', 'mr.user.nishan@gmail.com', NULL, '11', NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-14 02:36:51', '2020-05-14 02:38:40', '2020-05-14 02:38:40'),
+(10, 1, 'customer', 'owner', 'omor.iffotait@gmail.com', NULL, '2343', NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-14 02:37:52', '2020-05-14 02:38:40', '2020-05-14 02:38:40'),
+(11, 1, 'customer', 'Example', 'iotait@gmail.com', NULL, '11', NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-14 02:39:53', '2020-05-14 02:48:23', '2020-05-14 02:48:23'),
+(12, 1, 'customer', 'Skin care men', 'superadmin@email.com', NULL, '22', NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-14 02:43:21', '2020-05-14 02:48:23', '2020-05-14 02:48:23'),
+(13, 1, 'customer', 'Example category', 'omor.iotait@gmail.comss', NULL, '11', NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-14 02:47:07', '2020-05-14 02:48:23', '2020-05-14 02:48:23'),
+(14, 1, 'customer', 'Example', 'iotait@gmail.com', NULL, '2', NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-14 02:53:00', '2020-05-14 03:23:26', '2020-05-14 03:23:26'),
+(15, 1, 'customer', 'Example category', 'iotadit@gmail.com', NULL, '2', NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-14 03:12:11', '2020-05-14 03:23:26', '2020-05-14 03:23:26'),
+(16, 1, 'customer', 'Skin care men', 'superadmin@email.comss', NULL, '11', NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-14 03:14:52', '2020-05-14 03:23:26', '2020-05-14 03:23:26'),
+(17, 1, 'customer', 'adsf dsdd', 'iotfdfait@gmail.com', NULL, '23213', NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-14 03:16:49', '2020-05-14 03:23:26', '2020-05-14 03:23:26'),
+(18, 1, 'customer', 'Example', 'iotait@gmail.com', NULL, '11', NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-14 03:24:46', '2020-05-14 04:43:34', '2020-05-14 04:43:34'),
+(19, 1, 'customer', 'Example cateewegory', 'iotasssit@gmail.com', NULL, '2ewqewq', NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-14 03:31:14', '2020-05-14 04:43:34', '2020-05-14 04:43:34'),
+(20, 1, 'customer', 'Example cvczcvategory', 'omvcvor.iotait@gmail.com', NULL, 'qwewe', NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-14 03:43:22', '2020-05-14 04:43:34', '2020-05-14 04:43:34'),
+(21, 1, 'customer', 'asdfasdfsdfsdfa', 'iotdafssdfdsfait@gmail.com', NULL, '12341234', NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-14 04:31:15', '2020-05-14 04:43:34', '2020-05-14 04:43:34'),
+(22, 1, 'customer', 'dfasdf', 'admidfassdfn@email.com', NULL, 'qweqw', NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-14 04:31:57', '2020-05-14 04:43:34', '2020-05-14 04:43:34'),
+(23, 1, 'customer', 'czxbzxzzx', 'czx@gmail.comz', NULL, 'rewqer', NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-14 04:34:00', '2020-05-14 04:43:34', '2020-05-14 04:43:34'),
+(24, 1, 'customer', 'asdfsdfa', 'sdsdain@email.com', NULL, 'afdsdfs', NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-14 04:40:57', '2020-05-14 04:43:34', '2020-05-14 04:43:34'),
+(25, 1, 'customer', 'Example category', 'sd@gmail.com', NULL, '32234', NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-14 04:50:56', '2020-05-14 05:14:48', '2020-05-14 05:14:48'),
+(26, 1, 'customer', 'zjkxcbvjkxcbv', 'icxvxcvzcvotait@gmail.com', NULL, '41334', NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-14 05:00:02', '2020-05-14 05:14:48', '2020-05-14 05:14:48'),
+(27, 1, 'customer', 'sdsd', 'a@b.com', NULL, '122332', '1232123', NULL, NULL, 'USD', 1, NULL, '2020-05-14 05:21:23', '2020-05-15 23:12:34', '2020-05-15 23:12:34'),
+(28, 1, 'customer', 'Example', 'omoddr.iotait@gmail.com', NULL, '22', NULL, 'sddssd', NULL, 'USD', 1, NULL, '2020-05-14 05:34:58', '2020-05-15 23:12:34', '2020-05-15 23:12:34'),
+(29, 1, 'customer', 'demo', 'demo@email.com', NULL, '41231342', NULL, 'asdfsdfad', NULL, 'EUR', 1, NULL, '2020-05-14 05:39:39', '2020-05-15 23:12:34', '2020-05-15 23:12:34'),
+(30, 1, 'customer', 'Example category', 'omor.iotait@gmail.com', NULL, 'qqwwq', NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-14 05:43:01', '2020-05-15 23:12:34', '2020-05-15 23:12:34'),
+(31, 1, 'customer', 'Last', 'lastiotait@gmail.com', NULL, '412423', NULL, 'dsgsfgddf g', NULL, 'GBP', 1, NULL, '2020-05-14 06:02:47', '2020-05-15 23:12:34', '2020-05-15 23:12:34'),
+(32, 1, 'customer', 'Exaadfssdfmple', 'iotafddfit@gmail.com', NULL, 'qweqwer', NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-14 07:03:11', '2020-05-15 23:12:34', '2020-05-15 23:12:34'),
+(33, 1, 'customer', 'ASDASDSD', 'asasas@gmail.comass', NULL, 'sa', NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-14 07:04:53', '2020-05-15 23:12:34', '2020-05-15 23:12:34'),
+(34, 1, 'customer', 'hfgsdf', 'iodfgssdfgfsdvtait@gmail.com', NULL, 'fdasdf', NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-14 08:33:19', '2020-05-15 23:12:34', '2020-05-15 23:12:34'),
+(35, 1, 'customer', 'fgsddfsvcx', 'admxcvcvcvin@email.com', NULL, 'sddfs', NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-14 10:05:53', '2020-05-15 23:12:34', '2020-05-15 23:12:34'),
+(36, 1, 'customer', 'xcxcx', 'ixcxcxotait@gmail.com', NULL, 'xzxc', NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-14 10:08:40', '2020-05-15 23:12:34', '2020-05-15 23:12:34'),
+(37, 1, 'customer', 'Demo Customer', 'addsdsmin@email.com', NULL, '14223', NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-14 12:14:00', '2020-05-15 23:12:34', '2020-05-15 23:12:34'),
+(38, 1, 'customer', 'owner', 'sss@sss.com', NULL, '11', NULL, 'dddd', NULL, 'GBP', 1, NULL, '2020-05-14 12:15:45', '2020-05-15 23:12:34', '2020-05-15 23:12:34'),
+(39, 1, 'customer', 'ggtyu', NULL, NULL, NULL, NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-14 12:16:29', '2020-05-15 23:12:34', '2020-05-15 23:12:34'),
+(40, 1, 'customer', 'Demo Customer', 'customer@email.com', NULL, '4231342', NULL, 'Bangladesh', NULL, 'BBD', 1, NULL, '2020-05-15 23:05:42', '2020-05-15 23:12:34', '2020-05-15 23:12:34'),
+(41, 1, 'customer', 'Demo Customer', 'customer@email.com', NULL, '1323', NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-15 23:14:09', '2020-05-17 08:51:12', '2020-05-17 08:51:12'),
+(42, 1, 'customer', 'adfdf', 'admadfin@email.com', NULL, 'wqeweq', NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-16 06:07:47', '2020-05-17 08:51:12', '2020-05-17 08:51:12'),
+(43, 1, 'customer', 'sdasasasdas', 'iotaisdast@gmail.coms', NULL, '22', NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-16 09:50:10', '2020-05-17 08:51:12', '2020-05-17 08:51:12'),
+(44, 1, 'customer', 'dsfsdsdsdsdfsdf', 'sdffffffffffffffff@gmail.com', NULL, '3qewe', NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-17 01:27:16', '2020-05-17 08:51:12', '2020-05-17 08:51:12'),
+(45, 1, 'customer', 'Example category', 'adxccmin@email.com', NULL, 'qwweqwe', NULL, 'czx', NULL, 'USD', 1, NULL, '2020-05-17 01:42:25', '2020-05-17 08:51:12', '2020-05-17 08:51:12'),
+(46, 1, 'customer', 'Skin care men', 'asdsdasdasdasdasd@email.com', NULL, NULL, NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-17 01:47:52', '2020-05-17 08:51:12', '2020-05-17 08:51:12'),
+(47, 1, 'customer', 'Exampldfsdfase category', 'admagfafgadgsdgin@email.com', NULL, NULL, NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-17 02:13:39', '2020-05-17 08:51:12', '2020-05-17 08:51:12'),
+(48, 1, 'customer', 'ownerxcxc', 'omor.cciotait@gmail.com', NULL, NULL, NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-17 06:34:25', '2020-05-17 08:51:12', '2020-05-17 08:51:12'),
+(49, 1, 'customer', 'Test_station_Prefix', 'advdadvxmin@email.com', NULL, NULL, NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-17 07:10:14', '2020-05-17 08:51:12', '2020-05-17 08:51:12'),
+(50, 1, 'customer', 'Demo Customer', 'customer@email.com', NULL, '13434', NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-17 08:51:57', '2020-05-17 23:16:16', '2020-05-17 23:16:16'),
+(51, 1, 'customer', 'owner', 'owner@email.com', NULL, '132', NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-17 22:24:56', '2020-05-17 23:16:16', '2020-05-17 23:16:16'),
+(52, 1, 'customer', 'Example category', 'adxxmin@email.com', NULL, '123', NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-17 22:25:36', '2020-05-17 23:16:16', '2020-05-17 23:16:16'),
+(53, 1, 'customer', 'Test_station_Prefix', 'supesradmin@email.com', NULL, NULL, NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-17 22:26:28', '2020-05-17 23:16:16', '2020-05-17 23:16:16'),
+(54, 1, 'customer', 'Skin care men', 'admxxxxin@email.com', NULL, NULL, NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-17 22:41:26', '2020-05-17 23:16:16', '2020-05-17 23:16:16'),
+(55, 1, 'customer', 'asdfdfsa', 'admhfagadfin@email.com', NULL, NULL, NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-17 22:42:11', '2020-05-17 23:16:16', '2020-05-17 23:16:16'),
+(56, 1, 'customer', 'kldvkcvklcklckl', 'iokasdfhjsdfta@gmail.com', NULL, NULL, NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-17 23:10:44', '2020-05-17 23:16:16', '2020-05-17 23:16:16'),
+(57, 1, 'customer', 'Example', 'admin@email.com', NULL, NULL, NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-17 23:17:21', '2020-05-20 05:33:02', NULL),
+(58, 1, 'customer', 'owner', 'iotaxxit@gmail.com', NULL, NULL, NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-17 23:20:35', '2020-06-01 09:59:26', '2020-06-01 09:59:26'),
+(59, 1, 'customer', 'Example category', 'omor.iotait@gmail.com', NULL, NULL, NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-17 23:23:43', '2020-05-17 23:23:43', NULL),
+(60, 1, 'customer', 'Test_station_Prefix', 'mr.user.nishan@gmail.com', NULL, NULL, NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-17 23:24:57', '2020-06-01 09:59:26', '2020-06-01 09:59:26'),
+(61, 1, 'customer', 'sdfsdfdf', 'iodfsdfsdfdfta@gmail.com', NULL, NULL, NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-17 23:28:12', '2020-06-01 09:59:26', '2020-06-01 09:59:26'),
+(62, 1, 'customer', 'jkasdf;jkasdvn;jkasdn;jksdvn', 'hasdfjkhjlin@email.com', NULL, NULL, NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-17 23:35:14', '2020-06-01 09:59:26', '2020-06-01 09:59:26'),
+(63, 1, 'vendor', 'vvzcxcvx', 'admin@email.com', NULL, NULL, NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-17 23:36:55', '2020-05-17 23:36:55', NULL),
+(64, 1, 'customer', 'sdsdfdf', 'addfssdfmin@email.com', NULL, NULL, NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-18 01:53:44', '2020-06-01 09:59:26', '2020-06-01 09:59:26'),
+(65, 1, 'customer', 'Example', 'admrerrerin@email.com', NULL, '123432', NULL, NULL, NULL, 'USD', 1, NULL, '2020-05-28 07:38:27', '2020-06-01 09:59:26', '2020-06-01 09:59:26'),
+(66, 1, 'vendor', 'Demo vendor', 'vendor@email.com', NULL, '3434', NULL, 'Demo Address', NULL, 'USD', 1, NULL, '2020-06-02 06:56:42', '2020-06-02 06:56:42', NULL),
+(67, 1, 'customer', 'Demo Customer', 'customer@email.com', NULL, '4334', NULL, 'erewq', NULL, 'USD', 1, NULL, '2020-06-02 07:01:28', '2020-06-02 07:01:28', NULL),
+(68, 1, 'customer', 'Mr X', 'mr.x@gmail.com', NULL, '13443', NULL, 'Demo Address', NULL, 'USD', 1, NULL, '2020-06-07 09:04:31', '2020-06-07 09:04:31', NULL);
 
 -- --------------------------------------------------------
 
@@ -259,10 +471,10 @@ CREATE TABLE `iqj_currencies` (
   `rate` double(15,8) NOT NULL,
   `precision` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `symbol` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `symbol_first` int(11) NOT NULL DEFAULT '1',
+  `symbol_first` int(11) NOT NULL DEFAULT 1,
   `decimal_mark` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `thousands_separator` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `enabled` tinyint(4) NOT NULL DEFAULT '1',
+  `enabled` tinyint(4) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -276,7 +488,20 @@ INSERT INTO `iqj_currencies` (`id`, `company_id`, `name`, `code`, `rate`, `preci
 (1, 1, 'US Dollar', 'USD', 1.00000000, '2', '$', 1, '.', ',', 1, '2020-05-13 04:29:58', '2020-05-13 04:29:58', NULL),
 (2, 1, 'Euro', 'EUR', 1.25000000, '2', '€', 1, ',', '.', 1, '2020-05-13 04:29:58', '2020-05-13 04:29:58', NULL),
 (3, 1, 'British Pound', 'GBP', 1.60000000, '2', '£', 1, '.', ',', 1, '2020-05-13 04:29:58', '2020-05-13 04:29:58', NULL),
-(4, 1, 'Turkish Lira', 'TRY', 0.80000000, '2', '₺', 1, ',', '.', 1, '2020-05-13 04:29:58', '2020-05-13 04:29:58', NULL);
+(4, 1, 'Turkish Lira', 'TRY', 0.80000000, '2', '₺', 1, ',', '.', 1, '2020-05-13 04:29:58', '2020-05-13 04:29:58', NULL),
+(5, 1, 'taka', 'BDT', 0.00000000, '2', '৳', 1, '.', ',', 1, '2020-05-13 23:27:48', '2020-05-13 23:27:48', NULL),
+(6, 1, 'taka', 'BBD', 0.00000000, '2', '$', 0, '.', ',', 1, '2020-05-14 04:53:01', '2020-05-14 04:53:01', NULL),
+(7, 1, 'Pound', 'FKP', 0.00000000, '2', '£', 0, '.', ',', 1, '2020-05-17 09:04:37', '2020-05-17 09:04:37', NULL),
+(8, 1, 'jhjh', 'AFN', 56.00000000, '2', '؋', 0, '.', ',', 1, '2020-05-17 09:15:12', '2020-05-17 09:15:12', NULL),
+(9, 1, 'demo', 'AED', 22.00000000, '2', 'د.إ', 1, '.', ',', 1, '2020-05-18 00:07:25', '2020-05-18 00:07:25', NULL),
+(10, 1, 'Demo Curency', 'CDF', 23.00000000, '2', 'Fr', 0, '.', ',', 1, '2020-05-18 00:32:44', '2020-05-18 00:32:44', NULL),
+(11, 1, 'currency', 'BAM', 212.00000000, '2', 'КМ', 1, '.', ',', 1, '2020-05-18 00:38:00', '2020-05-18 00:38:00', NULL),
+(12, 1, 'dssd', 'ALL', 20.00000000, '2', 'L', 0, '.', ',', 1, '2020-05-18 01:54:11', '2020-05-18 01:54:11', NULL),
+(13, 1, 'Example category', 'ANG', 2.00000000, '2', 'ƒ', 1, ',', '.', 1, '2020-05-18 01:59:35', '2020-05-18 01:59:35', NULL),
+(14, 1, 'poisha', 'AZN', 8.00000000, '2', '₼', 1, '.', ',', 1, '2020-05-18 03:54:02', '2020-05-18 03:54:02', NULL),
+(15, 1, 'owner', 'AOA', 123.00000000, '2', 'Kz', 0, '.', ',', 1, '2020-05-18 04:02:41', '2020-05-18 04:02:41', NULL),
+(16, 1, 'adfds', 'BHD', 32.00000000, '3', 'ب.د', 1, '.', ',', 1, '2020-05-18 04:53:24', '2020-05-18 04:53:24', NULL),
+(17, 1, 'demo', 'BWP', 2.00000000, '2', 'P', 1, '.', ',', 1, '2020-05-30 07:12:22', '2020-05-30 07:12:22', NULL);
 
 -- --------------------------------------------------------
 
@@ -288,7 +513,7 @@ CREATE TABLE `iqj_dashboards` (
   `id` int(10) UNSIGNED NOT NULL,
   `company_id` int(11) NOT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `enabled` tinyint(1) NOT NULL DEFAULT '1',
+  `enabled` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -315,7 +540,7 @@ CREATE TABLE `iqj_email_templates` (
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `subject` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `body` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `params` text COLLATE utf8mb4_unicode_ci,
+  `params` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -348,7 +573,7 @@ CREATE TABLE `iqj_failed_jobs` (
   `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
@@ -361,7 +586,7 @@ CREATE TABLE `iqj_firewall_ips` (
   `id` int(10) UNSIGNED NOT NULL,
   `ip` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `log_id` int(11) DEFAULT NULL,
-  `blocked` tinyint(1) NOT NULL DEFAULT '1',
+  `blocked` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -381,11 +606,19 @@ CREATE TABLE `iqj_firewall_logs` (
   `user_id` int(11) DEFAULT NULL,
   `url` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `referrer` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `request` text COLLATE utf8mb4_unicode_ci,
+  `request` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `iqj_firewall_logs`
+--
+
+INSERT INTO `iqj_firewall_logs` (`id`, `ip`, `level`, `middleware`, `user_id`, `url`, `referrer`, `request`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, '::1', 'medium', 'login', 0, 'http://localhost/Akaunting_update/auth/login', 'http://localhost/Akaunting_update/auth/login', '_token=2iAqfTubj0n86n3gRSyGZBIWA92rOe4gzdSeBUbH&email=customer@email.com&password=******', '2020-05-30 03:41:11', '2020-05-30 03:41:11', NULL),
+(2, '::1', 'medium', 'login', 0, 'http://localhost/Akaunting_update/auth/login', 'http://localhost/Akaunting_update/auth/login', '_token=2iAqfTubj0n86n3gRSyGZBIWA92rOe4gzdSeBUbH&email=customer@email.com&password=******', '2020-05-30 03:41:40', '2020-05-30 03:41:40', NULL);
 
 -- --------------------------------------------------------
 
@@ -404,20 +637,27 @@ CREATE TABLE `iqj_invoices` (
   `amount` double(15,4) NOT NULL,
   `currency_code` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `currency_rate` double(15,8) NOT NULL,
-  `category_id` int(11) NOT NULL DEFAULT '1',
+  `category_id` int(11) NOT NULL DEFAULT 1,
   `contact_id` int(11) NOT NULL,
   `contact_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `contact_email` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `contact_tax_number` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `contact_phone` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `contact_address` text COLLATE utf8mb4_unicode_ci,
-  `notes` text COLLATE utf8mb4_unicode_ci,
-  `footer` text COLLATE utf8mb4_unicode_ci,
-  `parent_id` int(11) NOT NULL DEFAULT '0',
+  `contact_address` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `notes` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `footer` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `parent_id` int(11) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `iqj_invoices`
+--
+
+INSERT INTO `iqj_invoices` (`id`, `company_id`, `invoice_number`, `order_number`, `status`, `invoiced_at`, `due_at`, `amount`, `currency_code`, `currency_rate`, `category_id`, `contact_id`, `contact_name`, `contact_email`, `contact_tax_number`, `contact_phone`, `contact_address`, `notes`, `footer`, `parent_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(6, 1, 'INV-00006', '143222222212', 'paid', '2020-06-08 06:59:22', '2020-06-13 06:59:22', 145.3500, 'USD', 1.00000000, 3, 68, 'Mr X', 'mr.x@gmail.com', '13443', NULL, 'Demo Address', NULL, NULL, 0, '2020-06-08 00:59:22', '2020-06-08 01:00:57', NULL);
 
 -- --------------------------------------------------------
 
@@ -431,11 +671,29 @@ CREATE TABLE `iqj_invoice_histories` (
   `invoice_id` int(11) NOT NULL,
   `status` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `notify` tinyint(1) NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
+  `description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `iqj_invoice_histories`
+--
+
+INSERT INTO `iqj_invoice_histories` (`id`, `company_id`, `invoice_id`, `status`, `notify`, `description`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 1, 'draft', 0, 'INV-00001 added!', '2020-05-23 09:51:45', '2020-05-23 09:51:45', NULL),
+(2, 1, 1, 'paid', 0, 'د.إ12.24 Payment', '2020-05-23 10:20:00', '2020-05-23 10:20:00', NULL),
+(3, 1, 2, 'draft', 0, 'INV-00002 added!', '2020-06-02 07:02:18', '2020-06-02 07:02:18', NULL),
+(4, 1, 2, 'paid', 0, '$51.00 Payment', '2020-06-02 07:02:29', '2020-06-02 07:02:29', NULL),
+(5, 1, 3, 'draft', 0, 'INV-00003 added!', '2020-06-02 23:49:03', '2020-06-02 23:49:03', NULL),
+(6, 1, 3, 'paid', 0, '$51.00 Payment', '2020-06-02 23:49:16', '2020-06-02 23:49:16', NULL),
+(7, 1, 4, 'draft', 0, 'INV-00004 added!', '2020-06-04 01:27:51', '2020-06-04 01:27:51', NULL),
+(8, 1, 4, 'paid', 0, '$30.60 Payment', '2020-06-04 01:28:35', '2020-06-04 01:28:35', NULL),
+(9, 1, 5, 'draft', 0, 'INV-00005 added!', '2020-06-07 09:07:15', '2020-06-07 09:07:15', NULL),
+(10, 1, 5, 'paid', 0, '$116.28 Payment', '2020-06-07 09:13:31', '2020-06-07 09:13:31', NULL),
+(11, 1, 6, 'draft', 0, 'INV-00006 added!', '2020-06-08 00:59:23', '2020-06-08 00:59:23', NULL),
+(12, 1, 6, 'paid', 0, '$145.35 Payment', '2020-06-08 01:00:57', '2020-06-08 01:00:57', NULL);
 
 -- --------------------------------------------------------
 
@@ -453,13 +711,25 @@ CREATE TABLE `iqj_invoice_items` (
   `quantity` double(7,2) NOT NULL,
   `price` double(15,4) NOT NULL,
   `total` double(15,4) NOT NULL,
-  `tax` double(15,4) NOT NULL DEFAULT '0.0000',
-  `discount_rate` double(15,4) NOT NULL DEFAULT '0.0000',
+  `tax` double(15,4) NOT NULL DEFAULT 0.0000,
+  `discount_rate` double(15,4) NOT NULL DEFAULT 0.0000,
   `discount_type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'normal',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `iqj_invoice_items`
+--
+
+INSERT INTO `iqj_invoice_items` (`id`, `company_id`, `invoice_id`, `item_id`, `name`, `sku`, `quantity`, `price`, `total`, `tax`, `discount_rate`, `discount_type`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 1, 2, 'Demo', NULL, 1.00, 12.0000, 12.0000, 0.2400, 0.0000, 'normal', '2020-05-23 09:51:45', '2020-05-23 09:51:45', NULL),
+(2, 1, 2, 3, 'Web Services', NULL, 1.00, 50.0000, 50.0000, 1.0000, 0.0000, 'normal', '2020-06-02 07:02:18', '2020-06-02 07:02:18', NULL),
+(3, 1, 3, 3, 'Web Services', NULL, 1.00, 50.0000, 50.0000, 1.0000, 0.0000, 'normal', '2020-06-02 23:49:03', '2020-06-02 23:49:03', NULL),
+(4, 1, 4, 3, 'Web Services', NULL, 1.00, 30.0000, 30.0000, 0.6000, 0.0000, 'normal', '2020-06-04 01:27:50', '2020-06-04 01:27:50', NULL),
+(5, 1, 5, 4, 'Iphone X', NULL, 1.00, 120.0000, 120.0000, 2.2800, 0.0000, 'normal', '2020-06-07 09:07:15', '2020-06-07 09:07:15', NULL),
+(6, 1, 6, 4, 'Iphone X', NULL, 1.00, 150.0000, 150.0000, 2.8500, 0.0000, 'normal', '2020-06-08 00:59:22', '2020-06-08 00:59:22', NULL);
 
 -- --------------------------------------------------------
 
@@ -474,11 +744,23 @@ CREATE TABLE `iqj_invoice_item_taxes` (
   `invoice_item_id` int(11) NOT NULL,
   `tax_id` int(11) NOT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `amount` double(15,4) NOT NULL DEFAULT '0.0000',
+  `amount` double(15,4) NOT NULL DEFAULT 0.0000,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `iqj_invoice_item_taxes`
+--
+
+INSERT INTO `iqj_invoice_item_taxes` (`id`, `company_id`, `invoice_id`, `invoice_item_id`, `tax_id`, `name`, `amount`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 1, 1, 1, 'Example', 0.2400, '2020-05-23 09:51:45', '2020-05-23 09:51:45', NULL),
+(2, 1, 2, 2, 1, 'Example', 1.0000, '2020-06-02 07:02:18', '2020-06-02 07:02:18', NULL),
+(3, 1, 3, 3, 1, 'Example', 1.0000, '2020-06-02 23:49:03', '2020-06-02 23:49:03', NULL),
+(4, 1, 4, 4, 1, 'Example', 0.6000, '2020-06-04 01:27:50', '2020-06-04 01:27:50', NULL),
+(5, 1, 5, 5, 1, 'Example', 2.2800, '2020-06-07 09:07:15', '2020-06-07 09:07:15', NULL),
+(6, 1, 6, 6, 1, 'Example', 2.8500, '2020-06-08 00:59:23', '2020-06-08 00:59:23', NULL);
 
 -- --------------------------------------------------------
 
@@ -499,6 +781,32 @@ CREATE TABLE `iqj_invoice_totals` (
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 
+--
+-- Dumping data for table `iqj_invoice_totals`
+--
+
+INSERT INTO `iqj_invoice_totals` (`id`, `company_id`, `invoice_id`, `code`, `name`, `amount`, `sort_order`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 1, 'sub_total', 'invoices.sub_total', 12.0000, 1, '2020-05-23 09:51:45', '2020-05-23 09:51:45', NULL),
+(2, 1, 1, 'tax', 'Example', 0.2400, 2, '2020-05-23 09:51:45', '2020-05-23 09:51:45', NULL),
+(3, 1, 1, 'total', 'invoices.total', 12.2400, 3, '2020-05-23 09:51:45', '2020-05-23 09:51:45', NULL),
+(4, 1, 2, 'sub_total', 'invoices.sub_total', 50.0000, 1, '2020-06-02 07:02:18', '2020-06-02 07:02:18', NULL),
+(5, 1, 2, 'tax', 'Example', 1.0000, 2, '2020-06-02 07:02:18', '2020-06-02 07:02:18', NULL),
+(6, 1, 2, 'total', 'invoices.total', 51.0000, 3, '2020-06-02 07:02:18', '2020-06-02 07:02:18', NULL),
+(7, 1, 3, 'sub_total', 'invoices.sub_total', 50.0000, 1, '2020-06-02 23:49:03', '2020-06-02 23:49:03', NULL),
+(8, 1, 3, 'tax', 'Example', 1.0000, 2, '2020-06-02 23:49:03', '2020-06-02 23:49:03', NULL),
+(9, 1, 3, 'total', 'invoices.total', 51.0000, 3, '2020-06-02 23:49:03', '2020-06-02 23:49:03', NULL),
+(10, 1, 4, 'sub_total', 'invoices.sub_total', 30.0000, 1, '2020-06-04 01:27:50', '2020-06-04 01:27:50', NULL),
+(11, 1, 4, 'tax', 'Example', 0.6000, 2, '2020-06-04 01:27:50', '2020-06-04 01:27:50', NULL),
+(12, 1, 4, 'total', 'invoices.total', 30.6000, 3, '2020-06-04 01:27:50', '2020-06-04 01:27:50', NULL),
+(13, 1, 5, 'sub_total', 'invoices.sub_total', 120.0000, 1, '2020-06-07 09:07:15', '2020-06-07 09:07:15', NULL),
+(14, 1, 5, 'discount', 'invoices.discount', 6.0000, 2, '2020-06-07 09:07:15', '2020-06-07 09:07:15', NULL),
+(15, 1, 5, 'tax', 'Example', 2.2800, 3, '2020-06-07 09:07:15', '2020-06-07 09:07:15', NULL),
+(16, 1, 5, 'total', 'invoices.total', 116.2800, 4, '2020-06-07 09:07:15', '2020-06-07 09:07:15', NULL),
+(17, 1, 6, 'sub_total', 'invoices.sub_total', 150.0000, 1, '2020-06-08 00:59:23', '2020-06-08 00:59:23', NULL),
+(18, 1, 6, 'discount', 'invoices.discount', 7.5000, 2, '2020-06-08 00:59:23', '2020-06-08 00:59:23', NULL),
+(19, 1, 6, 'tax', 'Example', 2.8500, 3, '2020-06-08 00:59:23', '2020-06-08 00:59:23', NULL),
+(20, 1, 6, 'total', 'invoices.total', 145.3500, 4, '2020-06-08 00:59:23', '2020-06-08 00:59:23', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -510,17 +818,27 @@ CREATE TABLE `iqj_items` (
   `company_id` int(11) NOT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `sku` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
+  `description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `sale_price` double(15,4) NOT NULL,
   `purchase_price` double(15,4) NOT NULL,
-  `quantity` int(11) NOT NULL DEFAULT '1',
+  `quantity` int(11) NOT NULL DEFAULT 1,
   `category_id` int(11) DEFAULT NULL,
   `tax_id` int(11) DEFAULT NULL,
-  `enabled` tinyint(1) NOT NULL DEFAULT '1',
+  `enabled` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `iqj_items`
+--
+
+INSERT INTO `iqj_items` (`id`, `company_id`, `name`, `sku`, `description`, `sale_price`, `purchase_price`, `quantity`, `category_id`, `tax_id`, `enabled`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 'xxx', NULL, NULL, 0.0000, 0.0000, 1, NULL, NULL, 0, '2020-05-18 00:44:18', '2020-05-20 04:42:23', NULL),
+(2, 1, 'Demo', NULL, NULL, 0.0000, 0.0000, 1, NULL, NULL, 1, '2020-05-23 09:51:24', '2020-05-23 09:51:24', NULL),
+(3, 1, 'Web Services', NULL, NULL, 0.0000, 0.0000, 1, NULL, NULL, 1, '2020-06-02 06:57:32', '2020-06-02 06:57:32', NULL),
+(4, 1, 'Iphone X', NULL, 'Demo Description', 150.0000, 120.0000, 1, 5, 1, 1, '2020-06-07 09:01:32', '2020-06-08 10:53:06', NULL);
 
 -- --------------------------------------------------------
 
@@ -629,7 +947,7 @@ CREATE TABLE `iqj_module_histories` (
   `module_id` int(11) NOT NULL,
   `category` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `version` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
+  `description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -850,12 +1168,19 @@ CREATE TABLE `iqj_reconciliations` (
   `account_id` int(11) NOT NULL,
   `started_at` datetime NOT NULL,
   `ended_at` datetime NOT NULL,
-  `closing_balance` double(15,4) NOT NULL DEFAULT '0.0000',
+  `closing_balance` double(15,4) NOT NULL DEFAULT 0.0000,
   `reconciled` tinyint(1) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `iqj_reconciliations`
+--
+
+INSERT INTO `iqj_reconciliations` (`id`, `company_id`, `account_id`, `started_at`, `ended_at`, `closing_balance`, `reconciled`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 1, '2020-06-01 15:11:49', '2020-06-30 15:11:49', 0.0000, 0, '2020-06-07 09:11:49', '2020-06-07 09:11:49', NULL);
 
 -- --------------------------------------------------------
 
@@ -869,13 +1194,20 @@ CREATE TABLE `iqj_recurring` (
   `recurable_type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `recurable_id` bigint(20) UNSIGNED NOT NULL,
   `frequency` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `interval` int(11) NOT NULL DEFAULT '1',
+  `interval` int(11) NOT NULL DEFAULT 1,
   `started_at` datetime NOT NULL,
-  `count` int(11) NOT NULL DEFAULT '0',
+  `count` int(11) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `iqj_recurring`
+--
+
+INSERT INTO `iqj_recurring` (`id`, `company_id`, `recurable_type`, `recurable_id`, `frequency`, `interval`, `started_at`, `count`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 'App\\Models\\Sale\\Invoice', 4, 'monthly', 1, '2020-06-04 07:27:50', 1, '2020-06-04 01:27:50', '2020-06-04 01:27:50', NULL);
 
 -- --------------------------------------------------------
 
@@ -889,7 +1221,7 @@ CREATE TABLE `iqj_reports` (
   `class` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `settings` text COLLATE utf8mb4_unicode_ci,
+  `settings` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -1217,7 +1549,7 @@ CREATE TABLE `iqj_sessions` (
   `id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_id` int(10) UNSIGNED DEFAULT NULL,
   `ip_address` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `user_agent` text COLLATE utf8mb4_unicode_ci,
+  `user_agent` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `payload` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `last_activity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
@@ -1232,7 +1564,7 @@ CREATE TABLE `iqj_settings` (
   `id` int(10) UNSIGNED NOT NULL,
   `company_id` int(11) NOT NULL,
   `key` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `value` text COLLATE utf8mb4_unicode_ci
+  `value` text COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 
 --
@@ -1253,7 +1585,7 @@ INSERT INTO `iqj_settings` (`id`, `company_id`, `key`, `value`) VALUES
 (11, 1, 'localisation.percent_position', 'after'),
 (12, 1, 'invoice.number_prefix', 'INV-'),
 (13, 1, 'invoice.number_digit', '5'),
-(14, 1, 'invoice.number_next', '1'),
+(14, 1, 'invoice.number_next', '7'),
 (15, 1, 'invoice.item_name', 'settings.invoice.item'),
 (16, 1, 'invoice.price_name', 'settings.invoice.price'),
 (17, 1, 'invoice.quantity_name', 'settings.invoice.quantity'),
@@ -1273,7 +1605,8 @@ INSERT INTO `iqj_settings` (`id`, `company_id`, `key`, `value`) VALUES
 (31, 1, 'contact.type.customer', 'customer'),
 (32, 1, 'contact.type.vendor', 'vendor'),
 (33, 1, 'company.name', 'Cloud Soft'),
-(34, 1, 'company.email', 'company@email.com');
+(34, 1, 'company.email', 'company@email.com'),
+(36, 1, 'bill.number_next', '3');
 
 -- --------------------------------------------------------
 
@@ -1287,11 +1620,18 @@ CREATE TABLE `iqj_taxes` (
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `rate` double(15,4) NOT NULL,
   `type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'normal',
-  `enabled` tinyint(1) NOT NULL DEFAULT '1',
+  `enabled` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `iqj_taxes`
+--
+
+INSERT INTO `iqj_taxes` (`id`, `company_id`, `name`, `rate`, `type`, `enabled`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 'Example', 2.0000, 'normal', 1, '2020-05-18 00:42:55', '2020-05-18 00:42:55', NULL);
 
 -- --------------------------------------------------------
 
@@ -1310,16 +1650,32 @@ CREATE TABLE `iqj_transactions` (
   `account_id` int(11) NOT NULL,
   `document_id` int(11) DEFAULT NULL,
   `contact_id` int(11) DEFAULT NULL,
-  `category_id` int(11) NOT NULL DEFAULT '1',
-  `description` text COLLATE utf8mb4_unicode_ci,
+  `category_id` int(11) NOT NULL DEFAULT 1,
+  `description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `payment_method` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `reference` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `parent_id` int(11) NOT NULL DEFAULT '0',
-  `reconciled` tinyint(1) NOT NULL DEFAULT '0',
+  `parent_id` int(11) NOT NULL DEFAULT 0,
+  `reconciled` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `iqj_transactions`
+--
+
+INSERT INTO `iqj_transactions` (`id`, `company_id`, `type`, `paid_at`, `amount`, `currency_code`, `currency_rate`, `account_id`, `document_id`, `contact_id`, `category_id`, `description`, `payment_method`, `reference`, `parent_id`, `reconciled`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 'income', '2020-05-24 00:00:00', 12.2400, 'USD', 1.00000000, 1, 1, 57, 2, NULL, 'offline-payments.cash.1', NULL, 0, 0, '2020-05-23 10:20:00', '2020-05-23 10:20:00', NULL),
+(2, 1, 'expense', '2020-06-02 12:59:00', 20.0000, 'USD', 1.00000000, 1, 1, 66, 4, NULL, 'offline-payments.cash.1', NULL, 0, 0, '2020-06-02 06:59:00', '2020-06-02 06:59:00', NULL),
+(3, 1, 'expense', '2020-06-02 00:00:00', 0.4000, 'USD', 1.00000000, 1, 1, 66, 4, NULL, 'offline-payments.cash.1', NULL, 0, 0, '2020-06-02 06:59:41', '2020-06-02 06:59:41', NULL),
+(4, 1, 'income', '2020-06-02 00:00:00', 51.0000, 'USD', 1.00000000, 1, 2, 67, 3, NULL, 'offline-payments.cash.1', NULL, 0, 0, '2020-06-02 07:02:29', '2020-06-02 07:02:29', NULL),
+(5, 1, 'income', '2020-06-03 00:00:00', 51.0000, 'USD', 1.00000000, 1, 3, 67, 2, NULL, 'offline-payments.cash.1', NULL, 0, 0, '2020-06-02 23:49:16', '2020-06-02 23:49:16', NULL),
+(6, 1, 'income', '2020-06-04 00:00:00', 30.6000, 'USD', 1.00000000, 1, 4, 67, 6, NULL, 'offline-payments.cash.1', NULL, 0, 1, '2020-06-04 01:28:35', '2020-06-07 09:11:49', NULL),
+(7, 1, 'income', '2020-06-07 00:00:00', 116.2800, 'USD', 1.00000000, 1, 5, 68, 2, NULL, 'offline-payments.cash.1', NULL, 0, 0, '2020-06-07 09:13:31', '2020-06-07 09:13:31', NULL),
+(8, 1, 'income', '2020-06-08 00:00:00', 145.3500, 'USD', 1.00000000, 1, 6, 68, 3, NULL, 'offline-payments.cash.1', NULL, 0, 0, '2020-06-08 01:00:57', '2020-06-08 01:00:57', NULL),
+(9, 1, 'expense', '2020-06-08 00:00:00', 122.4000, 'USD', 1.00000000, 1, 2, 66, 7, NULL, 'offline-payments.cash.1', NULL, 0, 0, '2020-06-08 10:54:33', '2020-06-08 10:54:33', NULL),
+(10, 1, 'expense', '2020-06-14 08:01:40', 80.0000, 'BDT', 0.00000000, 2, NULL, NULL, 4, 'Electricity Bill', 'offline-payments.bank_transfer.2', 'Bill', 0, 0, '2020-06-14 02:01:40', '2020-06-14 02:01:40', NULL);
 
 -- --------------------------------------------------------
 
@@ -1352,7 +1708,7 @@ CREATE TABLE `iqj_users` (
   `last_logged_in_at` timestamp NULL DEFAULT NULL,
   `locale` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'en-GB',
   `landing_page` varchar(70) COLLATE utf8mb4_unicode_ci DEFAULT 'dashboard',
-  `enabled` tinyint(1) NOT NULL DEFAULT '1',
+  `enabled` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -1363,7 +1719,7 @@ CREATE TABLE `iqj_users` (
 --
 
 INSERT INTO `iqj_users` (`id`, `name`, `email`, `password`, `remember_token`, `last_logged_in_at`, `locale`, `landing_page`, `enabled`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, '', 'admin@email.com', '$2y$10$yb61ROaEJcpNstw1Rh680Oi3lovMorfNRUyFPFsbW4Q0NAxlTbRcO', 'TcMWPjRmNN6nj0324J8PrH9TX8k2xbD6LfAQIZSVdjhLEDFaikZjDVetqHyJ', '2020-05-13 05:05:25', 'en-GB', 'dashboard', 1, '2020-05-13 04:30:02', '2020-05-13 05:05:25', NULL);
+(1, '', 'admin@email.com', '$2y$10$yb61ROaEJcpNstw1Rh680Oi3lovMorfNRUyFPFsbW4Q0NAxlTbRcO', 'dafqFVQ7ebDX4daU3kvGhhaPpAXQoD5artiktj0Bf0nV8SkiFlDMJT845tw8', '2020-06-23 01:39:15', 'en-GB', 'dashboard', 1, '2020-05-13 04:30:02', '2020-06-23 01:39:15', NULL);
 
 -- --------------------------------------------------------
 
@@ -1446,8 +1802,8 @@ CREATE TABLE `iqj_widgets` (
   `dashboard_id` int(11) NOT NULL,
   `class` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `sort` int(11) NOT NULL DEFAULT '0',
-  `settings` text COLLATE utf8mb4_unicode_ci,
+  `sort` int(11) NOT NULL DEFAULT 0,
+  `settings` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -1458,15 +1814,16 @@ CREATE TABLE `iqj_widgets` (
 --
 
 INSERT INTO `iqj_widgets` (`id`, `company_id`, `dashboard_id`, `class`, `name`, `sort`, `settings`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 1, 1, 'App\\Widgets\\TotalIncome', 'Total Income', 1, '{\"width\":\"col-md-4\"}', '2020-05-13 04:30:02', '2020-05-13 04:30:02', NULL),
-(2, 1, 1, 'App\\Widgets\\TotalExpenses', 'Total Expenses', 2, '{\"width\":\"col-md-4\"}', '2020-05-13 04:30:02', '2020-05-13 04:30:02', NULL),
-(3, 1, 1, 'App\\Widgets\\TotalProfit', 'Total Profit', 3, '{\"width\":\"col-md-4\"}', '2020-05-13 04:30:03', '2020-05-13 04:30:03', NULL),
-(4, 1, 1, 'App\\Widgets\\CashFlow', 'Cash Flow', 4, '{\"width\":\"col-md-12\"}', '2020-05-13 04:30:03', '2020-05-13 04:30:03', NULL),
-(5, 1, 1, 'App\\Widgets\\IncomeByCategory', 'Income By Category', 5, '{\"width\":\"col-md-6\"}', '2020-05-13 04:30:03', '2020-05-13 04:30:03', NULL),
+(1, 1, 1, 'App\\Widgets\\TotalIncome', 'Total Income', 1, '{\"width\":\"col-md-3\"}', '2020-05-13 04:30:02', '2020-05-31 00:06:26', NULL),
+(2, 1, 1, 'App\\Widgets\\TotalExpenses', 'Total Expenses', 2, '{\"width\":\"col-md-3\"}', '2020-05-13 04:30:02', '2020-05-31 00:06:40', NULL),
+(3, 1, 1, 'App\\Widgets\\TotalProfit', 'Total Profit', 3, '{\"width\":\"col-md-3\"}', '2020-05-13 04:30:03', '2020-05-31 00:06:49', NULL),
+(4, 1, 1, 'App\\Widgets\\CashFlow', 'Cash Flow', 4, '{\"width\":\"col-md-12\"}', '2020-05-13 04:30:03', '2020-05-30 11:31:48', NULL),
+(5, 1, 1, 'App\\Widgets\\IncomeByCategory', 'Income By Category', 5, '{\"width\":\"col-md-6\"}', '2020-05-13 04:30:03', '2020-06-03 07:32:38', NULL),
 (6, 1, 1, 'App\\Widgets\\ExpensesByCategory', 'Expenses By Category', 6, '{\"width\":\"col-md-6\"}', '2020-05-13 04:30:03', '2020-05-13 04:30:03', NULL),
 (7, 1, 1, 'App\\Widgets\\AccountBalance', 'Account Balance', 7, '{\"width\":\"col-md-4\"}', '2020-05-13 04:30:03', '2020-05-13 04:30:03', NULL),
 (8, 1, 1, 'App\\Widgets\\LatestIncome', 'Latest Income', 8, '{\"width\":\"col-md-4\"}', '2020-05-13 04:30:03', '2020-05-13 04:30:03', NULL),
-(9, 1, 1, 'App\\Widgets\\LatestExpenses', 'Latest Expenses', 9, '{\"width\":\"col-md-4\"}', '2020-05-13 04:30:03', '2020-05-13 04:30:03', NULL);
+(9, 1, 1, 'App\\Widgets\\LatestExpenses', 'Latest Expenses', 9, '{\"width\":\"col-md-4\"}', '2020-05-13 04:30:03', '2020-05-13 04:30:03', NULL),
+(10, 1, 1, 'App\\Widgets\\TotalIncome', 'Total Purchases', 3, '{\"width\":\"col-md-3\"}', '2020-05-31 00:05:10', '2020-05-31 00:05:51', NULL);
 
 --
 -- Indexes for dumped tables
@@ -1516,11 +1873,29 @@ ALTER TABLE `iqj_bill_totals`
   ADD KEY `iqj_bill_totals_company_id_index` (`company_id`);
 
 --
+-- Indexes for table `iqj_business`
+--
+ALTER TABLE `iqj_business`
+  ADD PRIMARY KEY (`business_id`);
+
+--
+-- Indexes for table `iqj_business_account`
+--
+ALTER TABLE `iqj_business_account`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `iqj_categories`
 --
 ALTER TABLE `iqj_categories`
   ADD PRIMARY KEY (`id`),
   ADD KEY `iqj_categories_company_id_index` (`company_id`);
+
+--
+-- Indexes for table `iqj_chart_of_accounts`
+--
+ALTER TABLE `iqj_chart_of_accounts`
+  ADD PRIMARY KEY (`account_id`);
 
 --
 -- Indexes for table `iqj_companies`
@@ -1808,43 +2183,61 @@ ALTER TABLE `iqj_widgets`
 -- AUTO_INCREMENT for table `iqj_accounts`
 --
 ALTER TABLE `iqj_accounts`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `iqj_bills`
 --
 ALTER TABLE `iqj_bills`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `iqj_bill_histories`
 --
 ALTER TABLE `iqj_bill_histories`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `iqj_bill_items`
 --
 ALTER TABLE `iqj_bill_items`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `iqj_bill_item_taxes`
 --
 ALTER TABLE `iqj_bill_item_taxes`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `iqj_bill_totals`
 --
 ALTER TABLE `iqj_bill_totals`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `iqj_business`
+--
+ALTER TABLE `iqj_business`
+  MODIFY `business_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `iqj_business_account`
+--
+ALTER TABLE `iqj_business_account`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `iqj_categories`
 --
 ALTER TABLE `iqj_categories`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `iqj_chart_of_accounts`
+--
+ALTER TABLE `iqj_chart_of_accounts`
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `iqj_companies`
@@ -1856,13 +2249,13 @@ ALTER TABLE `iqj_companies`
 -- AUTO_INCREMENT for table `iqj_contacts`
 --
 ALTER TABLE `iqj_contacts`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT for table `iqj_currencies`
 --
 ALTER TABLE `iqj_currencies`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `iqj_dashboards`
@@ -1892,43 +2285,43 @@ ALTER TABLE `iqj_firewall_ips`
 -- AUTO_INCREMENT for table `iqj_firewall_logs`
 --
 ALTER TABLE `iqj_firewall_logs`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `iqj_invoices`
 --
 ALTER TABLE `iqj_invoices`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `iqj_invoice_histories`
 --
 ALTER TABLE `iqj_invoice_histories`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `iqj_invoice_items`
 --
 ALTER TABLE `iqj_invoice_items`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `iqj_invoice_item_taxes`
 --
 ALTER TABLE `iqj_invoice_item_taxes`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `iqj_invoice_totals`
 --
 ALTER TABLE `iqj_invoice_totals`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `iqj_items`
 --
 ALTER TABLE `iqj_items`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `iqj_jobs`
@@ -1970,13 +2363,13 @@ ALTER TABLE `iqj_permissions`
 -- AUTO_INCREMENT for table `iqj_reconciliations`
 --
 ALTER TABLE `iqj_reconciliations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `iqj_recurring`
 --
 ALTER TABLE `iqj_recurring`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `iqj_reports`
@@ -1994,19 +2387,19 @@ ALTER TABLE `iqj_roles`
 -- AUTO_INCREMENT for table `iqj_settings`
 --
 ALTER TABLE `iqj_settings`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `iqj_taxes`
 --
 ALTER TABLE `iqj_taxes`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `iqj_transactions`
 --
 ALTER TABLE `iqj_transactions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `iqj_transfers`
@@ -2024,7 +2417,7 @@ ALTER TABLE `iqj_users`
 -- AUTO_INCREMENT for table `iqj_widgets`
 --
 ALTER TABLE `iqj_widgets`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Constraints for dumped tables

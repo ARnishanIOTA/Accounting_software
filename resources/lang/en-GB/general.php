@@ -3,6 +3,8 @@
 return [
 
     'dashboards'            => 'Dashboard|Dashboards',
+    'liability'             => 'Liability|Liabilities',
+    'equity'                => 'Equity|Equities',
     'items'                 => 'Item|Items',
     'incomes'               => 'Income|Incomes',
     'invoices'              => 'Invoice|Invoices',

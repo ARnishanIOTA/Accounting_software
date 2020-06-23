@@ -73,9 +73,13 @@
     .row {
 
         margin: 20px;
-        padding: 0 20px 0 20px;
+        padding: 20px 20px 20px 20px;
         border: 1px solid black;
         border-radius: 10px;
+        width: 80%;
+     
+      
+        
 
     }
 
@@ -92,7 +96,7 @@
 @stack('head_css_end')
 @section('content')
 
-    <h2>&nbsp &nbsp Reports</h2>
+  <div>
 
     <div class="row">
         <div class="column1">
@@ -280,6 +284,7 @@
 
         </div>
     </div>
+</div> 
 
 {{--    <div class="row mb-4">--}}
 {{--        @foreach($categories as $name => $reports)--}}
