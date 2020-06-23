@@ -148,6 +148,9 @@ Route::group(['prefix' => 'settings'], function () {
     Route::get('categories/{category}/enable', 'Settings\Categories@enable')->name('categories.enable');
     Route::get('categories/{category}/disable', 'Settings\Categories@disable')->name('categories.disable');
     Route::resource('categories', 'Settings\Categories');
+    // Route::get('categories/fetch/{id}', 'Settings\Categories@fetch')->name('categories.fetch');
+    // Route::get('categories/fetchType/{type}', 'Settings\Categories@fetchType')->name('categories.fetchType');
+    Route::post('categories/addCategory', 'Settings\AddCategory@addCategory')->name('categories.addCategory');
 
     Route::get('currencies/currency', 'Settings\Currencies@currency');
     Route::get('currencies/config', 'Settings\Currencies@config');

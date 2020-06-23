@@ -16,15 +16,15 @@
         ]) !!}
 
             <div class="card-body">
-                <div class="row">
+                <!-- <div class="row"> -->
                     {{ Form::textGroup('name', trans('general.name'), 'font') }}
 
                     {{ Form::selectGroup('type', trans_choice('general.types', 1), 'bars', $types, config('general.types')) }}
 
                     @stack('color_input_start')
-                        <div class="form-group col-md-6 required {{ $errors->has('color') ? 'has-error' : ''}}">
+                        <div class="form-group col-md-6 required {{ $errors->has('color') ? 'has-error' : ''}}" style="display:none" >
                             {!! Form::label('color', trans('general.color'), ['class' => 'form-control-label']) !!}
-                            <div class="input-group input-group-merge" id="category-color-picker">
+                            <div class="input-group input-group-merge" id="category-color-picker" style="display:none">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">
                                         <el-color-picker v-model="color" size="mini" :predefine="predefineColors" @change="onChangeColor"></el-color-picker>
@@ -37,13 +37,13 @@
                     @stack('color_input_end')
 
                     {{ Form::radioGroup('enabled', trans('general.enabled'), true) }}
-                </div>
+                <!-- </div> -->
             </div>
 
             <div class="card-footer">
-                <div class="row save-buttons">
+                <!-- <div class="row save-buttons"> -->
                     {{ Form::saveButtons('categories.index') }}
-                </div>
+                <!-- </div> -->
             </div>
         {!! Form::close() !!}
     </div>
