@@ -10552,6 +10552,9 @@
 .el-steps--horizontal {
     white-space: nowrap
 }
+.bold{
+    font-family: Averta-Bold;
+}
 
 .el-steps--vertical {
     height: 100%;

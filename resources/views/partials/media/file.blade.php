@@ -9,7 +9,7 @@
                 @if ($file->aggregate_type != 'image')
                     <i class="fas fa-file-image display-3"></i>
                 @else
-                    <a href="#" class="avatar">
+                    <a href="{{ url('uploads/' . $file->id) }}" alt="{{ $file->basename }}" target="_blank" class="avatar">
                         <img src="{{ url('uploads/' . $file->id) }}" alt="{{ $file->basename }}">
                     </a>
                 @endif

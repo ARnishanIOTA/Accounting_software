@@ -5,7 +5,7 @@ return [
     'dashboards'            => 'Dashboard|Dashboards',
     'liability'             => 'Liability|Liabilities',
     'equity'                => 'Equity|Equities',
-    'items'                 => 'Item|Items',
+    'items'                 => 'Product & Service|Products & Services',
     'incomes'               => 'Income|Incomes',
     'invoices'              => 'Invoice|Invoices',
     'revenues'              => 'Revenue|Revenues',

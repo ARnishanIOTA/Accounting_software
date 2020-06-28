@@ -6,25 +6,17 @@
 @permission('create-settings-categories')
 
     @section('new_button')
-    
+        <button type="button" class="btn btn-success btn-sm btn-alone" data-toggle="modal" data-target="#exampleModal">Select Business Type
+        </button>
+
         <span><a href="{{ route('categories.create') }}" class="btn btn-success btn-sm btn-alone"><span class="fa fa-plus"></span> &nbsp;{{ trans('general.add_new') }}</a></span>
     @endsection
 @endpermission
 
-
-
 <style>
 
-* {box-sizing: border-box}
 
-body, html {
-  height: 100%;
-  margin: 0;
-  font-family: Georgia;
-  
-}
-
-    .tablink {
+.tablink {
   background-color: white;
   color: #777;
   float: left;
@@ -33,52 +25,57 @@ body, html {
   cursor: pointer;
   padding: 14px 16px;
   font-size: 17px;
-  width: 20%;
+  width: 18%;
   font-weight: bold;
+    margin-left: 1%;
+    margin-right: 1%;
 }
 
 .tablink:hover {
-  border-bottom: 3px solid #136acd;
+  border-bottom: 5px solid #D4DDE3;
   color: black;
-}
-
-.tablink:active {
-  border-bottom: 3px solid #136acd;
 }
 
 /* Style the tab content (and add height:100% for full page content) */
 .tabcontent {
   color: black;
-  
-  padding: 50px 50px;
   height: 100%;
   width: 100%;
 }
-
+.el-select{
+    width: 100%;
+}
+.active{
+    border-bottom: 5px solid #136acd;
+}
+.active:hover{
+    border-bottom: 5px solid #136acd;
+}
+.add-margin-tablink{
+    margin-bottom: -32px;
+}
 
 #Assets {background-color: white;}
 #Liabilities{background-color: white;}
 #Income {background-color: white;}
 #Expenses {background-color: white;}
 #Equity {background-color: white;}
-</style>    
+</style>
 
 
 
  @section('content')
-    
+
  <div>
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-  Add New Account
-</button>
+
 </div>
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Add an Account</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Select business type</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -100,7 +97,7 @@ body, html {
     </select>
   </div>
 
-  
+
 
 
   <!-- {{ csrf_field() }} -->
@@ -135,8 +132,8 @@ body, html {
                 {{ Form::bulkActionRowGroup('general.categories', $bulk_actions, ['group' => 'settings', 'type' => 'categories']) }}
             {!! Form::close() !!}
         </div>
-<div>
-<button class="tablink" onclick="openPage('Assets', this, 'white')" id="defaultOpen">Assets</button>
+<div class="add-margin-tablink">
+<button class="tablink active" onclick="openPage('Assets', this, 'white')" id="defaultOpen">Assets</button>
 <button class="tablink" onclick="openPage('Liabilities', this, 'white')">Liabilities</button>
 <button class="tablink" onclick="openPage('Income', this, 'white')">Income</button>
 <button class="tablink" onclick="openPage('Expenses', this, 'white')">Expenses</button>
@@ -145,26 +142,29 @@ body, html {
 <hr>
 
 
+
         <div class="tabcontent" id="Assets">
+
             <table class="table table-flush table-hover">
                 <thead class="thead-light">
                     <tr class="row table-head-line">
                         <th class="col-sm-2 col-md-2 col-lg-1 d-none d-sm-block">{{ Form::bulkActionAllGroup() }}</th>
-                        <th class="col-xs-4 col-sm-3 col-md-2 col-lg-4">@sortablelink('name', trans('general.name'), ['filter' => 'active, visible'], ['class' => 'col-aka', 'rel' => 'nofollow'])</th>
+                        <th class="col-xs-4 col-sm-3 col-md-2 col-lg-3">@sortablelink('name', trans('general.name'), ['filter' => 'active, visible'], ['class' => 'col-aka', 'rel' => 'nofollow'])</th>
                         <th class="col-sm-2 col-md-2 col-lg-2 d-none d-sm-block">@sortablelink('type', trans_choice('general.types', 1))</th>
                         <th class="col-md-2  col-lg-2 d-none d-md-block">{{ trans('general.color') }}</th>
                         <th class="col-xs-4 col-sm-3 col-md-2 col-lg-2">@sortablelink('enabled', trans('general.enabled'))</th>
-                        <th class="col-xs-4 col-sm-2 col-md-2 col-lg-1 text-center">{{ trans('general.actions') }}</th>
+                        <th class="col-xs-4 col-sm-2 col-md-2 col-lg-2 text-center">{{ trans('general.actions') }}</th>
                     </tr>
                 </thead>
 
                 <tbody>
+                    @if(count($categories) != 0)
                     @foreach($categories as $item)
                         <tr class="row align-items-center border-top-1">
                             <td class="col-sm-2 col-md-2 col-lg-1 d-none d-sm-block">
                                 {{ Form::bulkActionGroup($item->id, $item->name) }}
                             </td>
-                            <td class="col-xs-4 col-sm-3 col-md-2 col-lg-4"><a class="col-aka" href="{{ route('categories.edit',  $item->id) }}">{{ $item->name }}</a></td>
+                            <td class="col-xs-4 col-sm-3 col-md-2 col-lg-3"><a class="col-aka" href="{{ route('categories.edit',  $item->id) }}">{{ $item->name }}</a></td>
                             <td class="col-sm-2 col-md-2 col-lg-2 d-none d-sm-block">{{ $types[$item->type] }}</td>
                             <td class="col-md-2  col-lg-2 d-none d-md-block"><i class="fa fa-2x fa-circle" style="color:{{ $item->color }};"></i></td>
                             <td class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
@@ -178,7 +178,7 @@ body, html {
                                     @endif
                                 @endif
                             </td>
-                            <td class="col-xs-4 col-sm-2 col-md-2 col-lg-1 text-center">
+                            <td class="col-xs-4 col-sm-2 col-md-2 col-lg-2 text-center">
                                 <div class="dropdown">
                                     <a class="btn btn-neutral btn-sm text-light items-align-center py-2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-ellipsis-h text-muted"></i>
@@ -196,10 +196,16 @@ body, html {
                             </td>
                         </tr>
                     @endforeach
+                    @else
+                        <tr>
+                            <td colspan="6"><div id="datatable-basic_info" role="status" aria-live="polite" class="text-muted text-center bold nr-py">
+                                    No records.
+                                </div></td>
+                        </tr>
+                    @endif
                 </tbody>
             </table>
 
-            
             <!-- <div class="card-footer table-action">
             <div class="row">
             {{--    @include('partials.admin.pagination', ['items' => $categories])--}}
@@ -207,30 +213,32 @@ body, html {
         </div> -->
         </div>
 
-        
- 
 
-    
+
+
+
     <div class="tabcontent" id="Liabilities" style="display:none">
+
             <table class="table table-flush table-hover">
                 <thead class="thead-light">
                     <tr class="row table-head-line">
                         <th class="col-sm-2 col-md-2 col-lg-1 d-none d-sm-block">{{ Form::bulkActionAllGroup() }}</th>
-                        <th class="col-xs-4 col-sm-3 col-md-2 col-lg-4">@sortablelink('name', trans('general.name'), ['filter' => 'active, visible'], ['class' => 'col-aka', 'rel' => 'nofollow'])</th>
+                        <th class="col-xs-4 col-sm-3 col-md-2 col-lg-3">@sortablelink('name', trans('general.name'), ['filter' => 'active, visible'], ['class' => 'col-aka', 'rel' => 'nofollow'])</th>
                         <th class="col-sm-2 col-md-2 col-lg-2 d-none d-sm-block">@sortablelink('type', trans_choice('general.types', 1))</th>
                         <th class="col-md-2  col-lg-2 d-none d-md-block">{{ trans('general.color') }}</th>
                         <th class="col-xs-4 col-sm-3 col-md-2 col-lg-2">@sortablelink('enabled', trans('general.enabled'))</th>
-                        <th class="col-xs-4 col-sm-2 col-md-2 col-lg-1 text-center">{{ trans('general.actions') }}</th>
+                        <th class="col-xs-4 col-sm-2 col-md-2 col-lg-2 text-center">{{ trans('general.actions') }}</th>
                     </tr>
                 </thead>
 
                 <tbody>
+                    @if(count($categories2) != 0)
                     @foreach($categories2 as $item)
                         <tr class="row align-items-center border-top-1">
                             <td class="col-sm-2 col-md-2 col-lg-1 d-none d-sm-block">
                                 {{ Form::bulkActionGroup($item->id, $item->name) }}
                             </td>
-                            <td class="col-xs-4 col-sm-3 col-md-2 col-lg-4"><a class="col-aka" href="{{ route('categories.edit',  $item->id) }}">{{ $item->name }}</a></td>
+                            <td class="col-xs-4 col-sm-3 col-md-2 col-lg-3"><a class="col-aka" href="{{ route('categories.edit',  $item->id) }}">{{ $item->name }}</a></td>
                             <td class="col-sm-2 col-md-2 col-lg-2 d-none d-sm-block">{{ $types[$item->type] }}</td>
                             <td class="col-md-2  col-lg-2 d-none d-md-block"><i class="fa fa-2x fa-circle" style="color:{{ $item->color }};"></i></td>
                             <td class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
@@ -244,7 +252,7 @@ body, html {
                                     @endif
                                 @endif
                             </td>
-                            <td class="col-xs-4 col-sm-2 col-md-2 col-lg-1 text-center">
+                            <td class="col-xs-4 col-sm-2 col-md-2 col-lg-2 text-center">
                                 <div class="dropdown">
                                     <a class="btn btn-neutral btn-sm text-light items-align-center py-2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-ellipsis-h text-muted"></i>
@@ -262,8 +270,16 @@ body, html {
                             </td>
                         </tr>
                     @endforeach
+                    @else
+                        <tr>
+                            <td colspan="6"><div id="datatable-basic_info" role="status" aria-live="polite" class="text-muted nr-py text-center bold">
+                                    No records.
+                                </div></td>
+                        </tr>
+                    @endif
                 </tbody>
             </table>
+
             <!-- <div class="card-footer table-action">
             <div class="row">
             {{--    @include('partials.admin.pagination', ['items' => $categories])--}}
@@ -271,30 +287,32 @@ body, html {
         </div> -->
         </div>
 
-       
-  
 
-    
+
+
+
     <div class="tabcontent" id="Income" style="display:none">
+
             <table class="table table-flush table-hover">
                 <thead class="thead-light">
                     <tr class="row table-head-line">
                         <th class="col-sm-2 col-md-2 col-lg-1 d-none d-sm-block">{{ Form::bulkActionAllGroup() }}</th>
-                        <th class="col-xs-4 col-sm-3 col-md-2 col-lg-4">@sortablelink('name', trans('general.name'), ['filter' => 'active, visible'], ['class' => 'col-aka', 'rel' => 'nofollow'])</th>
+                        <th class="col-xs-4 col-sm-3 col-md-2 col-lg-3">@sortablelink('name', trans('general.name'), ['filter' => 'active, visible'], ['class' => 'col-aka', 'rel' => 'nofollow'])</th>
                         <th class="col-sm-2 col-md-2 col-lg-2 d-none d-sm-block">@sortablelink('type', trans_choice('general.types', 1))</th>
                         <th class="col-md-2  col-lg-2 d-none d-md-block">{{ trans('general.color') }}</th>
                         <th class="col-xs-4 col-sm-3 col-md-2 col-lg-2">@sortablelink('enabled', trans('general.enabled'))</th>
-                        <th class="col-xs-4 col-sm-2 col-md-2 col-lg-1 text-center">{{ trans('general.actions') }}</th>
+                        <th class="col-xs-4 col-sm-2 col-md-2 col-lg-2 text-center">{{ trans('general.actions') }}</th>
                     </tr>
                 </thead>
 
                 <tbody>
+                    @if(count($categories3) != 0)
                     @foreach($categories3 as $item)
                         <tr class="row align-items-center border-top-1">
                             <td class="col-sm-2 col-md-2 col-lg-1 d-none d-sm-block">
                                 {{ Form::bulkActionGroup($item->id, $item->name) }}
                             </td>
-                            <td class="col-xs-4 col-sm-3 col-md-2 col-lg-4"><a class="col-aka" href="{{ route('categories.edit',  $item->id) }}">{{ $item->name }}</a></td>
+                            <td class="col-xs-4 col-sm-3 col-md-2 col-lg-3"><a class="col-aka" href="{{ route('categories.edit',  $item->id) }}">{{ $item->name }}</a></td>
                             <td class="col-sm-2 col-md-2 col-lg-2 d-none d-sm-block">{{ $types[$item->type] }}</td>
                             <td class="col-md-2  col-lg-2 d-none d-md-block"><i class="fa fa-2x fa-circle" style="color:{{ $item->color }};"></i></td>
                             <td class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
@@ -308,7 +326,7 @@ body, html {
                                     @endif
                                 @endif
                             </td>
-                            <td class="col-xs-4 col-sm-2 col-md-2 col-lg-1 text-center">
+                            <td class="col-xs-4 col-sm-2 col-md-2 col-lg-2 text-center">
                                 <div class="dropdown">
                                     <a class="btn btn-neutral btn-sm text-light items-align-center py-2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-ellipsis-h text-muted"></i>
@@ -326,6 +344,13 @@ body, html {
                             </td>
                         </tr>
                     @endforeach
+                    @else
+                        <tr>
+                            <td colspan="6"><div id="datatable-basic_info" role="status" aria-live="polite" class="text-muted nr-py text-center bold">
+                                    No records.
+                                </div></td>
+                        </tr>
+                    @endif
                 </tbody>
             </table>
             <!-- <div class="card-footer table-action">
@@ -335,30 +360,31 @@ body, html {
         </div> -->
         </div>
 
-        
-   
 
-    
+
+
+
     <div class="tabcontent" id="Expenses" style="display:none">
             <table class="table table-flush table-hover">
                 <thead class="thead-light">
                     <tr class="row table-head-line">
                         <th class="col-sm-2 col-md-2 col-lg-1 d-none d-sm-block">{{ Form::bulkActionAllGroup() }}</th>
-                        <th class="col-xs-4 col-sm-3 col-md-2 col-lg-4">@sortablelink('name', trans('general.name'), ['filter' => 'active, visible'], ['class' => 'col-aka', 'rel' => 'nofollow'])</th>
+                        <th class="col-xs-4 col-sm-3 col-md-2 col-lg-3">@sortablelink('name', trans('general.name'), ['filter' => 'active, visible'], ['class' => 'col-aka', 'rel' => 'nofollow'])</th>
                         <th class="col-sm-2 col-md-2 col-lg-2 d-none d-sm-block">@sortablelink('type', trans_choice('general.types', 1))</th>
                         <th class="col-md-2  col-lg-2 d-none d-md-block">{{ trans('general.color') }}</th>
                         <th class="col-xs-4 col-sm-3 col-md-2 col-lg-2">@sortablelink('enabled', trans('general.enabled'))</th>
-                        <th class="col-xs-4 col-sm-2 col-md-2 col-lg-1 text-center">{{ trans('general.actions') }}</th>
+                        <th class="col-xs-4 col-sm-2 col-md-2 col-lg-2 text-center">{{ trans('general.actions') }}</th>
                     </tr>
                 </thead>
 
                 <tbody>
+                @if(count($categories1) != 0)
                     @foreach($categories1 as $item)
                         <tr class="row align-items-center border-top-1">
                             <td class="col-sm-2 col-md-2 col-lg-1 d-none d-sm-block">
                                 {{ Form::bulkActionGroup($item->id, $item->name) }}
                             </td>
-                            <td class="col-xs-4 col-sm-3 col-md-2 col-lg-4"><a class="col-aka" href="{{ route('categories.edit',  $item->id) }}">{{ $item->name }}</a></td>
+                            <td class="col-xs-4 col-sm-3 col-md-2 col-lg-3"><a class="col-aka" href="{{ route('categories.edit',  $item->id) }}">{{ $item->name }}</a></td>
                             <td class="col-sm-2 col-md-2 col-lg-2 d-none d-sm-block">{{ $types[$item->type] }}</td>
                             <td class="col-md-2  col-lg-2 d-none d-md-block"><i class="fa fa-2x fa-circle" style="color:{{ $item->color }};"></i></td>
                             <td class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
@@ -372,7 +398,7 @@ body, html {
                                     @endif
                                 @endif
                             </td>
-                            <td class="col-xs-4 col-sm-2 col-md-2 col-lg-1 text-center">
+                            <td class="col-xs-4 col-sm-2 col-md-2 col-lg-2 text-center">
                                 <div class="dropdown">
                                     <a class="btn btn-neutral btn-sm text-light items-align-center py-2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-ellipsis-h text-muted"></i>
@@ -390,8 +416,16 @@ body, html {
                             </td>
                         </tr>
                     @endforeach
+                @else
+                    <tr>
+                        <td colspan="6"><div id="datatable-basic_info" role="status" aria-live="polite" class="text-muted nr-py text-center bold">
+                                No records.
+                            </div></td>
+                    </tr>
+                @endif
                 </tbody>
             </table>
+
             <!-- <div class="card-footer table-action">
             <div class="row">
             {{--    @include('partials.admin.pagination', ['items' => $categories])--}}
@@ -399,29 +433,31 @@ body, html {
         </div> -->
         </div>
 
-      
-  
+
+
 
     <div class="tabcontent" id="Equity" style="display:none">
+
             <table class="table table-flush table-hover">
                 <thead class="thead-light">
                     <tr class="row table-head-line">
                         <th class="col-sm-2 col-md-2 col-lg-1 d-none d-sm-block">{{ Form::bulkActionAllGroup() }}</th>
-                        <th class="col-xs-4 col-sm-3 col-md-2 col-lg-4">@sortablelink('name', trans('general.name'), ['filter' => 'active, visible'], ['class' => 'col-aka', 'rel' => 'nofollow'])</th>
+                        <th class="col-xs-4 col-sm-3 col-md-2 col-lg-3">@sortablelink('name', trans('general.name'), ['filter' => 'active, visible'], ['class' => 'col-aka', 'rel' => 'nofollow'])</th>
                         <th class="col-sm-2 col-md-2 col-lg-2 d-none d-sm-block">@sortablelink('type', trans_choice('general.types', 1))</th>
                         <th class="col-md-2  col-lg-2 d-none d-md-block">{{ trans('general.color') }}</th>
                         <th class="col-xs-4 col-sm-3 col-md-2 col-lg-2">@sortablelink('enabled', trans('general.enabled'))</th>
-                        <th class="col-xs-4 col-sm-2 col-md-2 col-lg-1 text-center">{{ trans('general.actions') }}</th>
+                        <th class="col-xs-4 col-sm-2 col-md-2 col-lg-2 text-center">{{ trans('general.actions') }}</th>
                     </tr>
                 </thead>
 
                 <tbody>
+                     @if(count($categories4) != 0)
                     @foreach($categories4 as $item)
                         <tr class="row align-items-center border-top-1">
                             <td class="col-sm-2 col-md-2 col-lg-1 d-none d-sm-block">
                                 {{ Form::bulkActionGroup($item->id, $item->name) }}
                             </td>
-                            <td class="col-xs-4 col-sm-3 col-md-2 col-lg-4"><a class="col-aka" href="{{ route('categories.edit',  $item->id) }}">{{ $item->name }}</a></td>
+                            <td class="col-xs-4 col-sm-3 col-md-2 col-lg-3"><a class="col-aka" href="{{ route('categories.edit',  $item->id) }}">{{ $item->name }}</a></td>
                             <td class="col-sm-2 col-md-2 col-lg-2 d-none d-sm-block">{{ $types[$item->type] }}</td>
                             <td class="col-md-2  col-lg-2 d-none d-md-block"><i class="fa fa-2x fa-circle" style="color:{{ $item->color }};"></i></td>
                             <td class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
@@ -435,7 +471,7 @@ body, html {
                                     @endif
                                 @endif
                             </td>
-                            <td class="col-xs-4 col-sm-2 col-md-2 col-lg-1 text-center">
+                            <td class="col-xs-4 col-sm-2 col-md-2 col-lg-2 text-center">
                                 <div class="dropdown">
                                     <a class="btn btn-neutral btn-sm text-light items-align-center py-2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-ellipsis-h text-muted"></i>
@@ -453,6 +489,13 @@ body, html {
                             </td>
                         </tr>
                     @endforeach
+                    @else
+                        <tr>
+                            <td colspan="6"><div id="datatable-basic_info" role="status" aria-live="polite" class="text-muted nr-py text-center bold">
+                                    No records.
+                                </div></td>
+                        </tr>
+                    @endif
                 </tbody>
             </table>
             <!-- <div class="card-footer table-action">
@@ -462,7 +505,7 @@ body, html {
         </div> -->
         </div>
 
-        
+
     </div>
 @endsection
 <div>
@@ -477,6 +520,13 @@ body, html {
 
 <script>
 function openPage(pageName,elmnt,color) {
+    // Add Active Class By Nishan
+    let current = document.getElementsByClassName("active");
+    Array.from(current).forEach(b => {
+        b.className = b.className.replace(" active", "");
+    });
+    elmnt.className += " active";
+    // End Of Add Active Class By Nishan
   var i, tabcontent, tablinks;
   tabcontent = document.getElementsByClassName("tabcontent");
   for (i = 0; i < tabcontent.length; i++) {
@@ -507,7 +557,7 @@ $(document).on('change','#b_type',function(){
     var op=" ";
     var _token = $('input[name="_token"]').val();
     $.ajax({
-        
+
         type:'get',
         url:"http://localhost/Akaunting/settings/categories/fetch/"+business_id,
        // data:{'id':business_id,_token:_token},
@@ -524,7 +574,7 @@ $(document).on('change','#b_type',function(){
                 for(var i=0;i<data.length;i++){
                     $("#account_name").append('<option value="'+data[i].account_name+'">'+data[i].account_name+'</option>');
                 }
-           
+
             }else{
                $("#account_name").empty();
             }
@@ -541,42 +591,40 @@ $(document).on('change','#b_type',function(){
 $(document).ready(function(){
 
 $(document).on('change','#type',function(){
-     
-    var type=$(this).val();   
-    
+
+    var type=$(this).val();
+
         $.ajax({
             type:'get',
             url:"http://localhost/Akaunting/settings/categories/fetchType/"+type,
            success:function(data){
-               
+
                        if(data){
                 $("#account_name").empty();
                 $("#account_name").append('<option>-Select-</option>');
                 for(var i=0;i<data.length;i++){
                     $("#account_name").append('<option value="'+data[i].account_name+'">'+data[i].account_name+'</option>');
                 }
-           
+
             }else{
                $("#account_name").empty();
             }
-          
-    
+
+
            }
 
         });
-        
+
    });
 
 
 
 });
 
-    
 
 
-</script> 
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-   
+</script>
+
+
+
