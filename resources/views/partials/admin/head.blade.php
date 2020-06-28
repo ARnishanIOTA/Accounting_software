@@ -30,6 +30,16 @@
     <link rel="stylesheet" href="{{ asset('public/css/akaunting-color.css?v=' . version('short')) }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('public/css/custom.css?v=' . version('short')) }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('public/css/element.css?v=' . version('short')) }}" type="text/css">
+    
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" >
+    <link rel="stylesheet" type="text/css" href="{{ asset('public/css/daterangepicker.css?v=' . version('short')) }}" /> -->
+
+      <!-- js -->
+        <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" ></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" ></script>
+        <script type="text/javascript" src="{{ asset('public/js/report/moment.min.js?v=' . version('short')) }}"></script>
+        <script type="text/javascript" src="{{ asset('public/js/report/daterangepicker.js?v=' . version('short')) }}"></script> -->
 
 
     @stack('css')
@@ -46,6 +56,7 @@
     <script src="https://cdn.anychart.com/releases/v8/js/anychart-exports.min.js"></script>
     <link href="https://cdn.anychart.com/releases/v8/css/anychart-ui.min.css" type="text/css" rel="stylesheet">
     <link href="https://cdn.anychart.com/releases/v8/fonts/css/anychart-font.min.css" type="text/css" rel="stylesheet">
+    
     {{--  End  Any Chart js--}}
 
     @stack('js')
@@ -65,4 +76,5 @@
     @stack('head_end')
     @stack('head_css_start')
     @stack('head_css_end')
+    
 </head>

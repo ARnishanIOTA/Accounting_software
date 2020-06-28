@@ -139,4 +139,46 @@ class AddCategory extends Controller
 
        
     }
+
+
+    public function incomeCustomer()
+    {
+        
+        return view('reports.income_customer');
+       
+       
+    }
+
+    public function purchaseVendor()
+    {
+        
+        return view('reports.purchase_vendor');
+       
+       
+    }
+
+    public function salesTax()
+    {
+        
+        return view('reports.sales_tax');
+       
+       
+    }
+
+    public function accountBalance()
+    {
+        
+        return view('reports.account_balance');
+       
+       
+    }
+
+    public function profitLoss()
+    {
+        
+        return view('reports.profit_loss');
+       
+       
+    }
+
 }

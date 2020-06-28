@@ -50,6 +50,9 @@ Route::group(['prefix' => 'common'], function () {
     Route::get('reports/clear', 'Common\Reports@clear')->name('reports.clear');
     Route::get('reports/fields', 'Common\Reports@fields')->name('reports.fields');
     Route::resource('reports', 'Common\Reports');
+    Route::get('reports/income_customer', 'Settings\AddCategory@incomeCustomer')->name('reports.income_customer');
+    
+   
 
     // Route Create By Nishan
     Route::post('report/nishan', 'Pos\PosController@nishan')->name('report.nishan');
