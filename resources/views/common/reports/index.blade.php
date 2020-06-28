@@ -19,7 +19,7 @@
         float: left;
         width: 47%;
         padding: 10px;
-        height: 420px; /* Should be removed. Only for demonstration */
+        height: 550px; /* Should be removed. Only for demonstration */
 
     }
 
@@ -63,20 +63,21 @@
     }
 
     /* Clear floats after the columns */
-    .row:after {
+    .row1:after {
 
         content: "";
         display: table;
         clear: both;
     }
 
-    .row {
+    .row1 {
 
-        margin: 20px;
+        margin: 5px;
         padding: 20px 20px 20px 20px;
         border: 1px solid black;
         border-radius: 10px;
-        width: 80%;
+        width: 100%;
+       margin-top: 25px;
      
       
         
@@ -85,12 +86,12 @@
 
 
 
-    a:-webkit-any-link {
+    /* a:-webkit-any-link {
         color: #136acd;
         cursor: pointer;
         text-decoration: none;
         font-weight: normal;
-    }
+    } */
 
 </style>
 @stack('head_css_end')
@@ -98,7 +99,7 @@
 
   <div>
 
-    <div class="row">
+    <div class="row1">
         <div class="column1">
             <h1>Get the big picture</h1>
             <p style="color:black;font-size:18px;">How much profit are you making? Are your assets growing faster than your liabilities? Is cash flowing, or getting stuck?</p>
@@ -106,7 +107,7 @@
         <div class="column2" >
             <div>
                 <h2>
-                    <a href="file:///C:/Users/USER/Desktop/profit.html">
+                    <a href="{{ route('reports.profit_loss') }}">
                         Profit & Loss (Income Statement)
                     </a>
                 </h2>
@@ -140,7 +141,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row1">
         <div class="column3">
             <h1>Stay on top of taxes</h1>
             <p style="color:black;font-size:18px;">Find out how much tax you’ve collected and how much tax you owe back to tax agencies.</p>
@@ -148,7 +149,7 @@
         <div class="column4" >
             <div>
                 <h2>
-                    <a href="file:///C:/Users/USER/Desktop/sales.html">
+                    <a href="{{ route('reports.sales_tax') }}">
                         Sales Tax
                     </a>
                 </h2>
@@ -163,7 +164,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row1">
         <div class="column5">
             <h1>Focus on customers</h1>
             <p style="color:black;font-size:18px;">Find out how much tax you’ve collected and how much tax you owe back to tax agencies.</p>
@@ -171,7 +172,7 @@
         <div class="column6" >
             <div>
                 <h2>
-                    <a href="file:///C:/Users/USER/Desktop/income.html">
+                    <a href="{{ route('reports.income_customer') }}">
 
                         Income by Customer
 
@@ -199,7 +200,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row1">
         <div class="column5">
             <h1>Focus on vendors</h1>
             <p style="color:black;font-size:18px;">Understand business spending, where you spend, and how much you owe to your vendors.</p>
@@ -207,7 +208,7 @@
         <div class="column6" >
             <div>
                 <h2>
-                    <a href="file:///C:/Users/USER/Desktop/vendor.html">
+                    <a href="{{ route('reports.purchase_vendor') }}">
 
                         Purchases by Vendor
 
@@ -237,7 +238,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row1">
         <div class="column1">
             <h1>Dig deeper</h1>
             <p style="color:black;font-size:18px;">Drill into the detail of financial transactions over the life of your company.</p>
@@ -245,7 +246,7 @@
         <div class="column2" >
             <div>
                 <h2>
-                    <a href="file:///C:/Users/USER/Desktop/acconut.html">
+                    <a href="{{ route('reports.account_balance') }}">
 
                         Account Balances
 
