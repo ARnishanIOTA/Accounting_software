@@ -395,24 +395,49 @@ class Reports extends Controller
         return $report;
     }
 
-    public function salesTaxReport($startDate,$endDate){
-        $invoice_item_taxes = DB::table('invoice_item_taxes')
-            ->Join('invoice_items', 'invoice_item_taxes.invoice_item_id', '=', 'invoice_items.id')
-            ->select('invoice_item_taxes.tax_id','invoice_item_taxes.name','invoice_item_taxes.amount as taxAmount', 'invoice_items.price' )
-            ->where('invoice_item_taxes.company_id', '=', $this->companyId())
-            ->where('invoice_item_taxes.deleted_at', '=', null)
-            ->whereBetween('invoice_item_taxes.created_at', array($startDate, $endDate))
-            ->get();
+    public function salesTaxReport($startDate,$endDate, $reportType){
+        if($reportType == 2) {
+            $invoice_item_taxes = DB::table('invoice_item_taxes')
+                ->Join('invoice_items', 'invoice_item_taxes.invoice_item_id', '=', 'invoice_items.id')
+                ->Join('invoices', 'invoice_item_taxes.invoice_id', '=', 'invoices.id')
+                ->select('invoice_item_taxes.tax_id', 'invoice_item_taxes.name', 'invoice_item_taxes.amount as taxAmount', 'invoice_items.price')
+                ->where('invoice_item_taxes.company_id', '=', $this->companyId())
+                ->where('invoice_item_taxes.deleted_at', '=', null)
+                ->where('invoices.status', '=', 'paid')
+                ->whereBetween('invoice_item_taxes.created_at', array($startDate, $endDate))
+                ->get();
+        }else{
+            $invoice_item_taxes = DB::table('invoice_item_taxes')
+                ->Join('invoice_items', 'invoice_item_taxes.invoice_item_id', '=', 'invoice_items.id')
+                ->select('invoice_item_taxes.tax_id', 'invoice_item_taxes.name', 'invoice_item_taxes.amount as taxAmount', 'invoice_items.price')
+                ->where('invoice_item_taxes.company_id', '=', $this->companyId())
+                ->where('invoice_item_taxes.deleted_at', '=', null)
+                ->whereBetween('invoice_item_taxes.created_at', array($startDate, $endDate))
+                ->get();
+        }
 
         $salesTax = $this->groupBySum($invoice_item_taxes);
 
-        $bill_item_taxes = DB::table('bill_item_taxes')
-            ->Join('bill_items', 'bill_item_taxes.bill_item_id', '=', 'bill_items.id')
-            ->select('bill_item_taxes.tax_id','bill_item_taxes.name','bill_item_taxes.amount as taxAmount', 'bill_items.price' )
-            ->where('bill_item_taxes.company_id', '=', $this->companyId())
-            ->where('bill_item_taxes.deleted_at', '=', null)
-            ->whereBetween('bill_item_taxes.created_at', array($startDate, $endDate))
-            ->get();
+        if($reportType == 2) {
+            $bill_item_taxes = DB::table('bill_item_taxes')
+                ->Join('bill_items', 'bill_item_taxes.bill_item_id', '=', 'bill_items.id')
+                ->Join('bills', 'bill_item_taxes.bill_id', '=', 'bills.id')
+                ->select('bill_item_taxes.tax_id','bill_item_taxes.name','bill_item_taxes.amount as taxAmount', 'bill_items.price' )
+                ->where('bill_item_taxes.company_id', '=', $this->companyId())
+                ->where('bill_item_taxes.deleted_at', '=', null)
+                ->where('bills.status', '=', 'paid')
+                ->whereBetween('bill_item_taxes.created_at', array($startDate, $endDate))
+                ->get();
+
+        }else{
+            $bill_item_taxes = DB::table('bill_item_taxes')
+                ->Join('bill_items', 'bill_item_taxes.bill_item_id', '=', 'bill_items.id')
+                ->select('bill_item_taxes.tax_id','bill_item_taxes.name','bill_item_taxes.amount as taxAmount', 'bill_items.price' )
+                ->where('bill_item_taxes.company_id', '=', $this->companyId())
+                ->where('bill_item_taxes.deleted_at', '=', null)
+                ->whereBetween('bill_item_taxes.created_at', array($startDate, $endDate))
+                ->get();
+        }
 
          $billTax = $this->groupBySum($bill_item_taxes);
 
