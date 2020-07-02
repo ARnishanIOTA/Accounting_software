@@ -134,14 +134,18 @@ padding-left: 15px;
       <h2> Profit & Loss</h2>
      
   </div>
+<?php
+$form = date('Y-m-d',$result['startDate']);
+$to = date('Y-m-d',$result['endDate']);
+?>
 <div class="row1">
     <div class="container1" >
        <table>
          <tr height="70px">
            <td><label>Date Range &nbsp</label></td>
-           <td><input type="date" class="form-control" id="picker" name="picker"></td>
+           <td><input type="date" id="formDate" value="{{$form}}" class="form-control" id="picker" name="picker"></td>
            <td>to</td>
-           <td><input type="date" class="form-control" id="picker" name="picker"></td>
+           <td><input type="date" id="toDate"  value="{{$to}}" class="form-control" id="picker" name="picker"></td>
            
          </tr>
 
@@ -149,9 +153,8 @@ padding-left: 15px;
           <td><label>Report &nbsp</label></td>
           <td>
             <select class="form-control" name="type" id="type" placeholder="Select One">
-            <option value="" selected disabled>-Select-</option>
-            <option value="asset">Accrual(Paid & Unpaid)</option>
-            <option value="income">Cash Basis(Paid)</option>
+                <option  value="1" @if($reportType == 1) selected @endif>Accrual(Paid & Unpaid)</option>
+                <option value="2"  @if($reportType == 2) selected @endif>Cash Basis(Paid)</option>
             
           </select></td>
         </tr>
@@ -163,7 +166,7 @@ padding-left: 15px;
 
     <div class="container2" >
       
-       <button class="button">Update</button>
+       <button class="button" onclick="formValidation()">Update</button>
    </div>
    
 </div>
@@ -184,13 +187,13 @@ padding-left: 15px;
     </tr>
 
     <tr height="50px" >
-      <td >৳0.00</td>
+      <td >${{ $result['income'] }}</td>
       <td>-</td>
-      <td>৳0.00</td>
+      <td>${{ $result['costOfGoodsSold'] }}</td>
       <td >-</td>
-      <td >৳0.00</td>
+      <td >${{ $result['operatingExpense'] }}</td>
       <td>=</td>
-      <td>৳0.00</td>
+      <td>${{ $result['netProfit'] }}</td>
       
       
     </tr>
@@ -214,51 +217,51 @@ padding-left: 15px;
   <table>
     <tr height="50px" class="tr2">
       <th width="1200px"> ACCOUNTS </th>
-      <th width="120px">Jan 01, 2020
-        to Jun 18, 2020</th>
+      <th width="120px">{{ date("F jS, Y",$result['startDate']) }}
+        to {{ date("F jS, Y",$result['endDate']) }}</th>
       
 
     </tr>
 
     <tr height="50px" >
       <td >Income</td>
-      <td>BDT 0.00</td>
+      <td>USD {{ $result['income'] }}</td>
   
     </tr>
 
     <tr height="50px" class="tr3">
       <td >Cost of Goods Sold</td>
-      <td>BDT 0.00</td>
+      <td>USD {{ $result['costOfGoodsSold'] }}</td>
   
     </tr>
 
     <tr class="tr4" style="font-weight:bold;" height="40px">
       <td >Gross Profit</td>
-      <td>BDT 0.00</td>
+      <td>USD {{ $result['netProfit'] }}</td>
   
     </tr>
 
     <tr class="tr4" height="40px">
-      <td >As a percentage of Total Incomet</td>
-      <td>0.00%</td>
+      <td >As a percentage of Total Income</td>
+      <td>100%</td>
   
     </tr>
 
     <tr height="50px">
       <td >Operating Expenses</td>
-      <td>BDT 0.00</td>
+      <td>USD {{ $result['operatingExpense'] }}</td>
   
     </tr>
 
     <tr class="tr4" style="font-weight:bold;" height="40px">
       <td >Net Profit</td>
-      <td>BDT 0.00</td>
+      <td>USD {{ $result['netProfit'] }}</td>
   
     </tr>
 
     <tr class="tr4" height="40px">
-      <td >As a percentage of Total Incomet</td>
-      <td>0.00%</td>
+      <td >As a percentage of Total Income</td>
+      <td>100%</td>
   
     </tr>
 
@@ -272,22 +275,37 @@ padding-left: 15px;
 @endsection
 
 
-
-
-        
-        <script>
-                //  $('#picker').daterangepicker({
-                //                     opens: 'left'
-                //                   }, function(start, end, label) {
-                //                     $('#start').text(start.format('YYYY-MM-DD'))
-                //                     $('#end').text(end.format('YYYY-MM-DD'))
-                                    
-                //                   });
-
-
-        </script>
-
-
- @push('scripts_start')
+@push('scripts_start')
     <script src="{{ asset('public/js/common/reports.js?v=' . version('short')) }}"></script>
+    <script>
+        function toTimestamp(strDate){
+            let datum = Date.parse(strDate);
+            return datum/1000;
+        }
+        function formValidation(){
+            let formDateTime = document.getElementById("formDate").value;
+            let toDateTime = document.getElementById("toDate").value;
+            let role = document.getElementById("type").value;
+            let fTime = toTimestamp(formDateTime);
+            let tTime = toTimestamp(toDateTime);
+            if(formDateTime == '' || toDateTime == '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: " You Must Insert Date! ",
+                })
+
+            }
+            else if(tTime < fTime ){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: " Your Ending Date Must be Greater Than Starting Date! ",
+                })
+            }
+            else {
+                 window.location.href = '{{ url('report/profitAndLoss') }}/' + formDateTime + '/' + toDateTime+'/'+ role;
+            }
+        }
+    </script>
 @endpush       

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('pos', 'Pos\PosController@index')->name('pos');
 Route::get('report/incomeByCustomer/{startDate}/{endDate}', 'Common\Reports@incomeByCustomer')->name('report.incomeByCustomer');
 Route::get('report/purchaseByVendor/{startDate}/{endDate}', 'Common\Reports@purchaseByVendor')->name('report.purchaseByVendor');
-Route::get('report/profitAndLoss/{startDate}/{endDate}', 'Common\Reports@profitAndLoss')->name('report.profitAndLoss');
+Route::get('report/profitAndLoss/{startDate}/{endDate}/{reportType}', 'Common\Reports@profitAndLoss')->name('report.profitAndLoss');
 Route::get('report/salesTaxReport/{startDate}/{endDate}/{reportType}', 'Common\Reports@salesTaxReport')->name('report.salesTaxReport');
 Route::get('reports/income_customer', 'Settings\AddCategory@incomeCustomer')->name('reports.income_customer');
 Route::get('reports/purchase_vendor', 'Settings\AddCategory@purchaseVendor')->name('reports.purchase_vendor');

@@ -106,9 +106,9 @@ th {
        <table>
          <tr>
            <td><label>Date Range &nbsp</label></td>
-           <td><input type="date" class="form-control" id="picker" name="picker"></td>
+           <td><input type="date"  id="formDate"  value="{{ $startDate }}" class="form-control" id="picker" name="picker"></td>
            <td>to</td>
-           <td><input type="date" class="form-control" id="picker" name="picker"></td>
+           <td><input type="date" id="toDate" value="{{ $endDate }}" class="form-control" id="picker" name="picker"></td>
          </tr>
        </table>  
        
@@ -117,7 +117,7 @@ th {
 
     <div class="container2" >
       
-       <button class="button">Update</button>
+       <button class="button" onclick="formValidation()">Update</button>
    </div>
    
 </div>
@@ -138,14 +138,14 @@ th {
       <td></td>
       
     </tr>
-
+   @foreach($result as $row)
     <tr height="50px">
-      <td style="padding-left: 15px;">TOTAL INCOME</td>
-      <td>BDT 0.00</td>
-      <td>BDT 0.00</td>
+      <td style="padding-left: 15px;">{{ $row['contact_name'] }}</td>
+      <td>USD {{ $row['Paid'] + $row['unPaid'] + $row['partialPaid']}}</td>
+      <td>USD {{ $row['Paid'] + $row['partialPaid'] }}</td>
       
     </tr>
-    
+    @endforeach
   </table>
  
  
@@ -172,4 +172,34 @@ th {
 
  @push('scripts_start')
     <script src="{{ asset('public/js/common/reports.js?v=' . version('short')) }}"></script>
+    <script>
+        function toTimestamp(strDate){
+            let datum = Date.parse(strDate);
+            return datum/1000;
+        }
+        function formValidation(){
+            let formDateTime = document.getElementById("formDate").value;
+            let toDateTime = document.getElementById("toDate").value;
+            let fTime = toTimestamp(formDateTime);
+            let tTime = toTimestamp(toDateTime);
+            if(formDateTime == '' || toDateTime == '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: " You Must Insert Date! ",
+                })
+
+            }
+            else if(tTime < fTime ){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: " Your Ending Date Must be Greater Than Starting Date! ",
+                })
+            }
+            else {
+                window.location.href = '{{ url('report/incomeByCustomer') }}/' + formDateTime + '/' + toDateTime;
+            }
+        }
+    </script>
 @endpush       

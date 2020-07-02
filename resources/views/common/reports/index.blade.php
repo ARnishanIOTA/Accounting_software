@@ -107,7 +107,11 @@
         <div class="column2" >
             <div>
                 <h2>
-                    <a href="{{ route('reports.profit_loss') }}">
+                    <?php
+                    $currentYear = date('Y');
+                    $currentDate = date('Y-m-d');
+                    ?>
+                    <a href="{{ url('report/profitAndLoss/'.$currentYear.'-01-01/'.$currentDate.'/1') }}">
                         Profit & Loss (Income Statement)
                     </a>
                 </h2>
@@ -124,18 +128,6 @@
                 </h2>
 
                 <p style="color:black;font-size:18px;">Snapshot of what your business owns or is due to receive from others (assets), what it owes to others (liabilities), and what you've invested or retained in your company (equity).</p>
-                <hr>
-            </div>
-
-            <div>
-                <h2>
-                    <a href="#">
-                        Cash Flow
-                    </a>
-                </h2>
-
-                <p style="color:black;font-size:18px;">Cash coming in and going out of your business. Includes items not included in Profit & Loss such as repayment of loan principal and owner drawings (paying yourself).</p>
-
             </div>
 
         </div>
@@ -149,7 +141,7 @@
         <div class="column4" >
             <div>
                 <h2>
-                    <a href="{{ route('reports.sales_tax') }}">
+                    <a href="{{ url('report/salesTaxReport/'.$currentYear.'-01-01/'.$currentDate.'/1') }}">
                         Sales Tax
                     </a>
                 </h2>
@@ -172,7 +164,7 @@
         <div class="column6" >
             <div>
                 <h2>
-                    <a href="{{ route('reports.income_customer') }}">
+                    <a href="{{ url('report/incomeByCustomer/'.$currentYear.'-01-01/'.$currentDate) }}">
 
                         Income by Customer
 
@@ -180,22 +172,7 @@
                 </h2>
 
                 <p style="color:black;font-size:18px;">Paid or unpaid income broken down by customer.</p>
-                <hr>
             </div>
-
-            <div>
-                <h2>
-                    <a href="#">
-                        Aged Receivables
-
-                    </a>
-                </h2>
-
-                <p style="color:black;font-size:18px;">Unpaid and overdue invoices for the last 30, 60, and 90+ days.</p>
-
-            </div>
-
-
 
         </div>
     </div>
@@ -208,7 +185,7 @@
         <div class="column6" >
             <div>
                 <h2>
-                    <a href="{{ route('reports.purchase_vendor') }}">
+                    <a href="{{ url('report/purchaseByVendor/'.$currentYear.'-01-01/'.$currentDate) }}">
 
                         Purchases by Vendor
 
@@ -217,23 +194,7 @@
                 </h2>
 
                 <p style="color:black;font-size:18px;">Business purchases, broken down by who you bought from.</p>
-                <hr>
             </div>
-
-            <div>
-                <h2>
-                    <a href="#">
-                        Aged Payables
-
-
-                    </a>
-                </h2>
-
-                <p style="color:black;font-size:18px;">Unpaid and overdue bills for the last 30, 60, and 90+ days.</p>
-
-            </div>
-
-
 
         </div>
     </div>

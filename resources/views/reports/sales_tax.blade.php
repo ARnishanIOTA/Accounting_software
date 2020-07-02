@@ -15,7 +15,7 @@
    
     border-radius: 10px;
     background-color: #f8f9f8;
-    height: 80px;
+    height: 130px;
     width: 100%;
     
 }
@@ -103,18 +103,43 @@ th {
       <h2>Sales Tax Report</h2>
      
   </div>
+<?php
+$form = date('Y-m-d',$startDate);
+$to = date('Y-m-d',$endDate);
+?>
 <div class="row1">
     <div class="container1" >
       
        <table>
-         <tr >
-           <td><label>Date Range &nbsp</label></td>
-           <td><input type="date" class="form-control" id="picker" name="picker"></td>
+           <thead>
+             <tr>
+                 <td class="" colspan="3"><label>Date Range &nbsp</label></td>
+                 <td></td>
+                 <td></td>
+                 <td></td>
+                 <td></td>
+                 <td colspan="3"><label>Report Type &nbsp</label></td>
+             </tr>
+           </thead>
+         <tbody>
+         <tr>
+           <td><input type="date" id="formDate" value="{{$form}}" class="form-control" id="picker" name="picker"></td>
            <td>to</td>
-           <td><input type="date" class="form-control" id="picker" name="picker"></td>
+           <td><input type="date" id="toDate" value="{{$to}}" class="form-control" id="picker" name="picker"></td>
+             <td></td>
+             <td></td>
+             <td></td>
+             <td></td>
+             <td colspan="3">
+                 <select class="form-control" name="type" id="type" placeholder="Select One">
+                     <option  value="1"@if($reportType == 1) selected @endif >Accrual(Paid & Unpaid)</option>
+                     <option value="2" @if($reportType == 2) selected @endif>Cash Basis(Paid)</option>
+                 </select>
+             </td>
          </tr>
-         
-       
+         </tbody>
+
+
        </table>  
        
       
@@ -122,13 +147,21 @@ th {
 
     <div class="container2" >
       
-       <button class="button">Update</button>
+       <button class="button" onclick="formValidation()">Update</button>
    </div>
    
 </div>
 
 <div class="row2">
-  <h4>SALES & PURCHASES</h4>
+    <div class="row">
+        <div class="col-xl-8">
+            <h4>SALES & PURCHASES</h4>
+        </div>
+        <div class="col-xl-4">
+            {{ date("F jS, Y",$startDate) }}
+            to {{ date("F jS, Y",$endDate) }}
+        </div>
+    </div>
   
   <table>
     <tr height="100px" class="tr">
@@ -140,17 +173,37 @@ th {
       <th width="100px">Net Tax Owing</th>
 
     </tr>
+      @foreach($report as $key => $value )
+          <?php
+          $Subject_to_Tax_Sale = $taxAmountSale = $Subject_to_Tax_Purchase = $taxAmountPurchase = number_format((float)0, 2, '.', '');
+          if(array_key_exists('Sales', $value))
+          {
+              $Subject_to_Tax_Sale = $value['Sales']['Subject_to_Tax'];
+              $Subject_to_Tax_Sale = number_format((float)$Subject_to_Tax_Sale, 2, '.', '');
+              $taxAmountSale = $value['Sales']['taxAmount'];
+              $taxAmountSale = number_format((float)$taxAmountSale, 2, '.', '');
+          }
+          if(array_key_exists('Bills', $value)){
+              $Subject_to_Tax_Purchase = $value['Bills']['Subject_to_Tax'];
+              $Subject_to_Tax_Purchase = number_format((float)$Subject_to_Tax_Purchase, 2, '.', '');
+              $taxAmountPurchase = $value['Bills']['taxAmount'];
+              $taxAmountPurchase = number_format((float)$taxAmountPurchase, 2, '.', '');
+          }
+          $netTax = $taxAmountSale + $taxAmountPurchase;
+          $netTax = number_format((float)$netTax, 2, '.', '');
+          ?>
+          <tr height="50px" class="tr2">
+              <td style="padding-left: 15px;">{{ $key }}</td>
+              <td>USD {{ $Subject_to_Tax_Sale }}</td>
+              <td>USD {{ $taxAmountSale }}</td>
+              <td >USD {{ $Subject_to_Tax_Purchase }}</td>
+              <td >USD {{ $taxAmountPurchase }}</td>
+              <td>USD {{ $netTax }}</td>
 
-    <tr height="50px" class="tr2">
-      <td style="padding-left: 15px;">Total</td>
-      <td></td>
-      <td>BDT 0.00</td>
-      <td >BDT 0.00</td>
-      <td >BDT 0.00</td>
-      <td>BDT 0.00</td>
-      
-      
-    </tr>
+
+          </tr>
+      @endforeach
+
 
     
     
@@ -176,11 +229,11 @@ th {
 
     <tr height="50px" class="tr2">
       <td style="padding-left: 15px;">Total</td>
-      <td>BDT 0.00</td>
+      <td>USD 0.00</td>
       
-      <td >BDT 0.00</td>
-      <td >BDT 0.00</td>
-      <td>BDT 0.00</td>
+      <td >USD 0.00</td>
+      <td >USD 0.00</td>
+      <td>USD 0.00</td>
       
       
     </tr>
@@ -212,4 +265,34 @@ th {
 
  @push('scripts_start')
     <script src="{{ asset('public/js/common/reports.js?v=' . version('short')) }}"></script>
+    <script>
+        function toTimestamp(strDate){
+            let datum = Date.parse(strDate);
+            return datum/1000;
+        }
+        function formValidation(){
+            let formDateTime = document.getElementById("formDate").value;
+            let toDateTime = document.getElementById("toDate").value;
+            let role = document.getElementById("type").value;
+            let fTime = toTimestamp(formDateTime);
+            let tTime = toTimestamp(toDateTime);
+            if(formDateTime == '' || toDateTime == '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: " You Must Insert Date! ",
+                })
+            }
+            else if(tTime < fTime ){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: " Your Ending Date Must be Greater Than Starting Date! ",
+                })
+            }
+            else {
+                window.location.href = '{{ url('report/salesTaxReport') }}/' + formDateTime + '/' + toDateTime + '/' + role;
+            }
+        }
+    </script>
 @endpush       

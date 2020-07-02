@@ -30,6 +30,9 @@
     <link rel="stylesheet" href="{{ asset('public/css/akaunting-color.css?v=' . version('short')) }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('public/css/custom.css?v=' . version('short')) }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('public/css/element.css?v=' . version('short')) }}" type="text/css">
+
+{{--    Sweet Alert--}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" >
     <link rel="stylesheet" type="text/css" href="{{ asset('public/css/daterangepicker.css?v=' . version('short')) }}" /> -->

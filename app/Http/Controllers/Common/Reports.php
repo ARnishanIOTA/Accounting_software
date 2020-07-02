@@ -292,60 +292,190 @@ class Reports extends Controller
     /**
      * Implement By Nishan
      */
+    public function MargeDataByCustomer($paid, $partial,$unPaid ){
+
+        $allContactId = array();
+        $PaidContactId = array();
+        $PaidContactData = array();
+        $partialPaidContactId = array();
+        $partialContactData = array();
+        $unPaidContactId = array();
+        $unPaidContactData = array();
+        $result = array();
+        foreach ($paid as $uIncome){
+            $contactId = $uIncome->contact_id;
+            $contactName = $uIncome->contact_name;
+            array_push($allContactId, $contactId.",".$contactName);
+            array_push($PaidContactId, $contactId);
+            $PaidContactData[$contactId] = $uIncome->Paid;
+        }
+        foreach ($partial as $uIncome){
+            $contactId = $uIncome->contact_id;
+            $contactName = $uIncome->contact_name;
+            array_push($allContactId, $contactId.",".$contactName);
+            array_push($partialPaidContactId, $contactId);
+            $partialContactData[$contactId] = $uIncome->PartialAmount;
+        }
+        foreach ($unPaid as $uIncome){
+            $contactId = $uIncome->contact_id;
+            $contactName = $uIncome->contact_name;
+            array_push($allContactId, $contactId.",".$contactName);
+            array_push($unPaidContactId, $contactId);
+            $unPaidContactData[$contactId] = $uIncome->unPaid;
+        }
+        $allContactId = array_unique($allContactId);
+        // dd($allContactId);
+        foreach ($allContactId as $value){
+            $temp1 = array();
+            $Contact = explode(",",$value);
+            $contactId = $Contact['0'];
+            $temp1['contact_name'] = $Contact['1'];
+            if(in_array($contactId, $PaidContactId)){
+                $temp1['Paid'] = $PaidContactData[$contactId];
+            }else{
+                $temp1['Paid'] = 0;
+            }
+            if(in_array($contactId, $partialPaidContactId)){
+                $temp1['partialPaid'] = $partialContactData[$contactId];
+            }else{
+                $temp1['partialPaid'] =  0;
+            }
+            if(in_array($contactId, $unPaidContactId)){
+                $temp1['unPaid'] = $unPaidContactData[$contactId];
+            }else{
+                $temp1['unPaid'] = 0;
+            }
+            array_push($result,$temp1);
+        }
+        return $result;
+    }
+
     public function incomeByCustomer($startDate, $endDate){
 
 
+        $paidIncome = DB::table('invoices')
+            ->select('contact_name','contact_id', DB::raw('SUM(amount) as Paid'))
+            ->where('status', '=', 'paid')
+            ->where('company_id', '=', $this->companyId())
+            ->whereBetween('created_at', array($startDate, $endDate))
+            ->groupBy('contact_id')
+            ->get();
         $transactions = DB::table('transactions')
-            ->select('contact_id', DB::raw('SUM(amount) as Amount'))
+            ->select('document_id','contact_id', DB::raw('SUM(amount) as PartialAmount'))
             ->where('type', '=', 'income')
             ->where('company_id', '=', $this->companyId())
             ->where('deleted_at', '=', null)
             ->whereBetween('created_at', array($startDate, $endDate))
-            ->groupBy('contact_id');
+            ->groupBy('document_id');
 
-        $report = DB::table('contacts')
+        $partialPaidIncome = DB::table('invoices')
             ->joinSub($transactions, 'transactions', function ($join) {
-                $join->on('contacts.id', '=', 'transactions.contact_id');
-            })->get();
+                $join->on('invoices.id', '=', 'transactions.document_id');
+            })
+            ->where('invoices.status', '=', 'partial')
+            ->select('invoices.contact_id','invoices.contact_name', 'transactions.PartialAmount')
+            ->get();
+        $unpaidIncome = DB::table('invoices')
+            ->select('contact_name','contact_id', DB::raw('SUM(amount) as unPaid'))
+            ->where('status', '=', 'sent')
+            ->where('company_id', '=', $this->companyId())
+            ->whereBetween('created_at', array($startDate, $endDate))
+            ->groupBy('contact_id')
+            ->get();
+        $result = $this->MargeDataByCustomer($paidIncome,$partialPaidIncome,$unpaidIncome);
 
-        echo "<pre>";
-        print_r($report);
-        echo "</pre>";
+//        echo "<pre>";
+//        print_r($result);
+//        echo "</pre>";
 //           return $this->companyId();
+        return view('reports.income_customer',compact('result','startDate','endDate'));
     }
     public function purchaseByVendor($startDate, $endDate){
+        $paidIncome = DB::table('bills')
+            ->select('contact_name','contact_id', DB::raw('SUM(amount) as Paid'))
+            ->where('status', '=', 'paid')
+            ->where('company_id', '=', $this->companyId())
+            ->whereBetween('created_at', array($startDate, $endDate))
+            ->groupBy('contact_id')
+            ->get();
         $transactions = DB::table('transactions')
-            ->select('contact_id', DB::raw('SUM(amount) as Amount'))
+            ->select('document_id','contact_id', DB::raw('SUM(amount) as PartialAmount'))
             ->where('type', '=', 'expense')
             ->where('company_id', '=', $this->companyId())
             ->where('deleted_at', '=', null)
             ->whereBetween('created_at', array($startDate, $endDate))
-            ->groupBy('contact_id');
+            ->groupBy('document_id');
 
-        $report = DB::table('contacts')
+        $partialPaidIncome = DB::table('bills')
             ->joinSub($transactions, 'transactions', function ($join) {
-                $join->on('contacts.id', '=', 'transactions.contact_id');
-            })->get();
+                $join->on('bills.id', '=', 'transactions.document_id');
+            })
+            ->where('bills.status', '=', 'partial')
+            ->select('bills.contact_id','bills.contact_name', 'transactions.PartialAmount')
+            ->get();
+        $unpaidIncome = DB::table('bills')
+            ->select('contact_name','contact_id', DB::raw('SUM(amount) as unPaid'))
+            ->where('status', '=', 'received')
+            ->where('company_id', '=', $this->companyId())
+            ->whereBetween('created_at', array($startDate, $endDate))
+            ->groupBy('contact_id')
+            ->get();
+        $result = $this->MargeDataByCustomer($paidIncome,$partialPaidIncome,$unpaidIncome);
 
-        echo "<pre>";
-        print_r($report);
-        echo "</pre>";
+//        echo "<pre>";
+//        print_r($result);
+//        echo "</pre>";
+        return view('reports.purchase_vendor',compact('result','startDate','endDate'));
     }
-    public function profitAndLoss($startDate, $endDate){
+    public function profitAndLoss($startDate, $endDate,$reportType){
+        if($reportType == 2) {
+            $revenue = Transaction::income()
+                ->isNotTransfer()
+                ->monthly($startDate,$endDate)
+                ->where('company_id', '=', $this->companyId())
+                ->where('deleted_at', '=', null)
+                ->sum('amount');
+            $expenseByVendor = Transaction::expense()
+                ->isNotTransfer()
+                ->monthly($startDate,$endDate)
+                ->where('company_id', '=', $this->companyId())
+                ->where('deleted_at', '=', null)
+                ->where('contact_id', '!=', null)
+                ->sum('amount');
+        }else{
+            $paid = Transaction::income()
+                ->isNotTransfer()
+                ->monthly($startDate,$endDate)
+                ->where('company_id', '=', $this->companyId())
+                ->where('deleted_at', '=', null)
+                ->sum('amount');
+            $sent = DB::table('invoices')
+                ->where('status', '=', 'sent')
+                ->where('company_id', '=', $this->companyId())
+                ->whereBetween('created_at', array($startDate, $endDate))
+                ->sum('amount');
+
+            $revenue = $paid + $sent;
+
+            $paidBill = Transaction::expense()
+                ->isNotTransfer()
+                ->monthly($startDate,$endDate)
+                ->where('company_id', '=', $this->companyId())
+                ->where('deleted_at', '=', null)
+                ->where('contact_id', '!=', null)
+                ->sum('amount');
+
+            $received = DB::table('bills')
+                ->where('status', '=', 'received')
+                ->where('company_id', '=', $this->companyId())
+                ->whereBetween('created_at', array($startDate, $endDate))
+                ->sum('amount');
+            $expenseByVendor  = $paidBill + $received;
+
+
+        }
         $result = array();
-        $revenue = Transaction::income()
-            ->isNotTransfer()
-            ->monthly($startDate,$endDate)
-            ->where('company_id', '=', $this->companyId())
-            ->where('deleted_at', '=', null)
-            ->sum('amount');
-        $expenseByVendor = Transaction::expense()
-            ->isNotTransfer()
-            ->monthly($startDate,$endDate)
-            ->where('company_id', '=', $this->companyId())
-            ->where('deleted_at', '=', null)
-            ->where('contact_id', '!=', null)
-            ->sum('amount');
+
         $OtherExpense = Transaction::expense()
             ->isNotTransfer()
             ->monthly($startDate,$endDate)
@@ -356,16 +486,18 @@ class Reports extends Controller
 
         $totalExpense = $expenseByVendor + $OtherExpense;
         $profit = $revenue - $totalExpense;
-
-        $result['revenue'] = $revenue;
-        $result['expenseByVendor'] = $expenseByVendor;
-        $result['OtherExpense'] = $OtherExpense;
-        $result['profit'] = $profit;
-
-       // return $profit;
-        echo "<pre>";
-        print_r($result);
-        echo "</pre>";
+        $startDate = strtotime($startDate);
+        $endDate = strtotime($endDate);
+        $result['income'] = $revenue;
+        $result['costOfGoodsSold'] = $expenseByVendor;
+        $result['operatingExpense'] = $OtherExpense;
+        $result['netProfit'] = $profit;
+        $result['startDate'] = $startDate;
+        $result['endDate'] = $endDate;
+//        echo "<pre>";
+//        print_r($result);
+//        echo "</pre>";
+        return view('reports.profit_loss',compact('result','reportType'));
 
     }
 
@@ -468,9 +600,12 @@ class Reports extends Controller
 
           }
 
-        echo "<pre>";
-        print_r($report);
-        echo "</pre>";
+        $startDate = strtotime($startDate);
+        $endDate = strtotime($endDate);
+//        echo "<pre>";
+//        print_r($report);
+//        echo "</pre>";
+        return view('reports.sales_tax',compact('report','startDate','endDate','reportType'));
     }
 
     /**

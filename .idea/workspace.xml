@@ -3,7 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="a9e5cdad-e11a-47d2-bb3e-3e68ff3779f4" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/settings/categories/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/settings/categories/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Common/Reports.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Common/Reports.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/common/reports/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/common/reports/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/partials/admin/head.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/partials/admin/head.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/reports/income_customer.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/reports/income_customer.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/reports/profit_loss.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/reports/profit_loss.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/reports/purchase_vendor.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/reports/purchase_vendor.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/reports/sales_tax.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/reports/sales_tax.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/cclroute.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/cclroute.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -219,6 +225,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="RunManager">
     <configuration name="phpunit.xml" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
@@ -287,7 +294,11 @@
       <workItem from="1593087123374" duration="2127000" />
       <workItem from="1593150767942" duration="7933000" />
       <workItem from="1593230179496" duration="11553000" />
-      <workItem from="1593316179793" duration="5508000" />
+      <workItem from="1593316179793" duration="28477000" />
+      <workItem from="1593405518417" duration="10278000" />
+      <workItem from="1593498289735" duration="8172000" />
+      <workItem from="1593572841634" duration="16863000" />
+      <workItem from="1593669221960" duration="1133000" />
     </task>
     <servers />
   </component>
@@ -295,6 +306,10 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="137" y="20" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1593332012669">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="137" y="20" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.728@0.0.1366.728" timestamp="1593332012669" />
     <state x="413" y="120" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1592325301347">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -307,14 +322,18 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="517" y="288" key="NewPhpFileDialog/0.0.1366.728@0.0.1366.728" timestamp="1591941891319" />
-    <state x="379" y="189" key="com.intellij.ide.util.TipDialog" timestamp="1593316195362">
+    <state x="184" y="7" key="SettingsEditor" timestamp="1593601561877">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="379" y="189" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1593316195362" />
-    <state x="379" y="96" width="737" height="606" key="find.popup" timestamp="1593318551663">
+    <state x="184" y="7" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1593601561877" />
+    <state x="379" y="189" key="com.intellij.ide.util.TipDialog" timestamp="1593669223495">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="379" y="96" width="737" height="606" key="find.popup/0.0.1366.728@0.0.1366.728" timestamp="1593318551663" />
+    <state x="379" y="189" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1593669223495" />
+    <state x="379" y="96" width="737" height="606" key="find.popup" timestamp="1593432320278">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="379" y="96" width="737" height="606" key="find.popup/0.0.1366.728@0.0.1366.728" timestamp="1593432320278" />
     <state x="339" y="162" key="run.anything.popup" timestamp="1591619950132">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
