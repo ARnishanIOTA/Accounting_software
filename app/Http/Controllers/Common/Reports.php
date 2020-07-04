@@ -14,7 +14,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use App\KoolReports\MyReport;
 use DB;
-
+use PDF;
 
 class Reports extends Controller
 {
@@ -24,7 +24,7 @@ class Reports extends Controller
      */
     public function companyId(){
         $companyId = session('company_id');
-       return $companyId;
+        return $companyId;
     }
     /**
      * Display a listing of the resource.
@@ -349,9 +349,32 @@ class Reports extends Controller
         }
         return $result;
     }
+    public function groupBySum($invoice_item_taxes){
+        $taxId = array();
+        $report = array();
+        foreach ($invoice_item_taxes as $data){
+            if(in_array($data->tax_id, $taxId)){
+                $taxAmount = $report[$data->tax_id]['taxAmount'];
+                $Sales_Subject_to_Tax = $report[$data->tax_id]['Subject_to_Tax'];
+                $taxAmount = $taxAmount + $data->taxAmount;
+                $Sales_Subject_to_Tax = $Sales_Subject_to_Tax + $data->price;
+                $report[$data->tax_id]['taxAmount'] = $taxAmount;
+                $report[$data->tax_id]['Subject_to_Tax'] = $Sales_Subject_to_Tax;
 
-    public function incomeByCustomer($startDate, $endDate){
+            }else{
+                array_push($taxId, $data->tax_id);
+                $temp = array();
+                $temp['TaxName'] = $data->name;
+                $temp['taxAmount'] = $data->taxAmount;
+                $temp['Subject_to_Tax'] = $data->price;
+                $temp['TaxName'] = $data->name;
+                $report[$data->tax_id] = $temp;
+            }
 
+        }
+        return $report;
+    }
+    public function incomeByCustomerData($startDate, $endDate){
 
         $paidIncome = DB::table('invoices')
             ->select('contact_name','contact_id', DB::raw('SUM(amount) as Paid'))
@@ -384,13 +407,9 @@ class Reports extends Controller
             ->get();
         $result = $this->MargeDataByCustomer($paidIncome,$partialPaidIncome,$unpaidIncome);
 
-//        echo "<pre>";
-//        print_r($result);
-//        echo "</pre>";
-//           return $this->companyId();
-        return view('reports.income_customer',compact('result','startDate','endDate'));
+        return $result;
     }
-    public function purchaseByVendor($startDate, $endDate){
+    public function purchaseByVendorData($startDate, $endDate){
         $paidIncome = DB::table('bills')
             ->select('contact_name','contact_id', DB::raw('SUM(amount) as Paid'))
             ->where('status', '=', 'paid')
@@ -422,12 +441,9 @@ class Reports extends Controller
             ->get();
         $result = $this->MargeDataByCustomer($paidIncome,$partialPaidIncome,$unpaidIncome);
 
-//        echo "<pre>";
-//        print_r($result);
-//        echo "</pre>";
-        return view('reports.purchase_vendor',compact('result','startDate','endDate'));
+        return $result;
     }
-    public function profitAndLoss($startDate, $endDate,$reportType){
+    public function profitAndLossData($startDate, $endDate,$reportType){
         if($reportType == 2) {
             $revenue = Transaction::income()
                 ->isNotTransfer()
@@ -442,7 +458,8 @@ class Reports extends Controller
                 ->where('deleted_at', '=', null)
                 ->where('contact_id', '!=', null)
                 ->sum('amount');
-        }else{
+        }
+        else{
             $paid = Transaction::income()
                 ->isNotTransfer()
                 ->monthly($startDate,$endDate)
@@ -494,40 +511,10 @@ class Reports extends Controller
         $result['netProfit'] = $profit;
         $result['startDate'] = $startDate;
         $result['endDate'] = $endDate;
-//        echo "<pre>";
-//        print_r($result);
-//        echo "</pre>";
-        return view('reports.profit_loss',compact('result','reportType'));
 
+        return $result;
     }
-
-    public function groupBySum($invoice_item_taxes){
-        $taxId = array();
-        $report = array();
-        foreach ($invoice_item_taxes as $data){
-            if(in_array($data->tax_id, $taxId)){
-                $taxAmount = $report[$data->tax_id]['taxAmount'];
-                $Sales_Subject_to_Tax = $report[$data->tax_id]['Subject_to_Tax'];
-                $taxAmount = $taxAmount + $data->taxAmount;
-                $Sales_Subject_to_Tax = $Sales_Subject_to_Tax + $data->price;
-                $report[$data->tax_id]['taxAmount'] = $taxAmount;
-                $report[$data->tax_id]['Subject_to_Tax'] = $Sales_Subject_to_Tax;
-
-            }else{
-                array_push($taxId, $data->tax_id);
-                $temp = array();
-                $temp['TaxName'] = $data->name;
-                $temp['taxAmount'] = $data->taxAmount;
-                $temp['Subject_to_Tax'] = $data->price;
-                $temp['TaxName'] = $data->name;
-                $report[$data->tax_id] = $temp;
-            }
-
-        }
-        return $report;
-    }
-
-    public function salesTaxReport($startDate,$endDate, $reportType){
+    public function salesTaxReportData($startDate,$endDate, $reportType){
         if($reportType == 2) {
             $invoice_item_taxes = DB::table('invoice_item_taxes')
                 ->Join('invoice_items', 'invoice_item_taxes.invoice_item_id', '=', 'invoice_items.id')
@@ -538,7 +525,8 @@ class Reports extends Controller
                 ->where('invoices.status', '=', 'paid')
                 ->whereBetween('invoice_item_taxes.created_at', array($startDate, $endDate))
                 ->get();
-        }else{
+        }
+        else{
             $invoice_item_taxes = DB::table('invoice_item_taxes')
                 ->Join('invoice_items', 'invoice_item_taxes.invoice_item_id', '=', 'invoice_items.id')
                 ->select('invoice_item_taxes.tax_id', 'invoice_item_taxes.name', 'invoice_item_taxes.amount as taxAmount', 'invoice_items.price')
@@ -561,7 +549,8 @@ class Reports extends Controller
                 ->whereBetween('bill_item_taxes.created_at', array($startDate, $endDate))
                 ->get();
 
-        }else{
+        }
+        else{
             $bill_item_taxes = DB::table('bill_item_taxes')
                 ->Join('bill_items', 'bill_item_taxes.bill_item_id', '=', 'bill_items.id')
                 ->select('bill_item_taxes.tax_id','bill_item_taxes.name','bill_item_taxes.amount as taxAmount', 'bill_items.price' )
@@ -571,41 +560,75 @@ class Reports extends Controller
                 ->get();
         }
 
-         $billTax = $this->groupBySum($bill_item_taxes);
+        $billTax = $this->groupBySum($bill_item_taxes);
 
-          $report = array();
-          $SaleCount = count($salesTax);
-          $BillCount = count($billTax);
-          if( $SaleCount >= 1 || $BillCount >= 1) {
-              if ($SaleCount >= $BillCount) {
-                  $key = array_keys($salesTax);
-              } else {
-                  $key = array_keys($salesTax);
-              }
-              foreach ($key as $val){
-                  $temp = array();
-                  $taxName = '';
-                  if(array_key_exists($val, $salesTax)){
-                      $taxName = $salesTax[$val]['TaxName'];
-                      $temp['Sales'] = $salesTax[$val];
-                  }
-                  if(array_key_exists($val, $billTax)){
-                      $taxName = $billTax[$val]['TaxName'];
-                      $temp['Bills'] = $billTax[$val];
-                  }
-                  if($temp != null){
-                      $report[$taxName] = $temp;
-                  }
-              }
+        $report = array();
+        $SaleCount = count($salesTax);
+        $BillCount = count($billTax);
+        if( $SaleCount >= 1 || $BillCount >= 1) {
+            if ($SaleCount >= $BillCount) {
+                $key = array_keys($salesTax);
+            } else {
+                $key = array_keys($salesTax);
+            }
+            foreach ($key as $val){
+                $temp = array();
+                $taxName = '';
+                if(array_key_exists($val, $salesTax)){
+                    $taxName = $salesTax[$val]['TaxName'];
+                    $temp['Sales'] = $salesTax[$val];
+                }
+                if(array_key_exists($val, $billTax)){
+                    $taxName = $billTax[$val]['TaxName'];
+                    $temp['Bills'] = $billTax[$val];
+                }
+                if($temp != null){
+                    $report[$taxName] = $temp;
+                }
+            }
 
-          }
+        }
+        return $report;
+    }
 
+    public function incomeByCustomer($startDate, $endDate){
+        $result = $this->incomeByCustomerData($startDate, $endDate);
+        return view('reports.income_customer',compact('result','startDate','endDate'));
+    }
+
+
+    public function purchaseByVendor($startDate, $endDate){
+        $result = $this->purchaseByVendorData($startDate, $endDate);
+        return view('reports.purchase_vendor',compact('result','startDate','endDate'));
+    }
+
+
+    public function profitAndLoss($startDate, $endDate,$reportType){
+        $result = $this->profitAndLossData($startDate, $endDate,$reportType);
+        return view('reports.profit_loss',compact('result','reportType'));
+
+    }
+
+    public function salesTaxReport($startDate,$endDate, $reportType){
+        $report = $this->salesTaxReportData($startDate,$endDate, $reportType);
         $startDate = strtotime($startDate);
         $endDate = strtotime($endDate);
-//        echo "<pre>";
-//        print_r($report);
-//        echo "</pre>";
         return view('reports.sales_tax',compact('report','startDate','endDate','reportType'));
+    }
+
+    public function incomeByCustomerPdf($startDate, $endDate){
+        $result = $this->incomeByCustomerData($startDate, $endDate);
+        $pdf = PDF::loadView('pdf.incomeByCustomer', compact('result','startDate','endDate') );
+        $fileName = 'incomeByCustomer_'.$startDate.'_to_'.$endDate.'.pdf';
+        return $pdf->download($fileName);
+
+    }
+    public function purchaseByVendorPdf($startDate, $endDate){
+        $result = $this->purchaseByVendorData($startDate, $endDate);
+        $pdf = PDF::loadView('pdf.purchasesByVendor', compact('result','startDate','endDate') );
+        $fileName = 'purchaseByVendor'.$startDate.'_to_'.$endDate.'.pdf';
+        return $pdf->download($fileName);
+
     }
 
     /**
@@ -613,6 +636,6 @@ class Reports extends Controller
      */
 
 
-   
+
 
 }

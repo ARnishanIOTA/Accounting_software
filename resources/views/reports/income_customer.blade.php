@@ -3,86 +3,86 @@
 
 @extends('layouts.admin')
 
- 
+
 
 @stack('head_css_start')
 <style>
-* {
-  box-sizing: border-box;
-}
+    * {
+        box-sizing: border-box;
+    }
 
-.row1 {
-    
-    margin: auto;
-    padding: 10px 20px 10px 20px;
-   
-    border-radius: 10px;
-    background-color: #f8f9f8;
-    height: 80px;
-    width: 100%;
-    
-}
-.row2 {
-    
-    margin: auto;
-    margin-top: 40px;
-    padding: 0px;
-   
-    border-radius: 10px;
-    
-    height: 300px;
-    width: 100%;
-}
+    .row1 {
 
-.row3 {
-  margin: 10px;
-   
-    
-}
+        margin: auto;
+        padding: 10px 20px 10px 20px;
 
-.container1{
-  float: left;
-  width: 60%; 
-  padding: 10px;
-  
-  text-align: center;
-}
+        border-radius: 10px;
+        background-color: #f8f9f8;
+        height: 80px;
+        width: 100%;
 
-.container2{
-  float: left;
-  width: 40%; 
-  padding: 10px;
-  text-align: right;
-  
-}
+    }
+    .row2 {
 
-.button {
-  background-color: #230e97; /* Green */
-  border: none;
-  color: white;
-  padding: 10px;
-  width: 100px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 14px;
-  margin: 4px 2px;
-  cursor: pointer;
-  border-radius: 12px;
-}
+        margin: auto;
+        margin-top: 40px;
+        padding: 0px;
 
-th {
+        border-radius: 10px;
+
+        height: 300px;
+        width: 100%;
+    }
+
+    .row3 {
+        margin: 10px;
+
+
+    }
+
+    .container1{
+        float: left;
+        width: 60%;
+        padding: 10px;
+
+        text-align: center;
+    }
+
+    .container2{
+        float: left;
+        width: 40%;
+        padding: 10px;
+        text-align: right;
+
+    }
+
+    .button {
+        background-color: #230e97; /* Green */
+        border: none;
+        color: white;
+        padding: 10px;
+        width: 100px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 12px;
+    }
+
+    th {
         font-size: 18px;
 
-      }
+    }
 
-.tr{
-  font-size: 18px;
-  background-color: #f8f9f8;
-  position: relative;
-  top: 2rem;
+    .tr{
+        font-size: 18px;
+        background-color: #f8f9f8;
+        position: relative;
+        top: 2rem;
 
-}
+    }
 
 
 
@@ -90,7 +90,7 @@ th {
 
 </style>
 
-   @stack('head_css_end')    
+@stack('head_css_end')
 
 
 
@@ -98,79 +98,79 @@ th {
 @section('content')
 
     <div class="row3">
-      <h2>  Income by Customer</h2>
-     
-  </div>
-<div class="row1">
-    <div class="container1" >
-       <table>
-         <tr>
-           <td><label>Date Range &nbsp</label></td>
-           <td><input type="date"  id="formDate"  value="{{ $startDate }}" class="form-control" id="picker" name="picker"></td>
-           <td>to</td>
-           <td><input type="date" id="toDate" value="{{ $endDate }}" class="form-control" id="picker" name="picker"></td>
-         </tr>
-       </table>  
-       
-      
+        <div class="row">
+            <div class="col-xl-8">
+                <h2>Income by Customer</h2>
+            </div>
+            <div class="col-xl-4">
+                <div style="float: right;" class="dropdown">
+                    <a href="#" class="dropdown-toggle btn btn-success m-r-10-m-l-10" data-toggle="dropdown">Export</a>
+                    <div class="dropdown-menu">
+                        <a href="{{url('report/incomeByCustomerPdf/'.$startDate.'/'.$endDate)}}" class="dropdown-item">PDF</a>
+                        <a href="{{url('report/incomeByCustomerPdf/'.$startDate.'/'.$endDate)}}" class="dropdown-item">EXCEL</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+    </div>
+    <div class="row1">
+        <div class="container1" >
+            <table>
+                <tr>
+                    <td><label>Date Range &nbsp</label></td>
+                    <td><input type="date"  id="formDate"  value="{{ $startDate }}" class="form-control" id="picker" name="picker"></td>
+                    <td>to</td>
+                    <td><input type="date" id="toDate" value="{{ $endDate }}" class="form-control" id="picker" name="picker"></td>
+                </tr>
+            </table>
+
+
+        </div>
+
+        <div class="container2" >
+
+            <button class="button" onclick="formValidation()">Update</button>
+        </div>
+
     </div>
 
-    <div class="container2" >
-      
-       <button class="button" onclick="formValidation()">Update</button>
-   </div>
-   
-</div>
+    <div class="row2">
 
-<div class="row2">
+        <table>
+            <tr height="50px">
+                <th width="950px" style="padding-left: 15px;">CUSTOMERS </th>
+                <th width="230px">ALL INCOME</th>
+                <th width="200px">PAID INCOME</th>
 
-  <table>
-    <tr height="50px">
-      <th width="950px" style="padding-left: 15px;">CUSTOMERS </th>
-      <th width="230px">ALL INCOME</th>
-      <th width="200px">PAID INCOME</th>
-   
-    </tr>
+            </tr>
 
-    <tr class="tr" height="50px">
-      <td style="padding-left: 15px;">INCOME</td>
-      <td></td>
-      <td></td>
-      
-    </tr>
-   @foreach($result as $row)
-    <tr height="50px">
-      <td style="padding-left: 15px;">{{ $row['contact_name'] }}</td>
-      <td>USD {{ $row['Paid'] + $row['unPaid'] + $row['partialPaid']}}</td>
-      <td>USD {{ $row['Paid'] + $row['partialPaid'] }}</td>
-      
-    </tr>
-    @endforeach
-  </table>
- 
- 
-</div>
+            <tr class="tr" height="50px">
+                <td style="padding-left: 15px;">INCOME</td>
+                <td></td>
+                <td></td>
+
+            </tr>
+            @foreach($result as $row)
+                <tr height="50px">
+                    <td style="padding-left: 15px;">{{ $row['contact_name'] }}</td>
+                    <td>USD {{ $row['Paid'] + $row['unPaid'] + $row['partialPaid']}}</td>
+                    <td>USD {{ $row['Paid'] + $row['partialPaid'] }}</td>
+
+                </tr>
+            @endforeach
+        </table>
+
+
+    </div>
 
 @endsection
 
 
-
-
-      
-        <script>
-                //  $('#picker').daterangepicker({
-                //                     opens: 'left'
-                //                   }, function(start, end, label) {
-                //                     $('#start').text(start.format('YYYY-MM-DD'))
-                //                     $('#end').text(end.format('YYYY-MM-DD'))
-                                    
-                //                   });
-
-
-        </script>
-
-
- @push('scripts_start')
+@push('scripts_start')
     <script src="{{ asset('public/js/common/reports.js?v=' . version('short')) }}"></script>
     <script>
         function toTimestamp(strDate){
@@ -202,4 +202,4 @@ th {
             }
         }
     </script>
-@endpush       
+@endpush

@@ -129,15 +129,29 @@ padding-left: 15px;
 
 
 @section('content')
-
+    <?php
+    $form = date('Y-m-d',$result['startDate']);
+    $to = date('Y-m-d',$result['endDate']);
+    ?>
 <div class="row3">
-      <h2> Profit & Loss</h2>
+    <div class="row">
+        <div class="col-xl-8">
+            <h2>Profit & Loss</h2>
+        </div>
+        <div class="col-xl-4">
+            <div style="float: right;" class="dropdown">
+                <a href="#" class="dropdown-toggle btn btn-success m-r-10-m-l-10" data-toggle="dropdown">Export</a>
+                <div class="dropdown-menu">
+                    <a href="{{url('report/profitAndLossPdf/'.$form.'/'.$to.'/'.$reportType)}}" class="dropdown-item">PDF</a>
+                    <a href="{{url('report/profitAndLossPdf/'.$form.'/'.$to.'/'.$reportType)}}" class="dropdown-item">EXCEL</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
      
   </div>
-<?php
-$form = date('Y-m-d',$result['startDate']);
-$to = date('Y-m-d',$result['endDate']);
-?>
+
 <div class="row1">
     <div class="container1" >
        <table>

@@ -101,7 +101,21 @@ th {
 @section('content')
 
 <div class="row3">
-      <h2> Purchases by Vendor</h2>
+    <div class="row">
+        <div class="col-xl-8">
+            <h2>Purchases by Vendor</h2>
+        </div>
+        <div class="col-xl-4">
+            <div style="float: right;" class="dropdown">
+                <a href="#" class="dropdown-toggle btn btn-success m-r-10-m-l-10" data-toggle="dropdown">Export</a>
+                <div class="dropdown-menu">
+                    <a href="{{url('report/purchaseByVendorPdf/'.$startDate.'/'.$endDate)}}" class="dropdown-item">PDF</a>
+                    <a href="{{url('report/purchaseByVendorPdf/'.$startDate.'/'.$endDate)}}" class="dropdown-item">EXCEL</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
      
   </div>
 <div class="row1">
@@ -159,21 +173,6 @@ th {
 
 @endsection
 
-
-
-
-     
-        <script>
-                //  $('#picker').daterangepicker({
-                //                     opens: 'left'
-                //                   }, function(start, end, label) {
-                //                     $('#start').text(start.format('YYYY-MM-DD'))
-                //                     $('#end').text(end.format('YYYY-MM-DD'))
-                                    
-                //                   });
-
-
-        </script>
 
  @push('scripts_start')
     <script src="{{ asset('public/js/common/reports.js?v=' . version('short')) }}"></script>

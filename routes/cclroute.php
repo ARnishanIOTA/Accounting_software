@@ -17,3 +17,9 @@ Route::get('reports/purchase_vendor', 'Settings\AddCategory@purchaseVendor')->na
 Route::get('reports/sales_tax', 'Settings\AddCategory@salesTax')->name('reports.sales_tax');
 Route::get('reports/account_balance', 'Settings\AddCategory@accountBalance')->name('reports.account_balance');
 Route::get('reports/profit_loss', 'Settings\AddCategory@profitLoss')->name('reports.profit_loss');
+
+// pdf route are here
+Route::get('report/incomeByCustomerPdf/{startDate}/{endDate}', 'Common\Reports@incomeByCustomerPdf')->name('report.incomeByCustomerPdf');
+Route::get('report/purchaseByVendorPdf/{startDate}/{endDate}', 'Common\Reports@purchaseByVendorPdf')->name('report.purchaseByVendorPdf');
+Route::get('report/profitAndLossPdf/{startDate}/{endDate}/{reportType}', 'Common\Reports@profitAndLossPdf')->name('report.profitAndLossPdf');
+Route::get('report/salesTaxReportPdf/{startDate}/{endDate}/{reportType}', 'Common\Reports@salesTaxReportPdf')->name('report.salesTaxReportPdf');

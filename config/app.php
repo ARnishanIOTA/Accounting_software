@@ -183,6 +183,7 @@ return [
         App\Providers\Route::class,
         App\Providers\Validation::class,
         App\Providers\ViewComposer::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
 
     ],
 
@@ -236,6 +237,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
 
     ],
 
