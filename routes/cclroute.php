@@ -23,3 +23,9 @@ Route::get('report/incomeByCustomerPdf/{startDate}/{endDate}', 'Common\Reports@i
 Route::get('report/purchaseByVendorPdf/{startDate}/{endDate}', 'Common\Reports@purchaseByVendorPdf')->name('report.purchaseByVendorPdf');
 Route::get('report/profitAndLossPdf/{startDate}/{endDate}/{reportType}', 'Common\Reports@profitAndLossPdf')->name('report.profitAndLossPdf');
 Route::get('report/salesTaxReportPdf/{startDate}/{endDate}/{reportType}', 'Common\Reports@salesTaxReportPdf')->name('report.salesTaxReportPdf');
+
+//Excel Route are here
+Route::get('report/incomeByCustomerExcel/{startDate}/{endDate}', 'Common\Reports@incomeByCustomerExcel')->name('report.incomeByCustomerExcel');
+Route::get('report/purchaseByVendorExcel/{startDate}/{endDate}', 'Common\Reports@purchaseByVendorExcel')->name('report.purchaseByVendorExcel');
+Route::get('report/profitAndLossExcel/{startDate}/{endDate}/{reportType}', 'Common\Reports@profitAndLossExcel')->name('report.profitAndLossExcel');
+Route::get('report/salesTaxReportExcel/{startDate}/{endDate}/{reportType}', 'Common\Reports@salesTaxReportExcel')->name('report.salesTaxReportExcel');

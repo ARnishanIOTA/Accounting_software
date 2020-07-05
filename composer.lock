@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bdbdffd38034556df5d1c5fc323ce900",
+    "content-hash": "73bb6bde7e593a2b98e3abc833d5482a",
     "packages": [
         {
             "name": "akaunting/firewall",

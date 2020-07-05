@@ -12,9 +12,13 @@ use App\Models\Common\Report;
 use App\Utilities\Reports as Utility;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
-use App\KoolReports\MyReport;
 use DB;
 use PDF;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\IncomeAndPurchase;
+use App\Exports\ProfitAndLoss;
+use App\Exports\SalesAndTax;
+
 
 class Reports extends Controller
 {
@@ -630,6 +634,33 @@ class Reports extends Controller
         return $pdf->download($fileName);
 
     }
+    public function incomeByCustomerExcel($startDate, $endDate){
+        $fileName = 'incomeByCustomer_'.$startDate.'_to_'.$endDate.".xlsx";
+        $result = $this->incomeByCustomerData($startDate, $endDate);
+        $type = 'income';
+        return Excel::download(new IncomeAndPurchase($result,$startDate,$endDate,$type), $fileName);
+
+    }
+    public function purchaseByVendorExcel($startDate, $endDate){
+        $fileName = 'purchaseByVendor_'.$startDate.'_to_'.$endDate.".xlsx";
+        $result = $this->purchaseByVendorData($startDate, $endDate);
+        $type = 'purchase';
+        return Excel::download(new IncomeAndPurchase($result,$startDate,$endDate,$type), $fileName);
+
+    }
+    public function profitAndLossExcel($startDate, $endDate,$reportType){
+        $fileName = 'profitAndLoss_'.$startDate.'_to_'.$endDate.".xlsx";
+        $result = $this->profitAndLossData($startDate, $endDate,$reportType);
+        return Excel::download(new ProfitAndLoss($result), $fileName);
+
+    }
+    public function salesTaxReportExcel($startDate, $endDate,$reportType){
+        $fileName = 'salesTaxReport_'.$startDate.'_to_'.$endDate.".xlsx";
+        $result = $this->salesTaxReportData($startDate, $endDate,$reportType);
+        return Excel::download(new SalesAndTax($result,$startDate, $endDate), $fileName);
+
+    }
+
 
     /**
      * End Implement By Nishan

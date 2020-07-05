@@ -1198,6 +1198,7 @@ class ComposerStaticInit3a98504c5f48a4679cc2e56ddb18c5bf
         'App\\Exports\\Banking\\Transactions' => __DIR__ . '/../..' . '/app/Exports/Banking/Transactions.php',
         'App\\Exports\\Common\\Items' => __DIR__ . '/../..' . '/app/Exports/Common/Items.php',
         'App\\Exports\\Common\\Reports' => __DIR__ . '/../..' . '/app/Exports/Common/Reports.php',
+        'App\\Exports\\IncomeAndPurchase' => __DIR__ . '/../..' . '/app/Exports/IncomeAndPurchase.php',
         'App\\Exports\\Purchases\\Bills' => __DIR__ . '/../..' . '/app/Exports/Purchases/Bills.php',
         'App\\Exports\\Purchases\\Payments' => __DIR__ . '/../..' . '/app/Exports/Purchases/Payments.php',
         'App\\Exports\\Purchases\\Sheets\\BillHistories' => __DIR__ . '/../..' . '/app/Exports/Purchases/Sheets/BillHistories.php',

@@ -143,7 +143,7 @@ padding-left: 15px;
                 <a href="#" class="dropdown-toggle btn btn-success m-r-10-m-l-10" data-toggle="dropdown">Export</a>
                 <div class="dropdown-menu">
                     <a href="{{url('report/profitAndLossPdf/'.$form.'/'.$to.'/'.$reportType)}}" class="dropdown-item">PDF</a>
-                    <a href="{{url('report/profitAndLossPdf/'.$form.'/'.$to.'/'.$reportType)}}" class="dropdown-item">EXCEL</a>
+                    <a href="{{url('report/profitAndLossExcel/'.$form.'/'.$to.'/'.$reportType)}}" class="dropdown-item">EXCEL</a>
                 </div>
             </div>
         </div>

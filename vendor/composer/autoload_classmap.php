@@ -242,6 +242,7 @@ return array(
     'App\\Exports\\Banking\\Transactions' => $baseDir . '/app/Exports/Banking/Transactions.php',
     'App\\Exports\\Common\\Items' => $baseDir . '/app/Exports/Common/Items.php',
     'App\\Exports\\Common\\Reports' => $baseDir . '/app/Exports/Common/Reports.php',
+    'App\\Exports\\IncomeAndPurchase' => $baseDir . '/app/Exports/IncomeAndPurchase.php',
     'App\\Exports\\Purchases\\Bills' => $baseDir . '/app/Exports/Purchases/Bills.php',
     'App\\Exports\\Purchases\\Payments' => $baseDir . '/app/Exports/Purchases/Payments.php',
     'App\\Exports\\Purchases\\Sheets\\BillHistories' => $baseDir . '/app/Exports/Purchases/Sheets/BillHistories.php',
