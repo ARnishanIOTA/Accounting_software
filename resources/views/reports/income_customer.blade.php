@@ -8,81 +8,124 @@
 @stack('head_css_start')
 <style>
     * {
-        box-sizing: border-box;
-    }
+  box-sizing: border-box;
+}
 
-    .row1 {
+.row1 {
+    
+    margin: auto;
+    padding: 10px 20px 10px 20px;
+   
+    border-radius: 10px;
+    background-color: #f8f9f8;
+    height: 80px;
+    width: 100%;
+    
+}
+.row2 {
+    
+    margin: auto;
+    margin-top: 40px;
+    padding: 0px;
+   
+    border-radius: 10px;
+    
+    height: 300px;
+    width: 100%;
+}
 
-        margin: auto;
-        padding: 10px 20px 10px 20px;
+.row3 {
+  margin: 10px;
+   
+    
+}
 
-        border-radius: 10px;
-        background-color: #f8f9f8;
-        height: 80px;
-        width: 100%;
+.container1{
+  float: left;
+  width: 60%; 
+  padding: 10px;
+  
+  text-align: center;
+}
 
-    }
-    .row2 {
+.container2{
+  float: left;
+  width: 40%; 
+  padding: 10px;
+  text-align: right;
+  
+}
 
-        margin: auto;
-        margin-top: 40px;
-        padding: 0px;
+.button {
+  background-color: #230e97; /* Green */
+  border: none;
+  color: white;
+  padding: 10px;
+  width: 100px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 12px;
+}
 
-        border-radius: 10px;
-
-        height: 300px;
-        width: 100%;
-    }
-
-    .row3 {
-        margin: 10px;
-
-
-    }
-
-    .container1{
-        float: left;
-        width: 60%;
-        padding: 10px;
-
-        text-align: center;
-    }
-
-    .container2{
-        float: left;
-        width: 40%;
-        padding: 10px;
-        text-align: right;
-
-    }
-
-    .button {
-        background-color: #230e97; /* Green */
-        border: none;
-        color: white;
-        padding: 10px;
-        width: 100px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 14px;
-        margin: 4px 2px;
-        cursor: pointer;
-        border-radius: 12px;
-    }
-
-    th {
+th {
         font-size: 18px;
 
-    }
+      }
 
-    .tr{
-        font-size: 18px;
-        background-color: #f8f9f8;
-        position: relative;
-        top: 2rem;
+.tr{
+  font-size: 18px;
+  background-color: #f8f9f8;
+  position: relative;
+  top: 2rem;
 
-    }
+}
+
+.data1{
+  padding-left: 30px;
+}
+
+
+@media only screen and (max-width: 768px) {
+  
+ 
+  
+  .row1 {
+    
+    
+    height: 90px;
+    width: 100%;
+    
+}
+
+
+
+.container1{
+  float: left;
+  width: 80%; 
+  padding: 10px;
+  
+  text-align: center;
+}
+
+
+.container2{
+  float: left;
+  width: 20%; 
+  padding: 10px;
+  text-align: right;
+  
+}
+
+.data1{
+  
+  width: 900px;
+}
+
+}
 
 
 
@@ -142,21 +185,21 @@
 
         <table>
             <tr height="50px">
-                <th width="950px" style="padding-left: 15px;">CUSTOMERS </th>
-                <th width="230px">ALL INCOME</th>
+                <th width="950px" class="data1">CUSTOMERS </th>
+                <th width="300px">ALL INCOME</th>
                 <th width="200px">PAID INCOME</th>
 
             </tr>
 
             <tr class="tr" height="50px">
-                <td style="padding-left: 15px;">INCOME</td>
+                <td class="data1">INCOME</td>
                 <td></td>
                 <td></td>
 
             </tr>
             @foreach($result as $row)
                 <tr height="50px">
-                    <td style="padding-left: 15px;">{{ $row['contact_name'] }}</td>
+                    <td class="data1">{{ $row['contact_name'] }}</td>
                     <td>USD {{ $row['Paid'] + $row['unPaid'] + $row['partialPaid']}}</td>
                     <td>USD {{ $row['Paid'] + $row['partialPaid'] }}</td>
 

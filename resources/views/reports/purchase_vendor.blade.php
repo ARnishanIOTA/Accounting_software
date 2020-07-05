@@ -76,20 +76,60 @@ th {
       }
 
 .tr{
-  font-size: 18px;
+
   background-color: #f8f9f8;
   position: relative;
   top: 2rem;
 
 }
 
-      
+.data1{
+  padding-left: 30px;
+  width: 950px;
+}
+
+
+@media only screen and (max-width: 768px) {
+  
+ 
+  
+  .row1 {
+    
+    
+    height: 90px;
+    width: 100%;
+    
+}
+
+
+
+.container1{
+  float: left;
+  width: 80%; 
+  padding: 10px;
+  
+  text-align: center;
+}
+
+
+.container2{
+  float: left;
+  width: 20%; 
+  padding: 10px;
+  text-align: right;
+  
+}
+
+.data1{
+  
+  width: 900px;
+}
 
 
 
 
 
-
+}
 
 
 
@@ -144,14 +184,14 @@ th {
   <table>
 
     <tr height="50px">
-      <th width="950px" style="padding-left: 15px;">VENDORS </th>
-      <th width="230px">ALL PURCHASES</th>
-      <th width="200px">PAID PURCHASES</th>
+      <th  class="data1">VENDORS </th>
+      <th width="300px">ALL PURCHASES</th>
+      <th width="250px">PAID PURCHASES</th>
    
     </tr>
 
     <tr class="tr" height="50px" >
-      <td style="padding-left: 15px;">EXPENSES</td>
+      <td class="data1">EXPENSES</td>
       <td></td>
       <td></td>
 
@@ -159,7 +199,7 @@ th {
 
       @foreach($result as $row)
           <tr height="50px">
-              <td style="padding-left: 15px;">{{ $row['contact_name'] }}</td>
+              <td class="data1">{{ $row['contact_name'] }}</td>
               <td>USD {{  $row['Paid'] + $row['unPaid'] + $row['partialPaid'] }}</td>
               <td>USD {{$row['Paid'] + $row['partialPaid'] }}</td>
 

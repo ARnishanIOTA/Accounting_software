@@ -662,6 +662,23 @@ class Reports extends Controller
     }
 
 
+    public function profitAndLossPdf($startDate, $endDate, $reportType){
+        $result = $this->profitAndLossData($startDate, $endDate, $reportType);
+        $pdf = PDF::loadView('pdf.profitAndLoss', compact('result','startDate','endDate','reportType') );
+        $fileName = 'profitAndLoss'.$startDate.'_to_'.$endDate.'.pdf';
+        return $pdf->download($fileName);
+
+    }
+
+    public function salesTaxReportPdf($startDate, $endDate, $reportType){
+        $report = $this->salesTaxReportData($startDate, $endDate, $reportType);
+        $pdf = PDF::loadView('pdf.salesTaxReport', compact('report','startDate','endDate','reportType') );
+        $fileName = 'salesTaxReport'.$startDate.'_to_'.$endDate.'.pdf';
+        return $pdf->download($fileName);
+
+    }
+
+
     /**
      * End Implement By Nishan
      */
