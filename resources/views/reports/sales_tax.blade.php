@@ -15,7 +15,7 @@
    
     border-radius: 10px;
     background-color: #f8f9f8;
-    height: 130px;
+    height: 170px;
     width: 100%;
     
 }
@@ -79,6 +79,7 @@ th {
   font-size: 18px;
   background-color: #f8f9f8;
   position: relative;
+  
  
 
 }
@@ -87,6 +88,55 @@ th {
   border-bottom: 2px solid #f8f9f8;
 
 }
+
+.data1{
+  padding-left: 30px;
+}
+
+.data2{
+  /* border: solid black 1px; */
+  text-align: center;
+}
+
+
+
+
+@media only screen and (max-width: 768px) {
+  
+ 
+  
+  .row1 {
+    
+    
+    height: 150px;
+    width: 100%;
+    
+}
+
+
+
+.container1{
+  float: left;
+  width: 80%; 
+  padding: 10px;
+  
+  text-align: center;
+}
+
+
+.container2{
+  float: left;
+  width: 20%; 
+  padding: 10px;
+  text-align: right;
+  
+}
+
+
+
+
+}
+      
 
       
 
@@ -111,7 +161,7 @@ th {
             <div style="float: right;" class="dropdown">
                 <a href="#" class="dropdown-toggle btn btn-success m-r-10-m-l-10" data-toggle="dropdown">Export</a>
                 <div class="dropdown-menu">
-                    <a href="{{url('report/profitAndLossPdf/'.$form.'/'.$to.'/'.$reportType)}}" class="dropdown-item">PDF</a>
+                    <a href="{{url('report/salesTaxReportPdf/'.$form.'/'.$to.'/'.$reportType)}}" class="dropdown-item">PDF</a>
                     <a href="{{url('report/salesTaxReportExcel/'.$form.'/'.$to.'/'.$reportType)}}" class="dropdown-item">EXCEL</a>
                 </div>
             </div>
@@ -120,38 +170,26 @@ th {
     </div>
      
   </div>
-<div class="row1">
+  <div class="row1">
     <div class="container1" >
-      
        <table>
-           <thead>
-             <tr>
-                 <td class="" colspan="3"><label>Date Range &nbsp</label></td>
-                 <td></td>
-                 <td></td>
-                 <td></td>
-                 <td></td>
-                 <td colspan="3"><label>Report Type &nbsp</label></td>
-             </tr>
-           </thead>
-         <tbody>
-         <tr>
+         <tr height="70px">
+           <td><label>Date Range &nbsp</label></td>
            <td><input type="date" id="formDate" value="{{$form}}" class="form-control" id="picker" name="picker"></td>
            <td>to</td>
-           <td><input type="date" id="toDate" value="{{$to}}" class="form-control" id="picker" name="picker"></td>
-             <td></td>
-             <td></td>
-             <td></td>
-             <td></td>
-             <td colspan="3">
-                 <select class="form-control" name="type" id="type" placeholder="Select One">
-                     <option  value="1"@if($reportType == 1) selected @endif >Accrual(Paid & Unpaid)</option>
-                     <option value="2" @if($reportType == 2) selected @endif>Cash Basis(Paid)</option>
-                 </select>
-             </td>
+           <td><input type="date" id="toDate"  value="{{$to}}" class="form-control" id="picker" name="picker"></td>
+           
          </tr>
-         </tbody>
 
+         <tr>
+          <td><label>Report &nbsp</label></td>
+          <td>
+            <select class="form-control" name="type" id="type" placeholder="Select One">
+                <option  value="1" @if($reportType == 1) selected @endif>Accrual(Paid & Unpaid)</option>
+                <option value="2"  @if($reportType == 2) selected @endif>Cash Basis(Paid)</option>
+            
+          </select></td>
+        </tr>
 
        </table>  
        
@@ -168,7 +206,7 @@ th {
 <div class="row2">
     <div class="row">
         <div class="col-xl-8">
-            <h4>SALES & PURCHASES</h4>
+            <h4 class="data1">SALES & PURCHASES</h4>
         </div>
         <div class="col-xl-4">
             {{ date("F jS, Y",$startDate) }}
@@ -177,13 +215,13 @@ th {
     </div>
   
   <table>
-    <tr height="100px" class="tr">
-      <th width="350px" style="padding-left: 15px;">Tax </th>
-      <th width="250px">Sales Subject to Tax</th>
-      <th width="250px">Tax Amount on Sales</th>
-      <th width="250px" >Purchases Subject to Tax </th>
-      <th width="250px" >Tax Amount on Purchases</th>
-      <th width="100px">Net Tax Owing</th>
+  <tr height="100px" class="tr">
+      <th width="250px" class="data1">Tax </th>
+      <th width="220px" class="data2">Sales Subject to Tax</th>
+      <th width="200px" class="data2">Tax Amount on Sales</th>
+      <th width="250px" class="data2">Purchases Subject to Tax </th>
+      <th width="250px" class="data2">Tax Amount on Purchases</th>
+      <th width="100px" class="data2">Net Tax Owing</th>
 
     </tr>
       @foreach($report as $key => $value )
@@ -206,12 +244,12 @@ th {
           $netTax = number_format((float)$netTax, 2, '.', '');
           ?>
           <tr height="50px" class="tr2">
-              <td style="padding-left: 15px;">{{ $key }}</td>
-              <td>USD {{ $Subject_to_Tax_Sale }}</td>
-              <td>USD {{ $taxAmountSale }}</td>
-              <td >USD {{ $Subject_to_Tax_Purchase }}</td>
-              <td >USD {{ $taxAmountPurchase }}</td>
-              <td>USD {{ $netTax }}</td>
+              <td class="data1">{{ $key }}</td>
+              <td class="data2">USD {{ $Subject_to_Tax_Sale }}</td>
+              <td class="data2">USD {{ $taxAmountSale }}</td>
+              <td class="data2">USD {{ $Subject_to_Tax_Purchase }}</td>
+              <td class="data2">USD {{ $taxAmountPurchase }}</td>
+              <td class="data2">USD {{ $netTax }}</td>
 
 
           </tr>
@@ -227,26 +265,26 @@ th {
 
 
 <div class="row2">
-  <h4>PAYMENTS & BALANCES OWING</h4>
+  <h4 class="data1">PAYMENTS & BALANCES OWING</h4>
 
   <table>
-    <tr height="100px" class="tr">
-      <th width="550px" style="padding-left: 15px;">Starting Balance </th>
-      <th width="250px">Net Tax Owing</th>
-      <th width="250px" >Tax Amount on Sales</th>
-      <th width="250px" >Less Payments to Government </th>
+  <tr height="100px" class="tr">
+      <th width="470px" class="data1">Starting Balance </th>
+      <th width="200px" class="data2">Net Tax Owing</th>
+      <th width="250px" class="data2">Tax Amount on Sales</th>
+      <th width="250px" class="data2">Less Payments to Government </th>
       
-      <th width="100px">Ending Balance</th>
+      <th width="100px" class="data2">Ending Balance</th>
 
     </tr>
 
     <tr height="50px" class="tr2">
-      <td style="padding-left: 15px;">Total</td>
-      <td>USD 0.00</td>
+      <td class="data1">Total</td>
+      <td class="data2">BDT 0.00</td>
       
-      <td >USD 0.00</td>
-      <td >USD 0.00</td>
-      <td>USD 0.00</td>
+      <td class="data2">BDT 0.00</td>
+      <td class="data2">BDT 0.00</td>
+      <td class="data2">BDT 0.00</td>
       
       
     </tr>
@@ -264,18 +302,7 @@ th {
 
 
         
-        <script>
-                //  $('#picker').daterangepicker({
-                //                     opens: 'left'
-                //                   }, function(start, end, label) {
-                //                     $('#start').text(start.format('YYYY-MM-DD'))
-                //                     $('#end').text(end.format('YYYY-MM-DD'))
-                                    
-                //                   });
-
-
-        </script>
-
+      
  @push('scripts_start')
     <script src="{{ asset('public/js/common/reports.js?v=' . version('short')) }}"></script>
     <script>

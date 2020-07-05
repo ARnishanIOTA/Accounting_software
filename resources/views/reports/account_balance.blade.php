@@ -99,6 +99,81 @@ th {
 
 }
 
+.data1{
+padding-left: 30px;
+}
+
+
+@media only screen and (max-width: 768px) {
+  
+ 
+  
+  .row1 {
+    
+    
+    height: 90px;
+    width: 100%;
+    
+}
+
+
+
+.container1{
+  float: left;
+  width: 80%; 
+  padding: 10px;
+  
+  text-align: center;
+}
+
+
+.container2{
+  float: left;
+  width: 20%; 
+  padding: 10px;
+  text-align: right;
+  
+}
+
+
+
+}
+/*
+@media only screen and (max-width: 375px) {
+  
+  .column2 {height: 920px ;}
+  body {
+  
+   
+    font-size: 12px !important;
+    font-weight: 300 !important;
+    line-height: 1;
+  
+}
+  .column4 {height: 290px;}
+  .column6 {height: 290px;}
+  .column7 {height: 950px;}
+  
+}
+
+@media only screen and (min-width: 1024px) {
+  
+  .column2 {height: 410px;}
+  .column4 {height: 140px;}
+  .column6 {height: 140px;}
+  .column7 {height: 520px;}
+  
+}
+
+@media only screen and (min-width: 1368px) {
+  
+  .column2 {height: 350px;}
+  .column4 {height: 110px;}
+  .column6 {height: 110px;}
+  .column7 {height: 500px;}
+  
+} */
+
 
       
 
@@ -141,7 +216,7 @@ th {
   
   <table>
     <tr  class="tr">
-      <th width="350px" style="padding-left: 15px;">ACCOUNT </th>
+      <th width="350px" class="data1">ACCOUNT </th>
       <th width="250px">STARTING BALANCE</th>
       <th width="250px">DEBIT</th>
       <th width="250px" >CREDIT </th>
@@ -151,7 +226,7 @@ th {
     </tr>
      
     <tr height="50px" class="tr2">
-      <td style="padding-left: 15px;">Assets</td>
+      <td class="data1">Assets</td>
       <td></td>
       <td></td>
       <td ></td>
@@ -164,7 +239,7 @@ th {
     
 
     <tr height="50px" class="tr3">
-      <td style="padding-left: 15px;">Total Assets</td>
+      <td class="data1">Total Assets</td>
       <td>BDT 0.00</td>
       <td>BDT 0.00</td>
       <td >BDT 0.00</td>
@@ -176,7 +251,7 @@ th {
 
 
     <tr height="50px" class="tr4">
-      <td style="padding-left: 15px;">Liabilities</td>
+      <td class="data1">Liabilities</td>
       <td></td>
       <td></td>
       <td ></td>
@@ -189,7 +264,7 @@ th {
     
 
     <tr height="50px" class="tr3">
-      <td style="padding-left: 15px;">Total Liabilities</td>
+      <td class="data1">Total Liabilities</td>
       <td>BDT 0.00</td>
       <td>BDT 0.00</td>
       <td >BDT 0.00</td>
@@ -204,7 +279,7 @@ th {
     
 
     <tr height="100px" >
-      <td style="padding-left: 15px;">Total For All Account</td>
+      <td class="data1">Total For All Account</td>
       <td></td>
       <td>BDT 0.00</td>
       <td >BDT 0.00</td>

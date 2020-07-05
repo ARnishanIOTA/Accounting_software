@@ -19,7 +19,7 @@
         float: left;
         width: 47%;
         padding: 10px;
-        height: 550px; /* Should be removed. Only for demonstration */
+        height: 350px; /* Should be removed. Only for demonstration */
 
     }
 
@@ -27,7 +27,7 @@
         float: right;
         width: 47%;
         padding: 10px;
-        height: 420px; /* Should be removed. Only for demonstration */
+        height: 250px; /* Should be removed. Only for demonstration */
 
     }
     .column3 {
@@ -50,7 +50,7 @@
         float: left;
         width: 47%;
         padding: 10px;
-        height: 250px; /* Should be removed. Only for demonstration */
+        height: 150px; /* Should be removed. Only for demonstration */
 
     }
 
@@ -58,9 +58,18 @@
         float: right;
         width: 47%;
         padding: 10px;
-        height: 250px; /* Should be removed. Only for demonstration */
+        height: 150px; /* Should be removed. Only for demonstration */
 
     }
+
+    .column7 {
+        float: right;
+        width: 47%;
+        padding: 10px;
+        height: 500px; /* Should be removed. Only for demonstration */
+
+    }
+
 
     /* Clear floats after the columns */
     .row1:after {
@@ -73,16 +82,63 @@
     .row1 {
 
         margin: 5px;
-        padding: 20px 20px 20px 20px;
+        padding: 20px ;
         border: 1px solid black;
         border-radius: 10px;
         width: 100%;
-       margin-top: 25px;
+        margin-top: 25px;
+        color: black;
      
       
         
 
     }
+
+
+
+    @media only screen and (max-width: 768px) {
+  
+  .column2 {height: 450px;}
+  .column4 {height: 160px;}
+  .column6 {height: 160px;}
+  .column7 {height: 620px;}
+  
+}
+
+@media only screen and (max-width: 375px) {
+  
+  .column2 {height: 920px ;}
+  body {
+  
+   
+    font-size: 12px !important;
+    font-weight: 300 !important;
+    line-height: 1;
+  
+}
+  .column4 {height: 290px;}
+  .column6 {height: 290px;}
+  .column7 {height: 950px;}
+  
+}
+
+@media only screen and (min-width: 1024px) {
+  
+  .column2 {height: 410px;}
+  .column4 {height: 140px;}
+  .column6 {height: 140px;}
+  .column7 {height: 520px;}
+  
+}
+
+@media only screen and (min-width: 1368px) {
+  
+  .column2 {height: 350px;}
+  .column4 {height: 110px;}
+  .column6 {height: 110px;}
+  .column7 {height: 500px;}
+  
+}
 
 
 
@@ -102,7 +158,7 @@
     <div class="row1">
         <div class="column1">
             <h1>Get the big picture</h1>
-            <p style="color:black;font-size:18px;">How much profit are you making? Are your assets growing faster than your liabilities? Is cash flowing, or getting stuck?</p>
+            <p >How much profit are you making? Are your assets growing faster than your liabilities? Is cash flowing, or getting stuck?</p>
         </div>
         <div class="column2" >
             <div>
@@ -116,7 +172,7 @@
                     </a>
                 </h2>
 
-                <p style="color:black;font-size:18px;">Summary of your revenue and expenses that determine the profit you made.</p>
+                <p >Summary of your revenue and expenses that determine the profit you made.</p>
                 <hr>
             </div>
 
@@ -127,8 +183,11 @@
                     </a>
                 </h2>
 
-                <p style="color:black;font-size:18px;">Snapshot of what your business owns or is due to receive from others (assets), what it owes to others (liabilities), and what you've invested or retained in your company (equity).</p>
+                <p >Snapshot of what your business owns or is due to receive from others (assets), what it owes to others (liabilities), and what you've invested or retained in your company (equity).</p>
+                
             </div>
+
+           
 
         </div>
     </div>
@@ -136,7 +195,7 @@
     <div class="row1">
         <div class="column3">
             <h1>Stay on top of taxes</h1>
-            <p style="color:black;font-size:18px;">Find out how much tax you’ve collected and how much tax you owe back to tax agencies.</p>
+            <p style=>Find out how much tax you’ve collected and how much tax you owe back to tax agencies.</p>
         </div>
         <div class="column4" >
             <div>
@@ -146,7 +205,7 @@
                     </a>
                 </h2>
 
-                <p style="color:black;font-size:18px;">Taxes collected from sales and paid on purchases to help you file sales tax returns.</p>
+                <p >Taxes collected from sales and paid on purchases to help you file sales tax returns.</p>
 
             </div>
 
@@ -159,11 +218,11 @@
     <div class="row1">
         <div class="column5">
             <h1>Focus on customers</h1>
-            <p style="color:black;font-size:18px;">Find out how much tax you’ve collected and how much tax you owe back to tax agencies.</p>
+            <p >Find out how much tax you’ve collected and how much tax you owe back to tax agencies.</p>
         </div>
         <div class="column6" >
             <div>
-                <h2>
+                 <h2>
                     <a href="{{ url('report/incomeByCustomer/'.$currentYear.'-01-01/'.$currentDate) }}">
 
                         Income by Customer
@@ -171,8 +230,13 @@
                     </a>
                 </h2>
 
-                <p style="color:black;font-size:18px;">Paid or unpaid income broken down by customer.</p>
+                <p >Paid or unpaid income broken down by customer.</p>
+            
             </div>
+
+            
+
+
 
         </div>
     </div>
@@ -180,11 +244,11 @@
     <div class="row1">
         <div class="column5">
             <h1>Focus on vendors</h1>
-            <p style="color:black;font-size:18px;">Understand business spending, where you spend, and how much you owe to your vendors.</p>
+            <p >Understand business spending, where you spend, and how much you owe to your vendors.</p>
         </div>
         <div class="column6" >
             <div>
-                <h2>
+                 <h2>
                     <a href="{{ url('report/purchaseByVendor/'.$currentYear.'-01-01/'.$currentDate) }}">
 
                         Purchases by Vendor
@@ -193,8 +257,13 @@
                     </a>
                 </h2>
 
-                <p style="color:black;font-size:18px;">Business purchases, broken down by who you bought from.</p>
+                <p >Business purchases, broken down by who you bought from.</p>
+               
             </div>
+
+           
+
+
 
         </div>
     </div>
@@ -202,9 +271,9 @@
     <div class="row1">
         <div class="column1">
             <h1>Dig deeper</h1>
-            <p style="color:black;font-size:18px;">Drill into the detail of financial transactions over the life of your company.</p>
+            <p >Drill into the detail of financial transactions over the life of your company.</p>
         </div>
-        <div class="column2" >
+        <div class="column7" >
             <div>
                 <h2>
                     <a href="{{ route('reports.account_balance') }}">
@@ -214,7 +283,7 @@
                     </a>
                 </h2>
 
-                <p style="color:black;font-size:18px;">Summary view of balances and activity for all accounts.</p>
+                <p >Summary view of balances and activity for all accounts.</p>
                 <hr>
             </div>
 
@@ -228,7 +297,7 @@
                     </a>
                 </h2>
 
-                <p style="color:black;font-size:18px;">Balance of all your accounts on a specified date.</p>
+                <p >Balance of all your accounts on a specified date.</p>
                 <hr>
             </div>
 
@@ -240,7 +309,7 @@
                     </a>
                 </h2>
 
-                <p style="color:black;font-size:18px;">Detailed list of all transactions and their total by account everything in your Chart of Accounts.</p>
+                <p >Detailed list of all transactions and their total by account everything in your Chart of Accounts.</p>
 
             </div>
 

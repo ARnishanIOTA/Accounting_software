@@ -27,7 +27,7 @@
     margin: auto;
 
     padding: 10px 10px 10px 10px;
-    width: 50%;
+    width: 70%;
     border-radius: 10px;
     text-align: center;
     height: 150px;
@@ -110,13 +110,98 @@
   
 }
 
-td{
+/* td{
 padding-left: 15px;
+} */
+
+
+.data1{
+padding-left: 30px;
+width: 1150px;
 }
 
 
-th{
-padding-left: 15px;
+.data{
+padding-left: 30px;
+}
+
+.th1{
+  width: 200px;
+}
+
+.th2{
+  width: 100px;
+}
+
+
+.th3{
+  width: 400px;
+}
+
+
+.th4{
+  width: 120px;
+}
+
+.th6{
+  width: 100px;
+}
+
+
+
+@media only screen and (max-width: 768px) {
+  
+ 
+  
+  .row1 {
+    
+    
+    height: 150px;
+    width: 100%;
+    
+}
+
+.row2 {
+    
+    margin: auto;
+
+    padding: 10px 10px 10px 10px;
+    width: 90%;
+    border-radius: 10px;
+    text-align: center;
+    height: 150px;
+    margin-top: 15px;
+    
+    
+}
+
+.container1{
+  float: left;
+  width: 80%; 
+  padding: 10px;
+  
+  text-align: center;
+}
+
+
+.container2{
+  float: left;
+  width: 20%; 
+  padding: 20px;
+  text-align: right;
+  
+}
+
+
+
+
+}
+
+@media only screen and (max-width: 1024px) {
+  .th4{
+  width: 180px;
+}
+
 }
 
       
@@ -189,16 +274,17 @@ padding-left: 15px;
   
   <table>
     <tr height="50px" class="tr">
-      <th> Income </th>
-      <th width="100px"></th>
-      <th> Cost of Goods Sold</th>
-      <th width="100px">  </th>
-      <th> Operating Expenses</th>
-      <th width="100px"> </th>
-      <th> Net Profit</th>
+      <th class="th1"> Income </th>
+      <th class="th2"></th>
+      <th class="th3"> Cost of Goods Sold</th>
+      <th class="th2">  </th>
+      <th class="th3"> Operating Expenses</th>
+      <th class="th2"> </th>
+      <th class="th1"> Net Profit</th>
 
 
     </tr>
+
 
     <tr height="50px" >
       <td >${{ $result['income'] }}</td>
@@ -230,51 +316,51 @@ padding-left: 15px;
   
   <table>
     <tr height="50px" class="tr2">
-      <th width="1200px"> ACCOUNTS </th>
-      <th width="120px">{{ date("F jS, Y",$result['startDate']) }}
+      <th class="data1"> ACCOUNTS </th>
+      <th class="th4">{{ date("F jS, Y",$result['startDate']) }}
         to {{ date("F jS, Y",$result['endDate']) }}</th>
       
 
     </tr>
 
     <tr height="50px" >
-      <td >Income</td>
+      <td class="data">Income</td>
       <td>USD {{ $result['income'] }}</td>
   
     </tr>
 
     <tr height="50px" class="tr3">
-      <td >Cost of Goods Sold</td>
+      <td class="data">Cost of Goods Sold</td>
       <td>USD {{ $result['costOfGoodsSold'] }}</td>
   
     </tr>
 
     <tr class="tr4" style="font-weight:bold;" height="40px">
-      <td >Gross Profit</td>
+      <td class="data">Gross Profit</td>
       <td>USD {{ $result['netProfit'] }}</td>
   
     </tr>
 
     <tr class="tr4" height="40px">
-      <td >As a percentage of Total Income</td>
+      <td class="data">As a percentage of Total Income</td>
       <td>100%</td>
   
     </tr>
 
     <tr height="50px">
-      <td >Operating Expenses</td>
+      <td class="data">Operating Expenses</td>
       <td>USD {{ $result['operatingExpense'] }}</td>
   
     </tr>
 
     <tr class="tr4" style="font-weight:bold;" height="40px">
-      <td >Net Profit</td>
+      <td class="data">Net Profit</td>
       <td>USD {{ $result['netProfit'] }}</td>
   
     </tr>
 
     <tr class="tr4" height="40px">
-      <td >As a percentage of Total Income</td>
+      <td class="data">As a percentage of Total Income</td>
       <td>100%</td>
   
     </tr>
