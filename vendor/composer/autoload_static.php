@@ -1263,6 +1263,7 @@ class ComposerStaticInit3a98504c5f48a4679cc2e56ddb18c5bf
         'App\\Http\\Controllers\\Install\\Requirements' => __DIR__ . '/../..' . '/app/Http/Controllers/Install/Requirements.php',
         'App\\Http\\Controllers\\Install\\Settings' => __DIR__ . '/../..' . '/app/Http/Controllers/Install/Settings.php',
         'App\\Http\\Controllers\\Install\\Updates' => __DIR__ . '/../..' . '/app/Http/Controllers/Install/Updates.php',
+        'App\\Http\\Controllers\\Inventory\\Warehouse' => __DIR__ . '/../..' . '/app/Http/Controllers/Inventory/Warehouse.php',
         'App\\Http\\Controllers\\Modals\\Accounts' => __DIR__ . '/../..' . '/app/Http/Controllers/Modals/Accounts.php',
         'App\\Http\\Controllers\\Modals\\BillTransactions' => __DIR__ . '/../..' . '/app/Http/Controllers/Modals/BillTransactions.php',
         'App\\Http\\Controllers\\Modals\\Categories' => __DIR__ . '/../..' . '/app/Http/Controllers/Modals/Categories.php',
