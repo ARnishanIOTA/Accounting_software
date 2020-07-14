@@ -38,3 +38,6 @@ Route::post('inventory/warehouse/addFlat', 'Inventory\Warehouses@addFlat')->name
 Route::get('inventory/warehouse/flat/{id}', 'Inventory\Warehouses@viewFlat')->name('inventory.warehouse.flat');
 Route::get('inventory/warehouse/room/{id}', 'Inventory\Warehouses@viewRoom')->name('inventory.warehouse.room');
 Route::post('inventory/warehouse/addRoom', 'Inventory\Warehouses@addRoom')->name('inventory.warehouse.addRoom');
+Route::post('inventory/warehouse/editWarehouse', 'Inventory\Warehouses@editWarehouse')->name('inventory.warehouse.editWarehouse');
+Route::post('inventory/warehouse/editFlat', 'Inventory\Warehouses@editFlat')->name('inventory.warehouse.editFlat');
+Route::post('inventory/warehouse/editRoom', 'Inventory\Warehouses@editRoom')->name('inventory.warehouse.editRoom');

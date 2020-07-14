@@ -14,7 +14,7 @@
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Add Flat</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Add Room</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
@@ -55,6 +55,43 @@
                             </div>
 
 
+                                <!-- Edit Flat Modal -->
+                    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                     <div class="modal-dialog" role="document">
+                                       <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Edit Flat</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+
+                                        <form method="POST" action="{{ route('inventory.warehouse.editFlat') }}">
+                                            {{ csrf_field() }}
+
+                                            <div class="modal-body">
+
+                                                <div class="form-group">
+                                                    <label> Flat Name</label>
+                                                    <input type="text" name="fname" class="form-control" id="flatname">
+                                                    <input type="hidden" name="id" class="form-control" id="flatid" >           
+                                                </div>
+
+                                               
+
+                                            <!-- {{ csrf_field() }} -->
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary" name="save">Update</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                        </div>
+
+
 
 
 
@@ -63,11 +100,12 @@
             <table class="table table-flush table-hover">
                 <thead class="thead-light">
                     <tr class="row table-head-line">
-                        <th class="col-sm-2 col-md-1 col-lg-1 col-xl-4 d-none d-sm-block">Name</th>
+                    <th class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 d-none d-sm-block"> Warehouse Name</th>
+                        <th class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 d-none d-sm-block text-center"> Flat Name</th>
                         
-                        <th class="col-sm-2 col-md-2 col-lg-3 col-xl-4 d-none d-sm-block text-center">Address</th>
+                        <th class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3  d-none d-sm-block text-center">Address</th>
                       
-                        <th class="col-xs-4 col-sm-2 col-md-2 col-lg-1 col-xl-4 text-center">{{ trans('general.actions') }}</th>
+                        <th class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3  text-center">{{ trans('general.actions') }}</th>
                     </tr>
                 </thead>
 
@@ -77,13 +115,17 @@
 
                                                         
                         <tr class="row align-items-center border-top-1">
-                            <td class="col-sm-2 col-md-1 col-lg-1 col-xl-4 d-none d-sm-block">
+                        <td class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3  d-none d-sm-block">
+                             {{$name}}
+                            </td>
+
+                            <td class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3  d-none d-sm-block text-center">
                              {{$item->name}}
                             </td>
-                            @foreach($address as $data)
-                            <td class="col-sm-2 col-md-2 col-lg-3 col-xl-4 d-none d-sm-block text-center">{{$data->address}}</td>
-                            @endforeach
-                            <td class="col-xs-4 col-sm-2 col-md-2 col-lg-1 col-xl-4 text-center">
+                            
+                            <td class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3  d-none d-sm-block text-center">{{$address}}</td>
+                            
+                            <td class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3  text-center">
                                 <div class="dropdown">
                                     <a class="btn btn-neutral btn-sm text-light items-align-center py-2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-ellipsis-h text-muted"></i>
@@ -91,6 +133,7 @@
                                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                         <button type="button" class="dropdown-item" data-toggle="modal" data-target="#roomModal" onclick="booking(event,' {{$item->name}}',' {{$item->id}}')">Add Room </button>
                                         <a class="dropdown-item" href="{{ route('inventory.warehouse.room',$item->id) }}">View Room</a>
+                                        <button type="button" class="dropdown-item" data-toggle="modal" data-target="#editModal" onclick="booking(event,' {{$item->name}}',' {{$item->id}}')">Edit</button>
                                         
                                        
                                     </div>
@@ -127,6 +170,8 @@
             console.log(id);
             document.getElementById("wname").innerHTML = wname;
             document.getElementById("wid").value = id;
+            document.getElementById("flatname").value = wname;
+            document.getElementById("flatid").value = id;
 
             }
 

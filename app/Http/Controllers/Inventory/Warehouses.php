@@ -66,11 +66,12 @@ class Warehouses extends Controller
     {
 
       
-        $address = DB::table('warehouses')->where('id',$id)->get();
-       
-         $data =Warehouse::where('parent_id', $id)->get();
+        $data1 = DB::table('warehouses')->where('id',$id)->get();
+        $address=$data1[0]->address;
+        $name=$data1[0]->name;
+        $data =Warehouse::where('parent_id', $id)->get();
 
-        return view('inventory.warehouse.flat',compact('data','address'));
+        return view('inventory.warehouse.flat',compact('data','address','name'));
        
        
     }
@@ -78,11 +79,13 @@ class Warehouses extends Controller
     public function viewRoom($id)
     {
         $data2 = DB::table('warehouses')->where('id',$id)->get();
+        $name=$data2[0]->name;
         
         $data1 = DB::table('warehouses')->where('id',$data2[0]->parent_id)->get();
+        $address=$data1[0]->address;
         
          $data =Warehouse::where('parent_id', $id)->get();
-         return view('inventory.warehouse.room',compact('data','data1'));
+         return view('inventory.warehouse.room',compact('data','name','address'));
        
        
     }
@@ -96,6 +99,42 @@ class Warehouses extends Controller
         return redirect()->route('inventory.warehouse.index'); 
 
          
+       
+       
+    }
+
+    public function editWarehouse(Request $request)
+    {
+        
+        Warehouse::where('id', $request->id)->update([
+            'name' => $request->wname, 'address' => $request->address
+            ]);
+
+        return redirect()->route('inventory.warehouse.index'); 
+       
+       
+    }
+
+    public function editFlat(Request $request)
+    {
+        
+        Warehouse::where('id', $request->id)->update([
+            'name' => $request->fname
+            ]);
+
+        return redirect()->route('inventory.warehouse.index'); 
+       
+       
+    }
+
+    public function editRoom(Request $request)
+    {
+        
+        Warehouse::where('id', $request->id)->update([
+            'name' => $request->rname
+            ]);
+
+        return redirect()->route('inventory.warehouse.index'); 
        
        
     }
