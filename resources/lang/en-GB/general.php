@@ -7,6 +7,7 @@ return [
     'equity'                => 'Equity|Equities',
     'items'                 => 'Product & Service|Products & Services',
     'incomes'               => 'Income|Incomes',
+    'warehouses'            => 'Warehouse|Warehouses',
     'invoices'              => 'Invoice|Invoices',
     'revenues'              => 'Revenue|Revenues',
     'customers'             => 'Customer|Customers',
@@ -54,6 +55,9 @@ return [
     'sales'                 => 'Sale|Sales',
     'purchases'             => 'Purchase|Purchases',
 
+    'inventory'             => 'Inventory',
+    'flat'                   => 'Flats',
+    'room'                   => 'Rooms',
     'welcome'               => 'Welcome',
     'banking'               => 'Banking',
     'general'               => 'General',

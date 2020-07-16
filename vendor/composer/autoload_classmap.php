@@ -307,6 +307,7 @@ return array(
     'App\\Http\\Controllers\\Install\\Requirements' => $baseDir . '/app/Http/Controllers/Install/Requirements.php',
     'App\\Http\\Controllers\\Install\\Settings' => $baseDir . '/app/Http/Controllers/Install/Settings.php',
     'App\\Http\\Controllers\\Install\\Updates' => $baseDir . '/app/Http/Controllers/Install/Updates.php',
+    'App\\Http\\Controllers\\Inventory\\Warehouse' => $baseDir . '/app/Http/Controllers/Inventory/Warehouse.php',
     'App\\Http\\Controllers\\Modals\\Accounts' => $baseDir . '/app/Http/Controllers/Modals/Accounts.php',
     'App\\Http\\Controllers\\Modals\\BillTransactions' => $baseDir . '/app/Http/Controllers/Modals/BillTransactions.php',
     'App\\Http\\Controllers\\Modals\\Categories' => $baseDir . '/app/Http/Controllers/Modals/Categories.php',

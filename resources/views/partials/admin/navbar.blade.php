@@ -117,6 +117,9 @@
                                 @endpermission
 
                                 @stack('navbar_create_vendor_end')
+
+
+                                
                             </div>
                         </div>
                     </li>

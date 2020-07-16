@@ -29,3 +29,15 @@ Route::get('report/incomeByCustomerExcel/{startDate}/{endDate}', 'Common\Reports
 Route::get('report/purchaseByVendorExcel/{startDate}/{endDate}', 'Common\Reports@purchaseByVendorExcel')->name('report.purchaseByVendorExcel');
 Route::get('report/profitAndLossExcel/{startDate}/{endDate}/{reportType}', 'Common\Reports@profitAndLossExcel')->name('report.profitAndLossExcel');
 Route::get('report/salesTaxReportExcel/{startDate}/{endDate}/{reportType}', 'Common\Reports@salesTaxReportExcel')->name('report.salesTaxReportExcel');
+
+
+//Inventory route
+Route::get('inventory/warehouse/index', 'Inventory\Warehouses@view')->name('inventory.warehouse.index');
+Route::post('inventory/warehouse/addWarehouse', 'Inventory\Warehouses@addWarehouse')->name('inventory.warehouse.addWarehouse');
+Route::post('inventory/warehouse/addFlat', 'Inventory\Warehouses@addFlat')->name('inventory.warehouse.addFlat');
+Route::get('inventory/warehouse/flat/{id}', 'Inventory\Warehouses@viewFlat')->name('inventory.warehouse.flat');
+Route::get('inventory/warehouse/room/{id}', 'Inventory\Warehouses@viewRoom')->name('inventory.warehouse.room');
+Route::post('inventory/warehouse/addRoom', 'Inventory\Warehouses@addRoom')->name('inventory.warehouse.addRoom');
+Route::post('inventory/warehouse/editWarehouse', 'Inventory\Warehouses@editWarehouse')->name('inventory.warehouse.editWarehouse');
+Route::post('inventory/warehouse/editFlat', 'Inventory\Warehouses@editFlat')->name('inventory.warehouse.editFlat');
+Route::post('inventory/warehouse/editRoom', 'Inventory\Warehouses@editRoom')->name('inventory.warehouse.editRoom');

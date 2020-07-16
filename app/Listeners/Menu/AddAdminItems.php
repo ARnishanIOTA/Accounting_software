@@ -116,23 +116,53 @@ class AddAdminItems
             ]);
         }
 
+
+         // Inventory
+         if ($user->can(['read-inventory-warehouse'])) {
+            $menu->dropdown(trim(trans('general.inventory')), function ($sub) use ($user, $attr) {
+                if ($user->can('read-inventory-warehouse')) {
+                    $sub->route('accounts.index', trans_choice('general.warehouses', 2), [], 1, $attr);
+                }
+
+               
+            }, 6, [
+                'title' => trans('general.inventory'),
+                'icon' => 'flaticon-money-bag custom-icon-design',
+            ]);
+        }
+
         // Reports
         if ($user->can('read-common-reports')) {
-            $menu->route('reports.index', trans_choice('general.reports', 2), [], 6, ['icon' => 'flaticon-statistics custom-icon-design']);
+            $menu->route('reports.index', trans_choice('general.reports', 2), [], 7, ['icon' => 'flaticon-statistics custom-icon-design']);
         }
 
         // Settings
         if ($user->can('read-settings-settings')) {
-            $menu->route('settings.index', trans_choice('general.settings', 2), [], 7, ['icon' => 'flaticon-gear custom-icon-design']);
+            $menu->route('settings.index', trans_choice('general.settings', 2), [], 8, ['icon' => 'flaticon-gear custom-icon-design']);
         }
 
         // Apps
         if ($user->can('read-modules-home')) {
-            $menu->route('apps.home.index', trans_choice('general.modules', 2), [], 8, ['icon' => 'fa fa-rocket']);
+            $menu->route('apps.home.index', trans_choice('general.modules', 2), [], 9, ['icon' => 'fa fa-rocket']);
         }
         // pos
         if ($user->can('read-modules-home')) {
-            $menu->route('pos', 'Pos', [], 9, ['icon' => 'fa fa-rocket']);
+            $menu->route('pos', 'Pos', [], 10, ['icon' => 'fa fa-rocket']);
         }
+       
+        // Inventory
+        if ($user->can(['read-banking-accounts'])) {
+            $menu->dropdown(trim(trans('general.inventory')), function ($sub) use ($user, $attr) {
+                if ($user->can('read-banking-accounts')) {
+                    $sub->route('inventory.warehouse.index', trans_choice('general.warehouses', 1), [], 1, $attr);
+                }
+
+               
+            }, 6, [
+                'title' => trans('general.inventory'),
+                'icon' => 'flaticon-money-bag custom-icon-design',
+            ]);
+        }
+        
     }
 }
